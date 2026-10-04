@@ -30,14 +30,16 @@ Files under `example/` were used only to find recurring topics, confused service
 
 ## Repository learning path
 
-1. [Master Mental Map](AZ-305_MASTER_MENTAL_MAP.md)
-2. [Objective Map](AZ-305_OBJECTIVE_MAP.md)
-3. Domain guides:
-   - [Identity, governance, and monitoring](Design_identity_governance_and_monitoring/README.md)
-   - [Data storage](Design_data_storage_solutions/README.md)
-   - [Business continuity](Design_business_continuity/README.md)
-   - [Infrastructure](Design_infrastructure_solutions/README.md)
-4. [High-Yield Recall](AZ-305_HIGH_YIELD_RECALL.md)
+1. [Azure architect design prerequisites](AZ_305_architect_prerequisites/README.md)
+2. [Master Mental Map](AZ-305_MASTER_MENTAL_MAP.md)
+3. [Objective Map](AZ-305_OBJECTIVE_MAP.md)
+4. [Identity, governance, and monitoring](Design_identity_governance_and_monitoring/README.md)
+5. [Data storage](Design_data_storage_solutions/README.md)
+6. [Business continuity](Design_business_continuity/README.md)
+7. [Infrastructure](Design_infrastructure_solutions/README.md)
+8. [High-Yield Recall](AZ-305_HIGH_YIELD_RECALL.md)
+
+Microsoft Learn organizes preparation into **five learning paths**: one architect-prerequisite path and four domain paths. The exam blueprint scores only the **four domains** below. The prerequisite path builds shared architecture vocabulary; it is not a fifth scored domain and has no exam weighting.
 
 ## Current blueprint
 
@@ -52,6 +54,11 @@ Skills measured as of April 17, 2026:
 
 The [Objective Map](AZ-305_OBJECTIVE_MAP.md) maps all 49 published objective bullets to substantive sections.
 
+Repository coverage uses two independent measures:
+
+- Exam blueprint objectives: **49/49**
+- Microsoft Learn preparation paths: **5/5**
+
 ## Repository structure
 
 ```text
@@ -60,6 +67,7 @@ az-305-summarize/
 ├── AZ-305_MASTER_MENTAL_MAP.md
 ├── AZ-305_OBJECTIVE_MAP.md
 ├── AZ-305_HIGH_YIELD_RECALL.md
+├── AZ_305_architect_prerequisites/
 ├── Design_identity_governance_and_monitoring/
 ├── Design_data_storage_solutions/
 ├── Design_business_continuity/

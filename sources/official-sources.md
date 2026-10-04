@@ -13,12 +13,30 @@ Validated October 4, 2026. Product capabilities remain region-, SKU-, edition-, 
 
 The spelling `infranstructure` is retained in Microsoft's current learning-path URL.
 
+The five preparation paths above are not five scored domains. The prerequisite path contains six foundation modules; the remaining four paths align to the four scored blueprint domains.
+
+### Prerequisite reference set
+
+- [Describe the core architectural components of Azure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/)
+- [Describe Azure compute and networking services](https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/)
+- [Describe Azure storage services](https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/)
+- [Describe Azure identity, access, and security](https://learn.microsoft.com/en-us/training/modules/describe-azure-identity-access-security/)
+- [Introduction to the Microsoft Cloud Adoption Framework for Azure](https://learn.microsoft.com/en-us/training/modules/cloud-adoption-framework/)
+- [Introduction to the Microsoft Azure Well-Architected Framework](https://learn.microsoft.com/en-us/training/modules/azure-well-architected-introduction/)
+
 ## Architecture frameworks
 
 - [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/)
 - [Azure Well-Architected Framework](https://learn.microsoft.com/en-us/azure/well-architected/)
 - [Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/)
+- [Cloud Adoption Framework overview and lifecycle](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview)
 - [Azure landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+- [Azure landing-zone design areas](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas)
+- [Azure landing-zone design principles](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-principles)
+- [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending)
+- [Well-Architected Framework pillars](https://learn.microsoft.com/en-us/azure/well-architected/pillars)
+- [Azure Resource Manager overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview)
+- [Azure control plane and data plane](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/control-plane-and-data-plane)
 - [Azure reliability documentation](https://learn.microsoft.com/en-us/azure/reliability/)
 
 ## Identity and governance
@@ -38,6 +56,10 @@ The spelling `infranstructure` is retained in Microsoft's current learning-path 
 - [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/overview)
 - [Resource locks](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources)
 - [Resource tagging guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging)
+- [Microsoft Cost Management overview](https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview)
+- [Create and manage Azure budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)
+- [Azure Advisor overview](https://learn.microsoft.com/en-us/azure/advisor/advisor-overview)
+- [Microsoft Defender for Cloud overview](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction)
 
 ## Monitoring
 

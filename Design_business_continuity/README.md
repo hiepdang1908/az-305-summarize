@@ -2,6 +2,8 @@
 
 Weight: **15–20%** of the AZ-305 blueprint.
 
+Foundation review: [Azure architecture fundamentals](../AZ_305_architect_prerequisites/azure_architecture_fundamentals.md), [Storage foundations](../AZ_305_architect_prerequisites/storage_foundations.md), and [Well-Architected Framework](../AZ_305_architect_prerequisites/well_architected_framework.md).
+
 ## Study sequence
 
 1. [Backup and disaster recovery](backup_and_disaster_recovery.md)

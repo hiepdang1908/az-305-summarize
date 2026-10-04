@@ -40,6 +40,17 @@ Users / devices / partner systems / on-premises
 
 Each arrow is a dependency and a possible failure/security boundary.
 
+Use this review order to test whether a design is complete:
+
+```text
+Business requirement
+→ identity → governance → network → compute
+→ application integration → data → availability → disaster recovery
+→ monitoring → operations and cost
+```
+
+The order is a review discipline, not a fixed deployment sequence. Revisit earlier decisions when a downstream constraint changes.
+
 ## 1. Identity
 
 ```text

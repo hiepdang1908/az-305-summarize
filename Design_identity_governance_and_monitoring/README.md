@@ -2,6 +2,8 @@
 
 Weight: **25–30%** of the AZ-305 blueprint.
 
+Foundation review: [Identity, access, and security foundations](../AZ_305_architect_prerequisites/identity_access_security_foundations.md) and [Cloud Adoption Framework](../AZ_305_architect_prerequisites/cloud_adoption_framework.md).
+
 ## Study sequence
 
 1. [Logging and monitoring](logging_and_monitoring.md)

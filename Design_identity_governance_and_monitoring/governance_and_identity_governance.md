@@ -81,6 +81,21 @@ Start from decisions and automation, not from collecting every possible label.
 
 Normalize allowed names/values. Avoid confidential values in tags because tags are broadly visible management metadata. Some resource types do not support tags; tagged costs and resource coverage must be validated.
 
+## Cost governance
+
+Cost governance combines ownership boundaries, allocation metadata, visibility, alerts, and optimization. No single Azure control provides all five.
+
+| Need | Design direction | Boundary |
+|---|---|---|
+| Separate billing or delegated accountability | Subscription and billing-account structure | More subscriptions add operational and network complexity |
+| Allocate or report shared spend | Consistent tags, resource hierarchy, cost allocation rules, and exports | Tags can be absent, unsupported, or historically inconsistent |
+| Detect unexpected spend | Cost Management budgets and alerts routed to accountable owners | A budget reports/alerts; it does not stop resources or cap spending |
+| Analyze trends and forecast | Cost analysis, scheduled exports, and organizational reporting | Reporting quality depends on ownership and allocation metadata |
+| Find optimization opportunities | Azure Advisor, rightsizing, reservations/savings options, and workload review | A recommendation still needs performance, resilience, and lifecycle validation |
+| Prevent disallowed resource shapes | Azure Policy guardrails for approved SKUs, regions, or resource types | Policy enforces resource state, not a monetary budget |
+
+Treat cost as a workload quality attribute: assign an owner, define a budget signal, monitor unit economics where useful, and review trade-offs across the [Well-Architected pillars](../AZ_305_architect_prerequisites/well_architected_framework.md).
+
 ## Landing zones and enterprise scale
 
 An Azure landing zone is the target environment for workloads, including identity, subscription organization, networking, security, management, governance, and platform automation. It is not merely a virtual network.
@@ -146,6 +161,7 @@ Audit, investigation, removal
 - Microsoft Entra governance capabilities have licensing prerequisites; validate current licenses rather than memorizing editions.
 - Central log retention and Defender plans can be major cost drivers. Select coverage from risk and compliance requirements.
 - Policy remediation can deploy resources and create cost; understand the resulting state before assignment.
+- Cost Management budgets create alerts rather than a hard spending limit; any automated response needs safeguards against taking down required services.
 
 ## Common Trap
 
@@ -155,5 +171,6 @@ Audit, investigation, removal
 - Policy prevents/audits/remediates state; RBAC grants actions; locks guard ARM changes.
 - Management-group design should follow governance archetypes, not mirror every department.
 - PIM governs privileged activation; access reviews recertify access; entitlement management packages and governs access requests.
+- Budgets do not enforce resource configuration, and Policy does not enforce a financial cap.
 
 Official references: [Management groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview), [Azure Policy overview](https://learn.microsoft.com/en-us/azure/governance/policy/overview), [Resource locks](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources), [Tagging guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging), [Azure landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), [Microsoft Entra ID Governance](https://learn.microsoft.com/en-us/entra/id-governance/identity-governance-overview).

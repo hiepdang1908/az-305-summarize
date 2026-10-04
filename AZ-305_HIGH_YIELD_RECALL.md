@@ -14,7 +14,23 @@ Mandatory function
 → cost
 ```
 
+## Service responsibility model
+
+| Model | Azure manages | Customer still designs/manages | Use when |
+|---|---|---|---|
+| IaaS | Physical facilities, hardware, and base virtualization | Guest OS, patching, middleware/runtime, application, data, identity, network configuration, resilience | OS control, vendor appliance, legacy compatibility, or rehost is mandatory |
+| PaaS | Infrastructure plus service platform/runtime operations | Application/data, identities, access, configuration, scaling choices, recovery design, and service limits | Managed operations fit the workload and compatibility constraints |
+| Containers | Hosting responsibility varies by service | Image, application, dependencies, supply chain, data, and workload security | Portable packaging or orchestration behavior is required |
+| Serverless | Infrastructure and runtime scaling within service limits | Code/workflow, data, identity, configuration, retries, idempotency, and observability | Event-driven or intermittent execution fits the latency and execution model |
+
+PaaS reduces platform work; it does not transfer responsibility for architecture, data, identity, configuration, or recovery outcomes.
+
 ## Identity and governance
+
+| Authentication | Authorization |
+|---|---|
+| Proves which identity is making the request | Determines which actions that identity may perform |
+| Entra sign-in, MFA, federation, managed/workload identity | Entra roles, Azure RBAC, data-plane roles, application permissions |
 
 | Requirement clue | Think about | Exception/check |
 |---|---|---|
@@ -98,6 +114,12 @@ Traps:
 | Analytics filesystem/hierarchy | ADLS Gen2 |
 | SMB/NFS managed share | Azure Files |
 | VM block device | Managed disks |
+
+| Blob Storage | Azure Files | ADLS Gen2 |
+|---|---|---|
+| Object access for media, logs, backups, and application data | Managed SMB/NFS file shares for lift-and-shift and shared file access | Blob Storage with hierarchical namespace for analytics filesystem semantics |
+| HTTP(S)/REST and SDK access | File protocol and mount semantics | Hadoop-compatible access, directory operations, and analytics engines |
+| Choose tier, redundancy, lifecycle, protection | Validate protocol, identity, performance tier, and sync needs | Validate HNS-dependent feature compatibility and namespace design |
 
 | Redundancy | Recall |
 |---|---|
@@ -234,6 +256,12 @@ Traps:
 - Front Door's global role and Application Gateway's regional/VNet role often justify using both.
 
 ## Networking: hybrid, private access, security
+
+| Private Endpoint | Service Endpoint |
+|---|---|
+| A private IP/NIC in the consumer VNet represents the PaaS resource | The service keeps its public endpoint; the subnet identity is extended to it |
+| Requires deliberate private DNS and endpoint lifecycle design | Requires service firewall rules and supported VNet/subnet configuration |
+| Supports private connectivity patterns including supported cross-network/on-premises access | Primarily secures service access from selected Azure virtual-network subnets |
 
 | Requirement | Direction |
 |---|---|

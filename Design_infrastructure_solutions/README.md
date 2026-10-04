@@ -2,6 +2,8 @@
 
 Weight: **30–35%** of the AZ-305 blueprint.
 
+Foundation review: [Compute foundations](../AZ_305_architect_prerequisites/compute_foundations.md), [Cloud Adoption Framework](../AZ_305_architect_prerequisites/cloud_adoption_framework.md), and [Azure architecture fundamentals](../AZ_305_architect_prerequisites/azure_architecture_fundamentals.md).
+
 ## Study sequence
 
 1. [Compute](compute.md)

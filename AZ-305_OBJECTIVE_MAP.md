@@ -71,3 +71,20 @@ Coverage: 49/49
 ```
 
 Coverage means each official objective maps to substantive content. It does not freeze product availability, regional support, quotas, licensing, pricing, or preview/GA state.
+
+## Microsoft Learn preparation path coverage
+
+This is a separate curriculum measure, not an exam-weighting model. The prerequisite path supports the four scored domain paths.
+
+| Microsoft Learn path | Repository location | Coverage |
+|---|---|---|
+| AZ-305 architect design prerequisites | `AZ_305_architect_prerequisites/` | COMPLETE |
+| Design identity, governance, and monitoring solutions | `Design_identity_governance_and_monitoring/` | COMPLETE |
+| Design data storage solutions | `Design_data_storage_solutions/` | COMPLETE |
+| Design business continuity solutions | `Design_business_continuity/` | COMPLETE |
+| Design infrastructure solutions | `Design_infrastructure_solutions/` | COMPLETE |
+
+```text
+Exam blueprint coverage: 49/49 objectives
+Microsoft Learn path coverage: 5/5 paths
+```

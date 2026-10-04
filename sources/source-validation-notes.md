@@ -12,6 +12,8 @@
 
 All 13 files under `example/` were parsed recursively as MHTML. The scan extracted rendered text internally, counted service/concept occurrence by file, and reviewed recurring comparison patterns. Counts are signals of emphasis, not correctness.
 
+The complete 13-file scan was repeated after the prerequisite-layer review. It found no newly omitted recurring concept and introduced no question-derived prose.
+
 Frequency bands use file coverage:
 
 - Very frequent: present in 10–13 files
@@ -76,6 +78,86 @@ The first content pass was checked against all 49 blueprint bullets.
 | Business continuity | Workload-wide RTO; ransomware isolation; recovery dependency order | Added failure matrix, vault controls, runbook, end-to-end RTO | COMPLETE |
 | Infrastructure | Container Apps; explicit VNet egress; current Redis; Storage Mover | Added compute/app/network/migration sections and lifecycle notes | COMPLETE |
 
+## Improvement-pass content-strength audit
+
+Strength definitions:
+
+- **STRONG**: direct decision guidance, meaningful constraints/trade-offs, and traps or boundaries.
+- **ADEQUATE**: correct substantive coverage, but thinner decision support.
+- **WEAK**: mentioned without enough content to make an architecture choice.
+- **MISSING**: no substantive mapped coverage.
+
+Before the improvement pass, the scored blueprint had **49 STRONG, 0 ADEQUATE, 0 WEAK, and 0 MISSING** objectives. The improvement pass therefore preserved the domain detail and fixed the separate curriculum/navigation gap instead of manufacturing scored-domain gaps. The targeted cost-governance addition strengthens an existing STRONG compliance objective without changing its classification.
+
+| # | Official objective (condensed) | Final strength |
+|---:|---|---|
+| 1 | Recommend a logging solution | STRONG |
+| 2 | Recommend a solution for routing logs | STRONG |
+| 3 | Recommend a monitoring solution | STRONG |
+| 4 | Recommend an authentication solution | STRONG |
+| 5 | Recommend an identity management solution | STRONG |
+| 6 | Authorize access to Azure resources | STRONG |
+| 7 | Authorize access to on-premises resources | STRONG |
+| 8 | Manage secrets, certificates, and keys | STRONG |
+| 9 | Recommend hierarchy, subscriptions, resource groups, and tags | STRONG |
+| 10 | Recommend a compliance-management solution | STRONG |
+| 11 | Recommend an identity-governance solution | STRONG |
+| 12 | Store relational data | STRONG |
+| 13 | Choose database service and compute tiers | STRONG |
+| 14 | Design database scalability | STRONG |
+| 15 | Protect relational data | STRONG |
+| 16 | Store semi-structured data | STRONG |
+| 17 | Store unstructured data | STRONG |
+| 18 | Balance storage features, performance, and cost | STRONG |
+| 19 | Protect semi-structured and unstructured data | STRONG |
+| 20 | Design data integration | STRONG |
+| 21 | Design data analysis | STRONG |
+| 22 | Meet recovery objectives for Azure and hybrid workloads | STRONG |
+| 23 | Back up and recover compute | STRONG |
+| 24 | Back up and recover databases | STRONG |
+| 25 | Back up and recover unstructured data | STRONG |
+| 26 | Design high availability for compute | STRONG |
+| 27 | Design high availability for relational data | STRONG |
+| 28 | Design high availability for semi/unstructured data | STRONG |
+| 29 | Specify compute components from workload requirements | STRONG |
+| 30 | Recommend a virtual-machine solution | STRONG |
+| 31 | Recommend a container solution | STRONG |
+| 32 | Recommend a serverless solution | STRONG |
+| 33 | Recommend compute for batch processing | STRONG |
+| 34 | Recommend a messaging architecture | STRONG |
+| 35 | Recommend an event-driven architecture | STRONG |
+| 36 | Recommend API integration | STRONG |
+| 37 | Recommend application caching | STRONG |
+| 38 | Recommend application configuration management | STRONG |
+| 39 | Recommend automated application deployment | STRONG |
+| 40 | Evaluate migration with the Cloud Adoption Framework | STRONG |
+| 41 | Evaluate servers, data, and applications for migration | STRONG |
+| 42 | Migrate workloads to IaaS and PaaS | STRONG |
+| 43 | Migrate databases | STRONG |
+| 44 | Migrate unstructured data | STRONG |
+| 45 | Recommend internet connectivity | STRONG |
+| 46 | Recommend Azure-to-on-premises connectivity | STRONG |
+| 47 | Optimize network performance | STRONG |
+| 48 | Optimize network security | STRONG |
+| 49 | Recommend load balancing and routing | STRONG |
+
+```text
+Before improvement: STRONG 49 | ADEQUATE 0 | WEAK 0 | MISSING 0
+After improvement:  STRONG 49 | ADEQUATE 0 | WEAK 0 | MISSING 0
+```
+
+## Repository file audit disposition
+
+| Area | Disposition | Result |
+|---|---|---|
+| Detailed domain guides | KEEP + VERIFY | Substantive, current, and objective-mapped; no broad rewrite |
+| Root navigation and objective map | EXPAND | Added prerequisite-first sequence and separate 5/5 path metric |
+| Domain landing pages | EXPAND | Added foundation cross-links |
+| High-yield recall | EXPAND | Added explicit responsibility model and focused comparison tables |
+| Governance guide | EXPAND | Clarified budgets, cost controls, allocation, and Policy boundaries |
+| Source records | VERIFY + EXPAND | Added prerequisite/framework sources and this second-pass audit |
+| Duplicate content | REMOVE only if found | No material duplicate section found; none removed |
+
 ## Remaining production-time verification
 
 These are intentional conditional checks, not missing exam content:
@@ -92,7 +174,9 @@ These are intentional conditional checks, not missing exam content:
 ## Final quality gate
 
 - [x] 49/49 current AZ-305 objective bullets mapped to real content
+- [x] 5/5 Microsoft Learn preparation paths covered, separately from exam weighting
 - [x] All required Learn paths and linked instructional units reviewed
+- [x] Seven-file prerequisite foundation path added without treating it as a scored domain
 - [x] All 13 practice files analyzed without reproducing questions
 - [x] Microsoft documentation used as source of truth
 - [x] Strong comparison matrices and decision rules included

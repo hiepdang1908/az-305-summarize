@@ -2,6 +2,8 @@
 
 Weight: **20–25%** of the AZ-305 blueprint.
 
+Foundation review: [Storage foundations](../AZ_305_architect_prerequisites/storage_foundations.md).
+
 ## Study sequence
 
 1. [Relational data](relational_data.md)
