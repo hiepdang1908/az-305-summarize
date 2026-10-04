@@ -7,7 +7,7 @@ Use after the domain guides. Requirement clues indicate a direction, not an auto
 ```text
 Mandatory function
 → security/compliance
-→ availability and RTO/RPO
+→ availability and recovery time objective (RTO)/recovery point objective (RPO)
 → performance/scale
 → compatibility
 → operations
@@ -19,7 +19,7 @@ Mandatory function
 | Authentication | Authorization |
 |---|---|
 | Proves which identity is making the request | Determines which actions that identity may perform |
-| Entra sign-in, MFA, federation, managed/workload identity | Entra roles, Azure RBAC, data-plane roles, application permissions |
+| Entra sign-in, multifactor authentication (MFA), federation, managed/workload identity | Entra roles, Azure role-based access control (Azure RBAC), data-plane roles, application permissions |
 
 | Requirement clue | Think about | Exception/check |
 |---|---|---|
@@ -27,10 +27,10 @@ Mandatory function
 | Directory administration | Microsoft Entra role | Not Azure resource control |
 | Sign-in context/risk/device policy | Conditional Access | It does not grant resource permission |
 | Azure workload needs token without secret | Managed identity | Host/service must support it |
-| External CI/CD workload without secret | Workload identity federation | Scope issuer/subject/audience tightly |
-| Partner access to workforce resources | External ID B2B | Govern guest lifecycle |
-| New customer identity/CIAM | External ID external tenant | Azure AD B2C is legacy for existing customers |
-| Temporary privileged activation | PIM | Access review answers a different question |
+| External continuous integration and continuous delivery (CI/CD) workload without secret | Workload identity federation | Scope issuer/subject/audience tightly |
+| Partner access to workforce resources | External ID business-to-business (B2B) | Govern guest lifecycle |
+| New customer identity/customer identity and access management (CIAM) | External ID external tenant | The business-to-consumer (B2C) product Azure AD B2C is legacy for existing customers |
+| Temporary privileged activation | Microsoft Entra Privileged Identity Management (PIM) | Access review answers a different question |
 | Recertify access | Access reviews | Entitlement management packages access |
 | Secrets/certificates/keys | Key Vault | App Configuration is for non-secret settings |
 
@@ -40,7 +40,7 @@ Mandatory function
 |---|---|
 | Azure RBAC | Who can perform which Azure action at which scope? |
 | Azure Policy | Is this resource state allowed/compliant? |
-| Resource lock | Can ARM modify/delete this resource? |
+| Resource lock | Can Azure Resource Manager (ARM) modify/delete this resource? |
 | Tag | What business/operational metadata describes it? |
 
 Identity/governance traps:
@@ -59,12 +59,12 @@ Identity/governance traps:
 | Azure control-plane change | Activity Log |
 | Service-specific resource operation | Resource logs + diagnostic settings |
 | Numeric low-latency signal | Metrics |
-| Guest OS telemetry | Azure Monitor Agent + DCR |
+| Guest operating system (OS) telemetry | Azure Monitor Agent (AMA) + Data Collection Rule (DCR) |
 | Request/dependency/exception tracing | Application Insights |
-| Query/correlate logs | Log Analytics workspace + KQL |
+| Query/correlate logs | Log Analytics workspace + Kusto Query Language (KQL) |
 | Archive | Storage |
-| Stream to SIEM | Event Hubs |
-| Security analytics/incidents/SOAR | Microsoft Sentinel |
+| Stream to security information and event management (SIEM) | Event Hubs |
+| Security analytics/incidents/security orchestration, automation, and response (SOAR) | Microsoft Sentinel |
 | Reusable response target | Action group |
 
 Azure Monitor != Log Analytics != Sentinel. Workbooks visualize data; alerts detect; action groups respond. None of them collects every signal automatically.
@@ -74,8 +74,8 @@ Azure Monitor != Log Analytics != Sentinel. Workbooks visualize data; alerts det
 ### Relational
 
 ```text
-Maximum SQL Server compatibility / OS control → SQL Server on Azure VM
-Instance features + managed PaaS                → SQL Managed Instance
+Maximum SQL Server compatibility / OS control → SQL Server on Azure virtual machine (VM)
+Instance features + managed platform as a service (PaaS) → SQL Managed Instance
 Cloud-native database-scoped managed SQL        → Azure SQL Database
 PostgreSQL/MySQL engine                          → Flexible Server
 ```
@@ -88,13 +88,13 @@ PostgreSQL/MySQL engine                          → Flexible Server
 | Instance-scoped SQL Agent/cross-database compatibility | Managed Instance |
 | Unsupported PaaS feature/OS access | SQL Server on Azure VM |
 | Cross-region group failover | Failover group where supported |
-| Historical recovery | PITR/LTR/backup, not replica |
+| Historical recovery | Point-in-time restore (PITR)/long-term retention (LTR)/backup, not replica |
 
 Traps:
 
 - Vertical compute scale is not data partitioning.
 - Geo-replication is not backup.
-- Managed service local HA is not regional DR.
+- Managed service local high availability (HA) is not regional disaster recovery (DR).
 - Read replicas can lag.
 - Dynamic data masking is not encryption or a security boundary.
 
@@ -105,29 +105,29 @@ Traps:
 | Global NoSQL, tunable consistency | Cosmos DB |
 | Simple key/attribute store | Table Storage |
 | Objects/media/logs | Blob Storage |
-| Analytics filesystem/hierarchy | ADLS Gen2 |
-| SMB/NFS managed share | Azure Files |
+| Analytics filesystem/hierarchy | Azure Data Lake Storage Gen2 (ADLS Gen2) |
+| Server Message Block (SMB)/Network File System (NFS) managed share | Azure Files |
 | VM block device | Managed disks |
 
 | Blob Storage | Azure Files | ADLS Gen2 |
 |---|---|---|
 | Object access for media, logs, backups, and application data | Managed SMB/NFS file shares for lift-and-shift and shared file access | Blob Storage with hierarchical namespace for analytics filesystem semantics |
-| HTTP(S)/REST and SDK access | File protocol and mount semantics | Hadoop-compatible access, directory operations, and analytics engines |
+| HTTP(S)/Representational State Transfer (REST) and software development kit (SDK) access | File protocol and mount semantics | Hadoop-compatible access, directory operations, and analytics engines |
 | Choose tier, redundancy, lifecycle, protection | Validate protocol, identity, performance tier, and sync needs | Validate HNS-dependent feature compatibility and namespace design |
 
 | Redundancy | Recall |
 |---|---|
-| LRS | Copies in one location; no zone protection |
-| ZRS | Synchronous across zones; no regional DR |
-| GRS | Asynchronous secondary region; secondary not readable before failover |
-| RA-GRS | GRS plus secondary reads |
-| GZRS | ZRS primary plus asynchronous secondary region |
-| RA-GZRS | GZRS plus secondary reads |
+| Locally redundant storage (LRS) | Copies in one location; no zone protection |
+| Zone-redundant storage (ZRS) | Synchronous across zones; no regional DR |
+| Geo-redundant storage (GRS) | Asynchronous secondary region; secondary not readable before failover |
+| Read-access geo-redundant storage (RA-GRS) | GRS plus secondary reads |
+| Geo-zone-redundant storage (GZRS) | ZRS primary plus asynchronous secondary region |
+| Read-access geo-zone-redundant storage (RA-GZRS) | GZRS plus secondary reads |
 
 Traps:
 
 - Replication does not preserve history from logical deletion/corruption.
-- RA secondary is read-only.
+- A read-access secondary is read-only.
 - Archive has rehydration delay and feature/redundancy constraints.
 - Azure File Sync is not backup.
 - Cosmos DB autoscale does not repair a hot partition.
@@ -177,14 +177,14 @@ Traps:
 - Availability zones do not equal regional DR.
 - Autoscale does not equal HA.
 - A successful replication state does not prove recoverability.
-- VM-level ASR may not satisfy database transaction RPO.
+- VM-level Azure Site Recovery (ASR) may not satisfy database transaction RPO.
 - Whole-workload RTO is constrained by the slowest dependency/recovery step.
 
 ## Compute
 
 | Model | Azure manages | Customer still owns | Choose when |
 |---|---|---|---|
-| IaaS | Facilities, hardware, virtualization | Guest OS through application/data and recovery | OS control, appliance, legacy compatibility, or rehost is mandatory |
+| Infrastructure as a service (IaaS) | Facilities, hardware, virtualization | Guest OS through application/data and recovery | OS control, appliance, legacy compatibility, or rehost is mandatory |
 | PaaS | Infrastructure and service platform/runtime | Application/data, identity, configuration, scale/recovery choices | Platform constraints fit and reduced operations matters |
 | Containers | Hosting varies by service | Image, dependencies, application, supply chain, data | Portable package or orchestration behavior is required |
 | Serverless | Infrastructure/runtime scaling within plan limits | Code/workflow, state, retries, idempotency, observability | Event-driven/intermittent model fits latency and duration |
@@ -198,9 +198,9 @@ PaaS != zero responsibility. Containers != Kubernetes. Serverless != unlimited o
 | Managed HTTP web/API | App Service |
 | Trigger/event-driven code | Functions |
 | Managed serverless containers/microservices/jobs | Container Apps |
-| Kubernetes API/ecosystem/control | AKS |
+| Kubernetes API/ecosystem/control | Azure Kubernetes Service (AKS) |
 | Simple isolated container | Container Instances |
-| Parallel/HPC job scheduling | Azure Batch |
+| Parallel/high-performance computing (HPC) job scheduling | Azure Batch |
 | Connector/workflow automation | Logic Apps |
 
 Traps:
@@ -208,7 +208,7 @@ Traps:
 - Containers do not imply AKS.
 - AKS still requires workload/node/network/upgrade operations.
 - Container Instances is not a full orchestrator.
-- App Service VNet integration is outbound; Private Endpoint is private inbound.
+- App Service Azure Virtual Network (VNet) integration is outbound; Private Endpoint is private inbound.
 - Deployment slots reduce release risk, not regional failure.
 - Scale-to-zero can conflict with immediate response time.
 
@@ -218,7 +218,7 @@ Traps:
 
 | Requirement | Direction |
 |---|---|
-| Transactions, sessions/ordering, queues/topics, DLQ | Service Bus |
+| Transactions, sessions/ordering, queues/topics, dead-letter queue (DLQ) | Service Bus |
 | Discrete event notification/fan-out | Event Grid |
 | Telemetry stream, partitions, consumer groups, replay | Event Hubs |
 | Simple low-cost work backlog | Queue Storage |
@@ -236,7 +236,7 @@ Traps:
 | Need | Direction |
 |---|---|
 | API gateway/policy/versions/developer onboarding | API Management |
-| Web attack filtering | WAF on Front Door/Application Gateway |
+| Web attack filtering | Web Application Firewall (WAF) on Front Door/Application Gateway |
 | Low-latency distributed cache | Azure Managed Redis |
 | Non-secret settings/feature flags | App Configuration |
 | Secrets/keys/certificates | Key Vault |
@@ -251,14 +251,14 @@ Azure Cache for Redis is retiring; prefer Azure Managed Redis for new decisions 
 
 | Service | Scope/layer | Choose when |
 |---|---|---|
-| Front Door | Global L7 proxy | Global HTTP(S), edge acceleration, WAF |
+| Front Door | Global Layer 7 (L7) proxy | Global HTTP(S), edge acceleration, WAF |
 | Application Gateway | Regional L7 proxy | Regional/private HTTP(S), path routing, WAF |
-| Load Balancer | Regional L4 | TCP/UDP and internal/public load balancing |
-| Traffic Manager | Global DNS | DNS-based endpoint selection, varied protocols |
+| Load Balancer | Regional Layer 4 (L4) | Transmission Control Protocol (TCP)/User Datagram Protocol (UDP) and internal/public load balancing |
+| Traffic Manager | Global Domain Name System (DNS) | DNS-based endpoint selection, varied protocols |
 
 Traps:
 
-- Traffic Manager is not a proxy and does not terminate TLS.
+- Traffic Manager is not a proxy and does not terminate Transport Layer Security (TLS).
 - Load Balancer cannot route by URL.
 - Front Door's global role and Application Gateway's regional/VNet role often justify using both.
 
@@ -266,24 +266,24 @@ Traps:
 
 | Private Endpoint | Service Endpoint |
 |---|---|
-| A private IP/NIC in the consumer VNet represents the PaaS resource | The service keeps its public endpoint; the subnet identity is extended to it |
+| A private IP/network interface card (NIC) in the consumer VNet represents the PaaS resource | The service keeps its public endpoint; the subnet identity is extended to it |
 | Requires deliberate private DNS and endpoint lifecycle design | Requires service firewall rules and supported VNet/subnet configuration |
 | Supports private connectivity patterns including supported cross-network/on-premises access | Primarily secures service access from selected Azure virtual-network subnets |
 
 | Requirement | Direction |
 |---|---|
-| Encrypted hybrid tunnel over internet | VPN Gateway |
+| Encrypted hybrid tunnel over internet | virtual private network (VPN) Gateway |
 | Dedicated private provider connectivity | ExpressRoute |
 | Managed multi-branch/global transit | Virtual WAN |
 | Private IP to PaaS | Private Endpoint + private DNS |
 | Restrict public PaaS endpoint to subnet | Service Endpoint |
 | App Service/Functions outbound path into VNet | VNet Integration |
 | Private inbound access to App Service | Private Endpoint |
-| Stable scalable outbound SNAT | NAT Gateway |
-| Central L3–L7 network filtering | Azure Firewall |
-| Distributed subnet/NIC L3/L4 filtering | NSG |
+| Stable scalable outbound source network address translation (SNAT) | NAT Gateway |
+| Central Layer 3 through Layer 7 (L3–L7) network filtering | Azure Firewall |
+| Distributed subnet/NIC L3/L4 filtering | network security group (NSG) |
 | HTTP attack filtering | WAF |
-| Volumetric network attack mitigation | DDoS Protection |
+| Distributed denial-of-service (DDoS) attack mitigation | Azure DDoS Protection |
 
 Traps:
 
@@ -303,9 +303,9 @@ Traps:
 | Limited change to PaaS | Replatform |
 | Redesign for cloud capabilities | Refactor/rearchitect |
 | Replace legacy implementation with a new cloud-native build | Rebuild |
-| Replace with SaaS/product | Repurchase |
+| Replace with software as a service (SaaS)/product | Repurchase |
 | Server discovery/assessment/migration | Azure Migrate |
-| Supported online/offline database move | DMS/current database-specific path |
+| Supported online/offline database move | Azure Database Migration Service (DMS)/current database-specific path |
 | Managed online files/folders | Storage Mover |
 | Scripted small/one-off storage copy | AzCopy |
 | Offline bulk data | Data Box |
@@ -329,3 +329,11 @@ Traps:
 - Can the secondary region supply quota, keys, certificates, configuration, and dependencies?
 - Is failover tested, reversible, and owned?
 - Does the lowest-cost option still satisfy every mandatory requirement?
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Networking](Design_infrastructure_solutions/networking.md) | [AZ-305 Home](README.md) | — |

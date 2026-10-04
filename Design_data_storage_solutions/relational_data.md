@@ -1,5 +1,7 @@
 # Relational data
 
+Key terms: platform as a service (PaaS), infrastructure as a service (IaaS), virtual core (vCore), database transaction unit (DTU), high availability (HA), disaster recovery (DR), recovery time objective (RTO), and recovery point objective (RPO).
+
 ## Relational service decision matrix
 
 | Dimension | Azure SQL Database | Azure SQL Managed Instance | SQL Server on Azure VM | Azure Database for PostgreSQL flexible server | Azure Database for MySQL flexible server |
@@ -11,9 +13,9 @@
 | OS/file-system access | No | No | Yes | No | No |
 | Scaling | vCore/DTU, provisioned/serverless; elastic pools; Hyperscale for applicable workloads | Scale compute/storage within service constraints; instance pools where applicable | Resize/add VMs and storage; application/SQL design owns scale-out | Vertical scaling, storage growth, read replicas | Vertical scaling, storage growth, read replicas |
 | Built-in HA | Platform-managed; zone redundancy in supported tiers/regions | Platform-managed; zone redundancy where supported | Customer designs Azure + SQL HA | Same-zone or zone-redundant HA options where supported | Zone-redundant HA options where supported |
-| Cross-region DR | Active geo-replication and failover groups; geo-restore | Failover groups and geo-restore capabilities | AGs, distributed AGs, log shipping, backup/restore, or ASR according to RPO | Geo-redundant backup/restore and cross-region replicas/features as supported | Geo-redundant backup/restore/read-replica patterns as supported |
-| Backup | Automated service backups, PITR, long-term retention options | Automated service backups, PITR, long-term retention options | Customer/SQL VM extension/Azure Backup design | Automated backups and PITR within configured retention | Automated backups and PITR within configured retention |
-| Networking | Public endpoint controls, firewall, private endpoint | VNet-injected instance; subnet/DNS/routing prerequisites | VM NIC/VNet; full network control | Public or private access models; private DNS requirements | Public or private access models; private DNS requirements |
+| Cross-region DR | Active geo-replication and failover groups; geo-restore | Failover groups and geo-restore capabilities | Availability groups (AGs), distributed AGs, log shipping, backup/restore, or Azure Site Recovery (ASR) according to RPO | Geo-redundant backup/restore and cross-region replicas/features as supported | Geo-redundant backup/restore/read-replica patterns as supported |
+| Backup | Automated service backups, point-in-time restore (PITR), long-term retention options | Automated service backups, PITR, long-term retention options | Customer/SQL VM extension/Azure Backup design | Automated backups and PITR within configured retention | Automated backups and PITR within configured retention |
+| Networking | Public endpoint controls, firewall, private endpoint | Virtual network (VNet)-injected instance; subnet/DNS/routing prerequisites | VM network interface card (NIC)/VNet; full network control | Public or private access models; private DNS requirements | Public or private access models; private DNS requirements |
 | Migration difficulty | Lowest when database is cloud-ready and instance dependencies are removed | Lower for instance-dependent SQL workloads | Lowest code change for rehost; highest ongoing operations | Best for PostgreSQL-compatible workloads | Best for MySQL-compatible workloads |
 | Operational overhead | Lowest | Low to moderate | Highest | Low | Low |
 | Ideal workload | Cloud-native managed SQL databases/SaaS | Lift-and-modernize SQL Server needing instance compatibility | OS/SQL control, unsupported PaaS feature, vendor constraint | Managed open-source PostgreSQL | Managed open-source MySQL |
@@ -77,12 +79,12 @@ For SQL Server on Azure VMs:
 ## Database data protection
 
 ```text
-At rest      → service encryption/TDE; customer-managed key if required
-In transit   → TLS and certificate validation
+At rest      → service encryption/transparent data encryption (TDE); customer-managed key if required
+In transit   → Transport Layer Security (TLS) and certificate validation
 In use       → Always Encrypted/confidential-computing features where the threat model requires
 Access       → Microsoft Entra authentication, database roles, least privilege
 Network      → firewall/private connectivity/DNS; disable public access when required
-Recovery     → automated backups, PITR/LTR, restore tests, immutable or isolated copies where applicable
+Recovery     → automated backups, PITR/long-term retention (LTR), restore tests, immutable or isolated copies where applicable
 Detection    → auditing, Defender capabilities, Monitor logs/alerts
 ```
 
@@ -100,7 +102,7 @@ Azure Cosmos DB is a globally distributed database platform with multiple APIs a
 | Query/index | Rich API-dependent queries and automatic/configurable indexing | Key-oriented queries; limited secondary query capability |
 | Scale model | Request units or serverless; partition-key design is central | Storage transactions and partition scalability |
 | Latency/availability objectives | Designed for globally distributed low-latency applications | Suited to simpler, cost-sensitive key/attribute data |
-| Features | Change feed, TTL, global distribution, API-specific features | Simple table entities |
+| Features | Change feed, time to live (TTL), global distribution, API-specific features | Simple table entities |
 | Cost/operations | Higher capability and design complexity | Lower cost/simpler feature set |
 
 ### Cosmos DB partitioning and consistency
@@ -110,7 +112,7 @@ Azure Cosmos DB is a globally distributed database platform with multiple APIs a
 - A hot partition remains a bottleneck even when the overall account has spare capacity.
 - Stronger consistency can increase latency or reduce availability/throughput flexibility, especially across regions.
 - Multi-region writes improve write locality/availability but require conflict-resolution design.
-- Autoscale addresses changing RU demand; it does not correct a poor partition key.
+- Autoscale addresses changing request unit (RU) demand; it does not correct a poor partition key.
 - Change feed supports downstream processing; it is not historical backup by itself.
 
 ```text
@@ -135,7 +137,7 @@ Do not migrate between engines solely to reduce license cost. Assess SQL dialect
 
 ## When not to choose
 
-- Do not choose SQL Managed Instance if database-scoped Azure SQL Database features meet the workload; MI adds instance scope, network, and cost complexity.
+- Do not choose SQL Managed Instance if database-scoped Azure SQL Database features meet the workload; Managed Instance adds instance scope, network, and cost complexity.
 - Do not choose SQL Server on VM merely because the source is SQL Server; first test PaaS compatibility.
 - Do not choose serverless for a continuously busy or latency-intolerant workload without validating behavior.
 - Do not choose Cosmos DB without a credible partition key and access model.
@@ -151,3 +153,11 @@ Do not migrate between engines solely to reduce license cost. Assess SQL dialect
 - Table Storage and Cosmos DB for Table are not interchangeable feature/cost models.
 
 Official references: [Azure SQL service comparison](https://learn.microsoft.com/en-us/azure/azure-sql/database/features-comparison), [Azure SQL purchasing models](https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models), [Azure SQL business continuity](https://learn.microsoft.com/en-us/azure/azure-sql/database/business-continuity-high-availability-disaster-recover-hadr-overview), [SQL Server on Azure VM HADR](https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/business-continuity-high-availability-disaster-recovery-hadr-overview), [Cosmos DB resource model](https://learn.microsoft.com/en-us/azure/cosmos-db/resource-model), [PostgreSQL flexible server overview](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/overview).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Data storage solutions](README.md) | [Domain home](README.md) | [Semi-structured and unstructured data →](semi_structured_and_unstructured_data.md) |

@@ -11,7 +11,7 @@ Microsoft Entra tenant
                 └── Resources
 ```
 
-Azure Policy and Azure RBAC assignments normally inherit downward. A resource group is a lifecycle and management container, not a network, tenant, or absolute security boundary.
+Azure Policy and Azure role-based access control (Azure RBAC) assignments normally inherit downward. A resource group is a lifecycle and management container, not a network, tenant, or absolute security boundary.
 
 ## Structure decisions
 
@@ -49,10 +49,10 @@ Subscriptions are useful management boundaries, but they are associated with one
 
 | Control | Primary question | Enforcement behavior | Scope/inheritance | Common use |
 |---|---|---|---|---|
-| Azure RBAC | Who may perform an action? | Allows control/data actions through role assignments | MG to resource | Least-privilege administration |
-| Azure Policy | Is resource state allowed/compliant? | Audit, deny, modify, deploy related resources, and other effects | MG to resource | Regions, SKUs, diagnostics, security configuration |
+| Azure RBAC | Who may perform an action? | Allows control/data actions through role assignments | Management group to resource | Least-privilege administration |
+| Azure Policy | Is resource state allowed/compliant? | Audit, deny, modify, deploy related resources, and other effects | Management group to resource | Regions, SKUs, diagnostics, security configuration |
 | Policy initiative | Which policy set represents a standard? | Groups definitions and parameters | Same as Policy | Regulatory/control baseline |
-| Resource lock | Can ARM delete or modify this scope? | `CanNotDelete` or `ReadOnly` control-plane protection | Inherits within ARM scope | Guard critical resources against accidents |
+| Resource lock | Can Azure Resource Manager (ARM) delete or modify this scope? | `CanNotDelete` or `ReadOnly` control-plane protection | Inherits within ARM scope | Guard critical resources against accidents |
 | Tag | What business/operational metadata describes it? | Metadata; can be audited/modified by Policy | No automatic resource inheritance from resource group | Cost owner, app, environment, criticality |
 | Management group | Where should policy/RBAC inherit across subscriptions? | Hierarchical organization | Downward | Enterprise governance |
 
@@ -139,7 +139,7 @@ Group, role, or access-package assignment
         ↓
 Conditional Access and least privilege
         ↓
-PIM activation for privileged access
+Microsoft Entra Privileged Identity Management (PIM) activation for privileged access
         ↓
 Access review and expiration
         ↓
@@ -148,7 +148,7 @@ Audit, investigation, removal
 
 | Requirement | Recommended capability |
 |---|---|
-| Reduce permanent privileged roles | PIM eligible assignments, approval, MFA/authentication context, time limit |
+| Reduce permanent privileged roles | PIM eligible assignments, approval, multifactor authentication (MFA)/authentication context, time limit |
 | Review role/group/application access | Access reviews |
 | Govern external-user access lifecycle | Access packages, sponsor/approval, expiration, access reviews |
 | Package access to groups, apps, and SharePoint sites | Entitlement management |
@@ -174,3 +174,11 @@ Audit, investigation, removal
 - Budgets do not enforce resource configuration, and Policy does not enforce a financial cap.
 
 Official references: [Management groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview), [Azure Policy overview](https://learn.microsoft.com/en-us/azure/governance/policy/overview), [Resource locks](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources), [Tagging guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging), [Azure landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), [Microsoft Entra ID Governance](https://learn.microsoft.com/en-us/entra/id-governance/identity-governance-overview).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Authentication and authorization](authentication_and_authorization.md) | [Domain home](README.md) | [Data storage solutions →](../Design_data_storage_solutions/README.md) |

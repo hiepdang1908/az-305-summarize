@@ -41,9 +41,9 @@ An identity receives no useful access merely by existing. Grant only the require
 | System | Governs | Example |
 |---|---|---|
 | Microsoft Entra roles | Directory administration | Manage users, applications, or Conditional Access according to role |
-| Azure RBAC roles | Azure resource management and supported data actions | Read a subscription, manage a VM, read blobs through a data role |
+| Azure role-based access control (Azure RBAC) roles | Azure resource management and supported data actions | Read a subscription, manage a VM, read blobs through a data role |
 | Application roles/claims | Behavior inside an application/API | Approver, report reader, application administrator |
-| Service-native/database permissions | Resource data operations | SQL database role, NTFS ACL, Key Vault data role |
+| Service-native/database permissions | Resource data operations | SQL database role, New Technology File System (NTFS) access control list (ACL), Key Vault data role |
 
 ```text
 Microsoft Entra role
@@ -61,15 +61,15 @@ RBAC inheritance simplifies consistent access but increases blast radius at high
 - **Multifactor authentication (MFA):** requires additional evidence beyond a password. Prefer phishing-resistant methods for high-risk access where supported.
 - **Conditional Access:** evaluates signals such as user, risk, device, application, location, and authentication strength to enforce sign-in policy.
 - **Passwordless authentication:** reduces password exposure through supported strong credentials.
-- **Hybrid identity:** synchronizes or federates identity between AD DS and Entra ID; the sign-in method changes dependency and outage behavior.
+- **Hybrid identity:** synchronizes or federates identity between Active Directory Domain Services (AD DS) and Entra ID; the sign-in method changes dependency and outage behavior.
 
 Conditional Access controls whether a sign-in is allowed under current conditions. It does not replace Azure RBAC or application authorization.
 
 ### Directory and external identity boundaries
 
-- **Workforce tenant:** employees, administrators, applications, and invited B2B guests collaborate under organizational policies.
+- **Workforce tenant:** employees, administrators, applications, and invited business-to-business (B2B) guests collaborate under organizational policies.
 - **External ID B2B collaboration:** partner identities access workforce resources without creating unmanaged local accounts; invitation, access review, and removal still need governance.
-- **External tenant/CIAM:** customer identities and customer-facing application journeys need a separate lifecycle and authorization design.
+- **External tenant/customer identity and access management (CIAM):** customer identities and customer-facing application journeys need a separate lifecycle and authorization design.
 - **Microsoft Entra Domain Services:** provides managed domain protocols for compatible legacy workloads; it is not a replacement for every AD DS administrative capability.
 
 ## Zero Trust foundation
@@ -80,7 +80,7 @@ Zero Trust principles:
 2. Use least-privilege access, including time-bound privilege.
 3. Assume breach and limit blast radius.
 
-Architecture consequences include MFA/Conditional Access, PIM, segmentation, managed identities, private access where required, encryption, logging, and tested recovery. Zero Trust is not equivalent to "make every endpoint private"; identity, device, data, application, and operational controls remain necessary.
+Architecture consequences include MFA/Conditional Access, Microsoft Entra Privileged Identity Management (PIM), segmentation, managed identities, private access where required, encryption, logging, and tested recovery. Zero Trust is not equivalent to "make every endpoint private"; identity, device, data, application, and operational controls remain necessary.
 
 ## Defense in depth and security posture
 
@@ -100,8 +100,16 @@ Azure Key Vault protects secrets, keys, and certificates. It separates sensitive
 
 ## Security responsibility
 
-Microsoft secures the physical platform and managed portions of each service. The customer still owns data classification, identity, permissions, application code, configuration, monitoring, and recovery. Responsibility decreases from IaaS toward PaaS/SaaS, but accountability for workload outcomes does not disappear.
+Microsoft secures the physical platform and managed portions of each service. The customer still owns data classification, identity, permissions, application code, configuration, monitoring, and recovery. Responsibility decreases from infrastructure as a service (IaaS) toward platform as a service (PaaS) and software as a service (SaaS), but accountability for workload outcomes does not disappear.
 
 Detailed design: [Authentication and authorization](../Design_identity_governance_and_monitoring/authentication_and_authorization.md) and [Governance and identity governance](../Design_identity_governance_and_monitoring/governance_and_identity_governance.md).
 
 Official references: [Azure identity, access, and security](https://learn.microsoft.com/en-us/training/modules/describe-azure-identity-access-security/), [Microsoft Entra architecture](https://learn.microsoft.com/en-us/entra/architecture/architecture), [External identities](https://learn.microsoft.com/en-us/entra/external-id/external-identities-overview), [Azure RBAC overview](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview), [Managed identities](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview), [Defender for Cloud](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Storage foundations](storage_foundations.md) | [Prerequisites home](README.md) | [Cloud Adoption Framework →](cloud_adoption_framework.md) |

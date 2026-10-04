@@ -35,3 +35,11 @@ This folder does not teach portal procedures, command syntax, resource deploymen
 After these foundations, read the [Master Mental Map](../AZ-305_MASTER_MENTAL_MAP.md), then use the [Objective Map](../AZ-305_OBJECTIVE_MAP.md) to navigate the scored domains.
 
 Official path: [AZ-305 Microsoft Azure Architect Design Prerequisites](https://learn.microsoft.com/en-us/training/paths/microsoft-azure-architect-design-prerequisites/).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Repository overview](../README.md) | [AZ-305 Home](../README.md) | [Azure architecture fundamentals →](azure_architecture_fundamentals.md) |

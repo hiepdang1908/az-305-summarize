@@ -4,14 +4,14 @@
 
 | Service | Infrastructure control | Scale/orchestration | Best fit | Avoid when | Operations |
 |---|---|---|---|---|---|
-| Virtual Machines | Full guest OS and software control | Manual/automation; individual VMs | Custom OS, legacy/COTS, special agents/drivers, rehost | PaaS can meet requirements | Highest |
-| Virtual Machine Scale Sets | VM control with fleet model | Autoscale, zones, rolling upgrades | Homogeneous VM fleet and elastic IaaS | Each server is unique or application cannot scale horizontally | High |
+| Virtual Machines (VMs) | Full guest operating system (OS) and software control | Manual/automation; individual VMs | Custom OS, legacy/commercial off-the-shelf (COTS), special agents/drivers, rehost | Platform as a service (PaaS) can meet requirements | Highest |
+| Virtual Machine Scale Sets (VMSS) | VM control with fleet model | Autoscale, zones, rolling upgrades | Homogeneous VM fleet and elastic infrastructure as a service (IaaS) | Each server is unique or application cannot scale horizontally | High |
 | App Service | Managed web platform | Plan instances, autoscale, deployment slots | HTTP web apps/APIs, supported runtimes or web containers | Kubernetes/control/custom OS required | Low |
 | Azure Functions | Managed event-driven code | Trigger-based, plan-dependent scale | Short/event-driven units, integrations, timers | Full host control, unsuitable execution/runtime pattern | Low |
 | Azure Container Apps | Managed serverless container platform | Revisions, replicas, KEDA-based scaling, jobs, Dapr options | HTTP/event microservices and jobs without managing Kubernetes | Direct Kubernetes API/control is mandatory | Low–moderate |
-| Azure Kubernetes Service | Managed Kubernetes control plane | Kubernetes orchestration, node pools, autoscaler | Complex microservices and Kubernetes ecosystem/control | Team does not need Kubernetes complexity | High |
-| Azure Container Instances | Direct container groups | Simple/manual or external orchestration | Burstable isolated task, build job, simple short-lived container | Full application platform/orchestration required | Low per instance, limited platform |
-| Azure Batch | Managed scheduling over compute pools | Jobs/tasks, autoscale pools, retries | Large-scale parallel/HPC/batch processing | Request-serving application or workflow integration | Moderate |
+| Azure Kubernetes Service (AKS) | Managed Kubernetes control plane | Kubernetes orchestration, node pools, autoscaler | Complex microservices and Kubernetes ecosystem/control | Team does not need Kubernetes complexity | High |
+| Azure Container Instances (ACI) | Direct container groups | Simple/manual or external orchestration | Burstable isolated task, build job, simple short-lived container | Full application platform/orchestration required | Low per instance, limited platform |
+| Azure Batch | Managed scheduling over compute pools | Jobs/tasks, autoscale pools, retries | Large-scale parallel/high-performance computing (HPC)/batch processing | Request-serving application or workflow integration | Moderate |
 | Logic Apps | Managed workflow/integration runtime | Connector/workflow execution | Low-code integration and business workflows | General-purpose custom compute | Low |
 
 ## Decision tree
@@ -49,8 +49,8 @@ Design responsibilities:
 
 - Image lifecycle, patching, endpoint protection, backups, configuration drift
 - VM size and quota; accelerated networking and placement where required
-- Managed disk tier, caching, IOPS, throughput, encryption, backup
-- Availability zones/sets and at least two instances for HA
+- Managed disk tier, caching, input/output operations per second (IOPS), throughput, encryption, backup
+- Availability zones/sets and at least two instances for high availability (HA)
 - Load balancing, health probes, autoscale/fleet orchestration
 - Just-in-time/admin access, Azure Bastion, managed identity, NSGs
 
@@ -71,9 +71,9 @@ Architecture factors:
 - Deployment slots provide staged validation and swap. Slot availability and count depend on tier.
 - Slot settings remain with a slot; other settings may swap. Verify database/schema compatibility before swap.
 - Built-in authentication can reduce application auth code but still requires correct authorization.
-- VNet integration is for outbound access from the app. Private Endpoint is for private inbound access. These are different features.
+- Virtual network (VNet) integration is for outbound access from the app. Private Endpoint is for private inbound access. These are different features.
 - App Service Environment is for dedicated, isolated hosting requirements; it has more cost/operations than multitenant App Service.
-- Use Front Door or another cross-region entry point for regional resilience; a single regional plan is not regional DR.
+- Use Front Door or another cross-region entry point for regional resilience; a single regional plan is not regional disaster recovery (DR).
 
 ## Azure Functions
 
@@ -134,8 +134,8 @@ Do not create a pool per very short task if startup dominates. Do not rely on lo
 
 | Requirement | Direction |
 |---|---|
-| Repeatable platform resources | Bicep/ARM/Terraform or approved IaC in source control |
-| App build/test/release | Azure Pipelines, GitHub Actions, or equivalent CI/CD |
+| Repeatable platform resources | Bicep/Azure Resource Manager (ARM)/Terraform or approved infrastructure as code (IaC) in source control |
+| App build/test/release | Azure Pipelines, GitHub Actions, or equivalent continuous integration and continuous delivery (CI/CD) |
 | Safe App Service release | Deployment slots and swap with health validation |
 | Safe container release | Immutable image, registry scanning, revisions/rolling/canary strategy |
 | VM fleet rollout | Immutable image via Azure Compute Gallery plus scale-set upgrade policy |
@@ -162,3 +162,11 @@ Separate build artifact creation from environment promotion. Use workload identi
 - Rehosting to a VM is often fastest, not necessarily the best target state.
 
 Official references: [Azure compute decision guide](https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree), [App Service overview](https://learn.microsoft.com/en-us/azure/app-service/overview), [Functions hosting options](https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale), [Container Apps overview](https://learn.microsoft.com/en-us/azure/container-apps/overview), [AKS core concepts](https://learn.microsoft.com/en-us/azure/aks/core-aks-concepts), [Azure Batch overview](https://learn.microsoft.com/en-us/azure/batch/batch-technical-overview).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Infrastructure solutions](README.md) | [Domain home](README.md) | [Application architecture →](application_architecture.md) |

@@ -2,6 +2,8 @@
 
 Blueprint: Microsoft skills measured as of **April 17, 2026**.
 
+Key terms: high availability (HA), disaster recovery (DR), infrastructure as a service (IaaS), platform as a service (PaaS), and application programming interface (API).
+
 | Exam domain | Skill measured | Repository file | Section |
 |---|---|---|---|
 | Identity, governance, monitoring | Recommend a logging solution | `Design_identity_governance_and_monitoring/logging_and_monitoring.md` | Logging design |
@@ -70,7 +72,7 @@ Total objectives: 49
 Coverage: 49/49
 ```
 
-Coverage means each official objective maps to substantive content. It does not freeze product availability, regional support, quotas, licensing, pricing, or preview/GA state.
+Coverage means each official objective maps to substantive content. It does not freeze product availability, regional support, quotas, licensing, pricing, or preview/generally available (GA) state.
 
 Content-strength audit: **49 STRONG, 0 ADEQUATE, 0 WEAK, 0 MISSING**. See [source validation notes](sources/source-validation-notes.md#improvement-pass-content-strength-audit) for the objective-by-objective rating.
 
@@ -90,3 +92,11 @@ This is a separate curriculum measure, not an exam-weighting model. The prerequi
 Exam blueprint coverage: 49/49 objectives
 Microsoft Learn path coverage: 5/5 paths
 ```
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Master mental map](AZ-305_MASTER_MENTAL_MAP.md) | [AZ-305 Home](README.md) | [Identity, governance, and monitoring →](Design_identity_governance_and_monitoring/README.md) |

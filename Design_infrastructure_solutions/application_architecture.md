@@ -14,10 +14,10 @@
 |---|---|---|---|---|
 | Primary pattern | Enterprise brokered commands/messages | Reactive event distribution | High-throughput event stream/telemetry log | Simple durable work queue |
 | Consumer model | Competing consumers; topics/subscriptions | Push delivery or supported pull model; fan-out subscriptions | Pull/read stream by partition and consumer group | Poll/receive competing consumers |
-| Ordering | Sessions support related-message ordering | No global ordering guarantee | Ordered within partition | No strict FIFO guarantee |
+| Ordering | Sessions support related-message ordering | No global ordering guarantee | Ordered within partition | No strict first-in, first-out (FIFO) guarantee |
 | Transactions | Broker transactions in supported scope | No enterprise message transaction model | Not a transactional command queue | No multi-operation broker transactions |
 | Pub/sub | Topics and subscriptions | Native event subscriptions/fan-out | Multiple consumer groups read same stream | Queue only |
-| Dead-letter | Built-in DLQ for queues/subscriptions | Dead-letter destination/configuration for undeliverable events | Consumer/checkpoint/error design; not a command DLQ | Dequeue-count/poison queue is application pattern |
+| Dead-letter | Built-in dead-letter queue (DLQ) for queues/subscriptions | Dead-letter destination/configuration for undeliverable events | Consumer/checkpoint/error design; not a command DLQ | Dequeue-count/poison queue is application pattern |
 | Replay | Message until settled/expired; duplicate detection options | Event delivery/retry window, not a long event log | Retention and replay by offset/time | Message remains until delete/expiry |
 | Throughput | Enterprise messaging | High-scale discrete event routing | Very high telemetry/stream ingestion | High-scale simple queue |
 | Best fit | Ordering, sessions, transactions, duplicate detection, queues/topics | Resource/domain event notification | Logs, telemetry, clickstream, IoT streaming | Low-cost asynchronous backlog |
@@ -85,10 +85,10 @@ Azure API Management (APIM) provides an API gateway, policy layer, developer exp
 APIM is not a web application firewall, general load balancer, or message broker. Common edge chain:
 
 ```text
-Internet → Front Door + WAF → APIM → private application/API → data
+Internet → Front Door + Web Application Firewall (WAF) → APIM → private application/API → data
 ```
 
-Application Gateway + WAF can be used for regional/private HTTP ingress. Avoid duplicating TLS, routing, and policy layers without a requirement.
+Application Gateway + WAF can be used for regional/private HTTP ingress. Avoid duplicating Transport Layer Security (TLS), routing, and policy layers without a requirement.
 
 ## Caching
 
@@ -107,7 +107,7 @@ Decision rules:
 - Keep source of truth in durable storage unless Redis durability architecture explicitly satisfies the workload.
 - Prevent cache stampede with request coalescing, jittered expiration, or background refresh.
 - Size for memory overhead and eviction policy, not only raw dataset.
-- Choose clustering, HA, persistence, zone, and active geo-replication options based on supported Azure Managed Redis tier/features.
+- Choose clustering, high availability (HA), persistence, zone, and active geo-replication options based on supported Azure Managed Redis tier/features.
 - Private networking and Entra authentication reduce exposure; clients still require resilient connection/retry logic.
 
 Do not add cache where hit rate is low, consistency must be immediate, or invalidation complexity exceeds backend benefit.
@@ -118,7 +118,7 @@ Do not add cache where hit rate is low, consistency must be immediate, or invali
 |---|---|---|
 | Non-secret application settings, feature flags, key-values | Azure App Configuration | Central configuration, labels, feature management, refresh patterns |
 | Passwords, connection strings, private keys, certificates | Key Vault | Protected secret/key/certificate lifecycle and audit |
-| Deployment-specific immutable config | Environment variables/IaC/app settings as appropriate | Simple and versioned with release |
+| Deployment-specific immutable config | Environment variables/infrastructure as code (IaC)/app settings as appropriate | Simple and versioned with release |
 
 App Configuration can reference Key Vault values; the application identity needs access to both. Central configuration improves consistency but creates a runtime dependency, so use client caching, last-known-good values, retry, and regional design. Feature flags are operational controls, not authorization controls.
 
@@ -128,8 +128,8 @@ App Configuration can reference Key Vault values; the application identity needs
 |---|---|
 | App Service/Functions | Deployment slot, warm-up, validation, swap, rollback |
 | Container Apps | Revisions and weighted traffic |
-| AKS | Rolling, blue-green, or canary with probes and disruption budgets |
-| VM/VMSS | Immutable image and rolling/health-aware upgrade |
+| Azure Kubernetes Service (AKS) | Rolling, blue-green, or canary with probes and disruption budgets |
+| VM/Virtual Machine Scale Sets (VMSS) | Immutable image and rolling/health-aware upgrade |
 | API | APIM revisions for nonbreaking changes; versions for breaking API contracts |
 
 Pipeline architecture:
@@ -161,6 +161,14 @@ Use separate service connections/identities per environment, approvals for high-
 - APIM manages API concerns; WAF filters web attacks; they can be complementary.
 - App Configuration is not Key Vault.
 - A cache is not automatically durable or authoritative.
-- CI/CD automation without health validation and rollback is not a safe deployment architecture.
+- Continuous integration and continuous delivery (CI/CD) automation without health validation and rollback is not a safe deployment architecture.
 
 Official references: [Azure messaging service comparison](https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services), [Service Bus overview](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview), [Event Grid overview](https://learn.microsoft.com/en-us/azure/event-grid/overview), [Event Hubs overview](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about), [API Management overview](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts), [Azure Managed Redis overview](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/managed-redis/managed-redis-overview), [App Configuration overview](https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Compute](compute.md) | [Domain home](README.md) | [Migrations →](migrations.md) |

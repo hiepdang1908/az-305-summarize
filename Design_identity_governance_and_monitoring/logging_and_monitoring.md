@@ -5,18 +5,18 @@
 Azure Monitor is the platform service for collecting, analyzing, visualizing, and acting on telemetry from Azure and hybrid resources. It is not one database: different data types use different collection paths and stores.
 
 ```text
-Resource / application / guest OS / control plane
+Resource / application / guest operating system (OS) / control plane
         ↓
 Platform collection, diagnostic settings, Application Insights,
 Azure Monitor Agent + Data Collection Rules
         ↓
 Metrics store | Log Analytics workspace | Storage | Event Hubs
         ↓
-Metrics Explorer / KQL / Workbooks / Insights / external SIEM
+Metrics Explorer / Kusto Query Language (KQL) / Workbooks / Insights / external security information and event management (SIEM)
         ↓
 Metric, log-search, activity-log, resource-health, or smart alert
         ↓
-Action group: notification, webhook, ITSM, function, logic app, automation
+Action group: notification, webhook, IT service management (ITSM), function, logic app, automation
 ```
 
 ```text
@@ -49,10 +49,10 @@ collect → route → store → query/analyze → visualize → alert → respon
 | Central security operations and cross-workload queries | Central or regional workspaces with controlled access and standardized collection |
 | Strict data residency or sovereign boundary | Workspace in the required geography; confirm feature and retention availability |
 | Separate billing or operational ownership | Separate workspaces where the separation benefit exceeds query/access complexity |
-| Workload team must access only its logs | Resource-context access and Azure RBAC where supported; separate workspace if hard isolation is required |
+| Workload team must access only its logs | Resource-context access and Azure role-based access control (Azure RBAC) where supported; separate workspace if hard isolation is required |
 | Long-term, low-cost retention or immutable archive | Route to Storage and configure retention/immutability as required |
 | External SIEM or near-real-time stream processing | Route supported logs to Event Hubs |
-| Microsoft-cloud SIEM/SOAR and security incidents | Microsoft Sentinel with designed data connectors, workspace, retention, analytics rules, and response |
+| Microsoft-cloud SIEM/security orchestration, automation, and response (SOAR) and security incidents | Microsoft Sentinel with designed data connectors, workspace, retention, analytics rules, and response |
 | Fast operational querying and alerting | Log Analytics workspace |
 
 Avoid one workspace per resource. Also avoid a single global workspace without checking residency, access, ingestion, and regional-dependency requirements. Centralization improves correlation; separation improves isolation and ownership.
@@ -122,3 +122,11 @@ Security-event correlation and incident response → Microsoft Sentinel
 ```
 
 Official references: [Azure Monitor overview](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview), [Azure Monitor data sources](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/data-sources), [Diagnostic settings](https://learn.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings), [Log Analytics workspace architecture](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/workspace-design), [Azure Monitor alerts](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview), [Microsoft Sentinel overview](https://learn.microsoft.com/en-us/azure/sentinel/overview).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Identity, governance, and monitoring](README.md) | [Domain home](README.md) | [Authentication and authorization →](authentication_and_authorization.md) |

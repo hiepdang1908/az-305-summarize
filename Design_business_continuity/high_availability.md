@@ -1,5 +1,7 @@
 # High availability
 
+High availability (HA) keeps a workload operating through expected local failures; it does not by itself provide disaster recovery (DR).
+
 ## Availability scopes
 
 | Failure scope | Design mechanism | Notes |
@@ -45,15 +47,15 @@ Every required dependency must survive the intended failure scope. Two applicati
 | App Service | Multiple plan instances; zone redundancy where supported; Front Door for regional failover | Plan tier/region support, shared plan failure domain, deployment slots are release tools |
 | Azure Functions | Plan-specific platform scale/zone features; idempotent triggers; durable state externalized | Consumption characteristics, retries, concurrency, and downstream limits |
 | Container Apps | Multiple replicas, availability-zone support/environment design, revision traffic | Scale-to-zero may conflict with immediate availability; external dependencies dominate |
-| AKS | Multi-zone node pools, multiple nodes, pod topology, disruption budgets, resilient control plane | Kubernetes does not automatically make applications or persistent data HA |
+| Azure Kubernetes Service (AKS) | Multi-zone node pools, multiple nodes, pod topology, disruption budgets, resilient control plane | Kubernetes does not automatically make applications or persistent data HA |
 | Azure Batch | Multiple nodes/pools and retry/requeue design | Nodes are disposable; task checkpointing and output durability matter |
 
 Health probes must test the dependency depth necessary for safe routing without creating cascading failure. A shallow probe can send users to broken instances; an overly deep probe can remove every instance during a shared downstream outage.
 
 ## Load balancing and state
 
-- Layer 4 Load Balancer distributes TCP/UDP flows regionally.
-- Application Gateway distributes regional HTTP(S) and can use WAF.
+- Layer 4 Load Balancer distributes Transmission Control Protocol (TCP)/User Datagram Protocol (UDP) flows regionally.
+- Application Gateway distributes regional HTTP(S) and can use Web Application Firewall (WAF).
 - Front Door is the global edge HTTP(S) entry point with acceleration/WAF.
 - Traffic Manager is DNS-based global routing and cannot terminate or proxy the application connection.
 
@@ -65,7 +67,7 @@ Stateful sessions reduce failover flexibility. Prefer external durable state and
 |---|---|---|---|
 | Azure SQL Database | Built into service | Zone redundancy in supported tiers/regions | Geo-replication/failover groups/geo-restore |
 | SQL Managed Instance | Built into service | Zone redundancy where supported | Failover groups/geo-restore options |
-| SQL Server on VM | Customer selects FCI/AG/platform placement | Place nodes across zones and validate latency/quorum | Cross-region AG/distributed AG/log shipping/backup/ASR as appropriate |
+| SQL Server on VM | Customer selects failover cluster instance (FCI)/availability group (AG)/platform placement | Place nodes across zones and validate latency/quorum | Cross-region AG/distributed AG/log shipping/backup/Azure Site Recovery (ASR) as appropriate |
 | PostgreSQL flexible server | Platform service plus optional HA | Zone-redundant HA where supported | Read replica/geo-backup/restore patterns as supported |
 
 Applications must implement transient-fault handling and reconnect to stable endpoints. Local platform failover can still terminate connections and in-flight transactions.
@@ -74,16 +76,16 @@ Applications must implement transient-fault handling and reconnect to stable end
 
 | Replication | Benefit | Cost/trade-off |
 |---|---|---|
-| Synchronous | Lowest RPO for acknowledged writes | Adds commit latency; distance-sensitive |
+| Synchronous | Lowest recovery point objective (RPO) for acknowledged writes | Adds commit latency; distance-sensitive |
 | Asynchronous | Suitable across long distance, lower primary latency | Nonzero RPO and possible lag |
 
 Use synchronous replication for local/zone HA when latency permits. Use asynchronous replication for cross-region DR unless the product and business latency requirements support otherwise.
 
 ## Semi-structured and unstructured data HA
 
-- LRS protects from local hardware failures but not datacenter loss.
-- ZRS keeps reads and writes available through a zone loss for supported storage services.
-- GRS/GZRS add an asynchronously replicated region for DR; RA variants permit secondary reads.
+- Locally redundant storage (LRS) protects from local hardware failures but not datacenter loss.
+- Zone-redundant storage (ZRS) keeps reads and writes available through a zone loss for supported storage services.
+- Geo-redundant storage (GRS)/geo-zone-redundant storage (GZRS) add an asynchronously replicated region for DR; read-access (RA) variants permit secondary reads.
 - Cosmos DB distributes data across configured regions and can use multiple write regions; consistency and conflict resolution are architecture choices.
 - Cache should normally be treated as reconstructable or have a deliberate persistence/geo-replication design. Cache HA is not source-of-truth durability.
 
@@ -91,11 +93,11 @@ Use synchronous replication for local/zone HA when latency permits. Use asynchro
 
 - Identify every single point of failure, including NAT, DNS, identity, Key Vault, certificates, monitoring, and deployment pipeline.
 - Use at least two healthy instances for any tier requiring continuity.
-- Confirm zone support for every selected SKU and region.
+- Confirm zone support for every selected stock keeping unit (SKU) and region.
 - Separate replicas across failure domains and avoid shared state that reintroduces one failure point.
 - Define capacity after one zone/instance fails; N instances are not useful if survivors cannot carry load.
 - Use graceful retries with bounded exponential backoff and circuit breaking.
-- Test chaos/failover and measure actual recovery, not only provider SLA.
+- Test chaos/failover and measure actual recovery, not only provider service-level agreement (SLA).
 - Plan maintenance and deployment failure separately from infrastructure failure.
 
 ## Cost-aware availability
@@ -103,7 +105,7 @@ Use synchronous replication for local/zone HA when latency permits. Use asynchro
 - Higher availability consumes redundant capacity even when idle.
 - Zone transfer, cross-region replication, standby compute, duplicate licenses, and testing add cost.
 - Active-active may eliminate idle standby but greatly increases data/application complexity.
-- Right-size by business impact: not every component requires the same RTO/RPO.
+- Right-size by business impact: not every component requires the same recovery time objective (RTO)/RPO.
 - Reserved capacity can reduce steady redundant-compute cost but reduces flexibility.
 
 ## Common Trap
@@ -117,3 +119,11 @@ Use synchronous replication for local/zone HA when latency permits. Use asynchro
 - Deployment slots reduce release risk but are not a regional DR mechanism.
 
 Official references: [Azure availability zones](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview), [VM availability options](https://learn.microsoft.com/en-us/azure/virtual-machines/availability), [Mission-critical architecture](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-mission-critical/mission-critical-intro), [Azure SQL availability](https://learn.microsoft.com/en-us/azure/azure-sql/database/high-availability-sla-local-zone-redundancy), [Azure Storage redundancy](https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Backup and disaster recovery](backup_and_disaster_recovery.md) | [Domain home](README.md) | [Infrastructure solutions →](../Design_infrastructure_solutions/README.md) |

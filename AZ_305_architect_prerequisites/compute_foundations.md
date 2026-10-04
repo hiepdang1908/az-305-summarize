@@ -6,8 +6,8 @@ Compute selection is primarily a decision about required control, workload shape
 
 | Model | Customer control | Microsoft manages | Common architect reason |
 |---|---|---|---|
-| IaaS | Guest OS, runtime, middleware, application, patch/configuration strategy | Physical datacenter, host, virtualization fabric | Legacy compatibility, custom OS/software, specialized hardware, rehost |
-| Managed application PaaS | Application and supported runtime/configuration choices | OS, platform patching, host placement, much of scaling/availability | Reduce platform operations for web/API workloads |
+| Infrastructure as a service (IaaS) | Guest operating system (OS), runtime, middleware, application, patch/configuration strategy | Physical datacenter, host, virtualization fabric | Legacy compatibility, custom OS/software, specialized hardware, rehost |
+| Managed application platform as a service (PaaS) | Application and supported runtime/configuration choices | OS, platform patching, host placement, much of scaling/availability | Reduce platform operations for web/API workloads |
 | Containers | Image and application dependencies; orchestration responsibility varies by service | Host and, for managed platforms, portions of orchestration | Portable packaging and microservice/job isolation |
 | Serverless | Function/workflow/container logic and external state | Instance provisioning and event-based scale within plan limits | Bursty or event-driven execution with minimal infrastructure management |
 
@@ -22,9 +22,9 @@ PaaS and serverless trade infrastructure control for service constraints. Contai
 | App Service | Application PaaS | Managed HTTP web applications and APIs | Supported web runtime/container without Kubernetes control |
 | Azure Functions | Serverless code | Triggered functions, timers, event processing | Event-driven execution and plan-based automatic scaling |
 | Azure Container Apps | Managed/serverless containers | APIs, microservices, workers, and jobs | Container model without direct Kubernetes management |
-| Azure Kubernetes Service | Managed Kubernetes | Kubernetes-orchestrated applications | Kubernetes API, ecosystem, scheduling, or extensibility is mandatory |
-| Azure Container Instances | Direct container groups | Simple isolated or short-lived containers | Fast container execution without a full application platform |
-| Azure Batch | Managed batch scheduler | Parallel, HPC, rendering, or scheduled jobs on pools | Job/task scheduling over elastic compute pools |
+| Azure Kubernetes Service (AKS) | Managed Kubernetes | Kubernetes-orchestrated applications | Kubernetes API, ecosystem, scheduling, or extensibility is mandatory |
+| Azure Container Instances (ACI) | Direct container groups | Simple isolated or short-lived containers | Fast container execution without a full application platform |
+| Azure Batch | Managed batch scheduler | Parallel, high-performance computing (HPC), rendering, or scheduled jobs on pools | Job/task scheduling over elastic compute pools |
 
 ## Mental decision model
 
@@ -74,3 +74,11 @@ These are starting directions. Network isolation, startup latency, execution dur
 Detailed selection, constraints, deployment, and cost analysis: [Compute](../Design_infrastructure_solutions/compute.md).
 
 Official references: [Choose an Azure compute service](https://learn.microsoft.com/en-us/training/modules/design-compute-solution/2-choose-compute-service), [Azure compute technology choices](https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Azure architecture fundamentals](azure_architecture_fundamentals.md) | [Prerequisites home](README.md) | [Storage foundations →](storage_foundations.md) |

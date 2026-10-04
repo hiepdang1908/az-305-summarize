@@ -48,7 +48,7 @@ The five preparation paths above are not five scored domains. The prerequisite p
 - [Azure AD B2C FAQ and lifecycle notice](https://learn.microsoft.com/en-us/azure/active-directory-b2c/faq)
 - [Managed identities overview](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview)
 - [Azure RBAC overview](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview)
-- [Microsoft Entra roles and Azure roles](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/rbac-and-directory-admin-roles)
+- [Microsoft Entra roles and Azure roles](https://learn.microsoft.com/en-us/azure/role-based-access-control/rbac-and-directory-admin-roles)
 - [Microsoft Entra ID Governance](https://learn.microsoft.com/en-us/entra/id-governance/identity-governance-overview)
 - [Privileged Identity Management](https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure)
 - [Key Vault overview](https://learn.microsoft.com/en-us/azure/key-vault/general/overview)

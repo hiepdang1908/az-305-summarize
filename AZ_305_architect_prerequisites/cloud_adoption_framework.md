@@ -56,7 +56,7 @@ Use policy-driven governance and subscription democratization: platform teams pr
 
 ### Subscription vending and placement
 
-Subscription vending automates approved subscription creation and baseline configuration. A request can capture workload owner, environment, cost metadata, management-group placement, network model, budgets, policy, RBAC, Defender configuration, and monitoring.
+Subscription vending automates approved subscription creation and baseline configuration. A request can capture workload owner, environment, cost metadata, management-group placement, network model, budgets, policy, role-based access control (RBAC), Defender configuration, and monitoring.
 
 ```text
 Workload requirements
@@ -92,3 +92,11 @@ Do not start large migration waves before identity, connectivity, policies, moni
 Detailed migration targets and tools: [Migrations](../Design_infrastructure_solutions/migrations.md). Detailed resource hierarchy and guardrails: [Governance](../Design_identity_governance_and_monitoring/governance_and_identity_governance.md).
 
 Official references: [Cloud Adoption Framework overview](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview), [Azure landing zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/), [Landing-zone design areas](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas), [Subscription vending](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/subscription-vending).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Identity, access, and security foundations](identity_access_security_foundations.md) | [Prerequisites home](README.md) | [Well-Architected Framework →](well_architected_framework.md) |

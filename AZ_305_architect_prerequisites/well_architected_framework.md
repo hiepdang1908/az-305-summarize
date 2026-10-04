@@ -6,10 +6,10 @@ The Azure Well-Architected Framework evaluates workload decisions across five pi
 
 | Pillar | Architecture question | AZ-305 concerns | Example decision |
 |---|---|---|---|
-| Reliability | What happens when a component, zone, region, dependency, or operator action fails? | Redundancy, health, failover, replication, backup, RTO/RPO, recovery testing | Zone-redundant application plus cross-region DR and historical backup |
+| Reliability | What happens when a component, zone, region, dependency, or operator action fails? | Redundancy, health, failover, replication, backup, recovery time objective (RTO)/recovery point objective (RPO), recovery testing | Zone-redundant application plus cross-region disaster recovery (DR) and historical backup |
 | Security | How are confidentiality, integrity, and availability protected? | Identity, least privilege, segmentation, private access, encryption, secrets, detection | Managed identity + Key Vault + data role + private endpoint where required |
 | Cost Optimization | Does the design meet requirements without unnecessary capacity or operational complexity? | Sizing, service model, elasticity, reservations, data transfer, redundancy cost | Serverless for intermittent work only when cold-start and feature limits fit |
-| Operational Excellence | Can the workload be deployed, observed, operated, and changed safely? | IaC, CI/CD, monitoring, alerts, runbooks, ownership, rollback | Progressive deployment with health validation and actionable alerts |
+| Operational Excellence | Can the workload be deployed, observed, operated, and changed safely? | Infrastructure as code (IaC), continuous integration and continuous delivery (CI/CD), monitoring, alerts, runbooks, ownership, rollback | Progressive deployment with health validation and actionable alerts |
 | Performance Efficiency | Does the architecture meet latency, throughput, concurrency, and scale needs efficiently? | Scale up/out, partitioning, caching, edge delivery, load testing | Partition data and use edge/cache layers after measuring bottlenecks |
 
 ## Reliability
@@ -37,7 +37,7 @@ Detailed guidance: [Authentication and authorization](../Design_identity_governa
 Model total cost, including operations, licenses, support, monitoring, network transfer, backups, replicas, standby regions, and migration. Optimize after mandatory requirements are met.
 
 ```text
-Cheaper SKU misses required zone support
+Cheaper stock keeping unit (SKU) misses required zone support
 → reject it
 
 Active-active region has no business RTO justification
@@ -80,3 +80,11 @@ No pillar automatically overrides the others. Rank mandatory business and securi
 5. Has actual behavior been tested under load and failure?
 
 Official references: [Well-Architected Framework pillars](https://learn.microsoft.com/en-us/azure/well-architected/pillars), [Well-Architected assessment](https://learn.microsoft.com/en-us/assessments/azure-architecture-review/).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Cloud Adoption Framework](cloud_adoption_framework.md) | [Prerequisites home](README.md) | [Master mental map →](../AZ-305_MASTER_MENTAL_MAP.md) |

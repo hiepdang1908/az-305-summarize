@@ -6,7 +6,7 @@ Evaluate requirements in this order:
 
 1. Business outcome and mandatory functional requirement
 2. Security, identity, compliance, and prohibited designs
-3. Availability, RTO, and RPO
+3. Availability, recovery time objective (RTO), and recovery point objective (RPO)
 4. Data model, consistency, durability, and residency
 5. Network location, connectivity, and exposure
 6. Scalability, latency, throughput, and performance
@@ -28,7 +28,7 @@ Users / devices / partner systems / on-premises
                               ↓
              Global or regional network entry point
                               ↓
-            WAF / firewall / routing / private access
+            Web Application Firewall (WAF) / firewall / routing / private access
                               ↓
                  Application compute platform
                               ↓
@@ -36,7 +36,7 @@ Users / devices / partner systems / on-premises
                               ↓
                 Operational and analytical data
                               ↓
-             Zone HA / regional DR / backup history
+             Zone high availability (HA) / regional disaster recovery (DR) / backup history
                               ↓
                 Monitoring, response, and optimization
 ```
@@ -64,16 +64,16 @@ Microsoft Entra ID
 Conditional Access / Identity Protection
       ↓ authorization
 ├── Entra role: directory administration
-├── Azure RBAC: Azure resource actions
+├── Azure role-based access control (Azure RBAC): Azure resource actions
 ├── Data-plane role: blobs, secrets, messages, data
 └── Application role/claim: application behavior
 ```
 
-- Human workforce: Entra ID, MFA/passwordless, Conditional Access.
-- Partner access: External ID B2B collaboration.
-- Customer-facing CIAM: External ID external tenant for new designs.
+- Human workforce: Entra ID, multifactor authentication (MFA)/passwordless, Conditional Access.
+- Partner access: External ID business-to-business (B2B) collaboration.
+- Customer-facing customer identity and access management (CIAM): External ID external tenant for new designs.
 - Azure workload: managed identity first; workload federation/service principal when necessary.
-- Legacy domain protocols: AD DS or Microsoft Entra Domain Services according to administrative requirements.
+- Legacy domain protocols: Active Directory Domain Services (AD DS) or Microsoft Entra Domain Services according to administrative requirements.
 - Secrets/keys/certificates: Key Vault; non-secret dynamic configuration: App Configuration.
 
 ## 2. Governance
@@ -88,17 +88,17 @@ Tenant root
 
 - RBAC: who can do what.
 - Policy: which resource state is compliant/allowed.
-- Lock: guard ARM modification/deletion.
+- Lock: guard Azure Resource Manager (ARM) modification/deletion.
 - Tag: business/operational metadata; no automatic inheritance.
 - Landing zone: identity + hierarchy + networking + governance + security + management.
-- PIM: time-bound privileged access; access review: recertification; entitlement management: packaged access lifecycle.
+- Microsoft Entra Privileged Identity Management (PIM): time-bound privileged access; access review: recertification; entitlement management: packaged access lifecycle.
 
 ## 3. Observability
 
 ```text
 Control-plane events → Activity Log
 Resource operations   → resource logs + diagnostic settings
-Guest OS              → Azure Monitor Agent + DCR
+Guest operating system (OS) → Azure Monitor Agent + Data Collection Rule (DCR)
 Application           → Application Insights
 Numeric signals       → metrics
                             ↓
@@ -115,7 +115,7 @@ Choose collection, store, retention, access, alert, and response together. Monit
 Relational transactions?
   ├── SQL Server compatibility
   │     ├── OS/full control → SQL Server on Azure VM
-  │     ├── instance compatibility + PaaS → SQL Managed Instance
+  │     ├── instance compatibility + platform as a service (PaaS) → SQL Managed Instance
   │     └── database-scoped cloud PaaS → Azure SQL Database
   └── PostgreSQL/MySQL engine → Flexible Server
 
@@ -123,8 +123,8 @@ Nonrelational?
   ├── global operational NoSQL → Cosmos DB
   ├── simple key/attribute → Table Storage
   ├── objects → Blob Storage
-  ├── analytics filesystem → ADLS Gen2
-  ├── SMB/NFS share → Azure Files
+  ├── analytics filesystem → Azure Data Lake Storage Gen2 (ADLS Gen2)
+  ├── Server Message Block (SMB)/Network File System (NFS) share → Azure Files
   └── VM block storage → managed disks
 ```
 
@@ -138,9 +138,9 @@ Homogeneous elastic VM fleet           → VM Scale Sets
 Managed web/API                        → App Service
 Event-triggered code                   → Functions
 Managed container microservices/jobs   → Container Apps
-Kubernetes control/ecosystem           → AKS
+Kubernetes control/ecosystem           → Azure Kubernetes Service (AKS)
 Simple isolated container              → Container Instances
-Mass parallel/HPC jobs                 → Azure Batch
+Mass parallel/high-performance computing (HPC) jobs → Azure Batch
 Connector-based workflow               → Logic Apps
 ```
 
@@ -165,21 +165,21 @@ Design for duplicates, retries, idempotency, ordering scope, poison data, backpr
 ```text
 Global HTTP(S), WAF, acceleration → Front Door
 Regional/private HTTP(S), WAF     → Application Gateway
-Regional TCP/UDP                  → Load Balancer
+Regional Transmission Control Protocol (TCP)/User Datagram Protocol (UDP) → Load Balancer
 Global DNS-based routing          → Traffic Manager
 
-Encrypted hybrid over internet   → VPN Gateway
+Encrypted hybrid over internet   → virtual private network (VPN) Gateway
 Private provider connectivity     → ExpressRoute
 Managed many-branch transit       → Virtual WAN
 
-Private IP for PaaS              → Private Endpoint + DNS
+Private Internet Protocol (IP) address for PaaS → Private Endpoint + Domain Name System (DNS)
 Subnet identity to public PaaS    → Service Endpoint
-Stable scalable outbound SNAT     → NAT Gateway
+Stable scalable outbound source network address translation (SNAT) → NAT Gateway
 Central network filtering         → Azure Firewall
-Distributed L3/L4 segmentation    → NSG
+Distributed Layer 3/Layer 4 segmentation → network security group (NSG)
 ```
 
-New VNets require explicit outbound connectivity. VNet peering is nontransitive. Private connectivity still requires identity authorization.
+New Azure Virtual Networks (VNets) require explicit outbound connectivity. VNet peering is nontransitive. Private connectivity still requires identity authorization.
 
 ## 8. Availability, backup, and DR
 
@@ -206,7 +206,7 @@ Replicate/copy → test → cut over → validate → decommission
 ```
 
 - Servers: Azure Migrate.
-- Databases: current assessment plus DMS/database-specific supported path.
+- Databases: current assessment plus Azure Database Migration Service (DMS)/database-specific supported path.
 - Managed online file migration: Storage Mover.
 - Scripted copy: AzCopy.
 - Offline bulk: Data Box.
@@ -217,9 +217,9 @@ Choose target architecture first, then tool.
 
 | Decision | Cost/operations relationship |
 |---|---|
-| IaaS to PaaS | Usually less platform operation, but compatibility and service constraints increase |
+| Infrastructure as a service (IaaS) to PaaS | Usually less platform operation, but compatibility and service constraints increase |
 | Single region to multi-region | Higher compute/data/transfer/testing cost; lower outage risk |
-| LRS to ZRS/GRS/GZRS | Higher durability/availability and cost; not backup |
+| Locally redundant storage (LRS) to zone-redundant storage (ZRS), geo-redundant storage (GRS), or geo-zone-redundant storage (GZRS) | Higher durability/availability and cost; not backup |
 | Provisioned to serverless | Better for intermittent use; cold start/feature/latency constraints |
 | Central hub/governance | Consistency and scale; shared failure domain and platform-team dependency |
 | Cache/replica | Higher component cost; lower latency/load if hit/read patterns justify |
@@ -310,3 +310,11 @@ Do not accept a component-level recommendation until its cross-domain dependenci
 17. What is the cost constraint after mandatory requirements are met?
 18. Which candidates remain?
 19. Why are the other candidates wrong?
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Well-Architected Framework](AZ_305_architect_prerequisites/well_architected_framework.md) | [AZ-305 Home](README.md) | [Objective map →](AZ-305_OBJECTIVE_MAP.md) |

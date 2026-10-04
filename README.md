@@ -10,7 +10,7 @@ It focuses on:
 
 - Selecting services from workload requirements
 - Explaining why a plausible alternative does not fit
-- Availability, durability, RTO, RPO, backup, and disaster recovery
+- Availability, durability, recovery time objective (RTO), recovery point objective (RPO), backup, and disaster recovery
 - Identity, governance, networking, data, compute, integration, and migration boundaries
 - Security, compatibility, operational responsibility, and qualitative cost
 - Cross-domain reasoning and high-yield recall
@@ -19,7 +19,7 @@ It intentionally avoids:
 
 - Labs, CLI/PowerShell walkthroughs, and infrastructure-as-code tutorials
 - Exam dumps, copied questions, reconstructed questions, and answer keys
-- Marketing content and volatile price/SLA/quota memorization
+- Marketing content and volatile price/service-level agreement (SLA)/quota memorization
 - Basic AZ-104 detail unless it changes an architecture decision
 
 ## Source policy
@@ -38,6 +38,8 @@ Files under `example/` were used only to find recurring topics, confused service
 6. [Business continuity](Design_business_continuity/README.md)
 7. [Infrastructure](Design_infrastructure_solutions/README.md)
 8. [High-Yield Recall](AZ-305_HIGH_YIELD_RECALL.md)
+
+Quick reference: [AZ-305 abbreviation glossary](AZ-305_GLOSSARY.md).
 
 Microsoft Learn organizes preparation into **five learning paths**: one architect-prerequisite path and four domain paths. The exam blueprint scores only the **four domains** below. The prerequisite path builds shared architecture vocabulary; it is not a fifth scored domain and has no exam weighting.
 
@@ -67,6 +69,7 @@ az-305-summarize/
 ├── AZ-305_MASTER_MENTAL_MAP.md
 ├── AZ-305_OBJECTIVE_MAP.md
 ├── AZ-305_HIGH_YIELD_RECALL.md
+├── AZ-305_GLOSSARY.md
 ├── AZ_305_architect_prerequisites/
 ├── Design_identity_governance_and_monitoring/
 ├── Design_data_storage_solutions/
@@ -98,8 +101,8 @@ The lowest-cost service is not correct if it misses a mandatory requirement. The
 Azure changes continuously. Before production use, validate current Microsoft documentation for:
 
 - Regional and availability-zone support
-- Product lifecycle, preview/GA state, and naming
-- SKU/edition feature combinations
+- Product lifecycle, preview/generally available (GA) state, and naming
+- Stock keeping unit (SKU)/edition feature combinations
 - Quotas, limits, pricing, and SLAs
 - Migration source-target support
 - Replication, backup, failover, and private-network feature compatibility
@@ -109,3 +112,11 @@ This repository deliberately avoids volatile exact values unless they change a d
 ## Certification disclaimer
 
 This is an independent educational resource. It is not affiliated with, sponsored by, endorsed by, or approved by Microsoft. It contains no copied or reconstructed certification questions, no answer keys, and no confidential, remembered, or protected certification material.
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| — | [AZ-305 Home](README.md) | [Architect prerequisites →](AZ_305_architect_prerequisites/README.md) |

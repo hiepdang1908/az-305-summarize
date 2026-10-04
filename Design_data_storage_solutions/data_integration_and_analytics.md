@@ -7,7 +7,7 @@ Sources
   ├── batch/files/databases → orchestration and copy → lake/warehouse
   └── events/telemetry      → ingestion broker       → stream processing
                                                         ↓
-                                              serving / BI / ML
+                         serving / business intelligence (BI) / machine learning (ML)
 ```
 
 Separate ingestion, storage, transformation, serving, and orchestration. One service may cover several stages, but that does not eliminate the design decisions.
@@ -18,11 +18,11 @@ Separate ingestion, storage, transformation, serving, and orchestration. One ser
 |---|---|---|---|
 | Azure Data Factory | Managed data integration/orchestration and copy | Hybrid connectors, scheduled pipelines, data movement, mapping data flows | Low-latency event broker or interactive BI engine |
 | Azure Data Lake Storage Gen2 | Durable analytics storage | Open files, hierarchical namespace, multiple engines, lake/lakehouse foundation | Pipeline orchestration or compute |
-| Azure Databricks | Apache Spark-based lakehouse/data engineering/ML | Complex transformations, notebooks, Spark ecosystem, collaborative data/AI engineering | Simple copy-only pipelines |
-| Azure Synapse Analytics | Integrated enterprise analytics workspace | SQL analytics, Spark, pipelines, warehouse/lake integration | Operational OLTP database |
+| Azure Databricks | Apache Spark-based lakehouse/data engineering/machine learning | Complex transformations, notebooks, Spark ecosystem, collaborative data/artificial intelligence (AI) engineering | Simple copy-only pipelines |
+| Azure Synapse Analytics | Integrated enterprise analytics workspace | SQL analytics, Spark, pipelines, warehouse/lake integration | Operational online transaction processing (OLTP) database |
 | Azure Stream Analytics | Managed real-time stream processing with SQL-like queries | Windowing, filtering, joins, aggregations, low-operations stream jobs | Durable event broker or broad batch orchestration |
 | Event Hubs | High-throughput event-stream ingestion | Telemetry/log streams, partitions, consumer groups, replay within retention | Enterprise commands/transactions |
-| Microsoft Fabric | SaaS analytics platform spanning ingestion, lake, engineering, warehouse, BI | Organization wants integrated SaaS analytics and OneLake/Power BI experience | Workloads requiring Azure-resource-level control not offered by SaaS model |
+| Microsoft Fabric | Software as a service (SaaS) analytics platform spanning ingestion, lake, engineering, warehouse, and business intelligence | Organization wants integrated SaaS analytics and OneLake/Power BI experience | Workloads requiring Azure-resource-level control not offered by SaaS model |
 
 The current AZ-305 Learn module emphasizes Data Factory, Data Lake, Databricks, Synapse, and Stream Analytics. Fabric may be relevant to a current production decision, but validate the current exam blueprint before treating it as an exam replacement for named services.
 
@@ -48,7 +48,7 @@ Do not select an analytics pipeline to act as an operational message broker. Det
 | Reprocess when transformation logic changes | Retain raw immutable data and replay from broker/lake |
 
 ```text
-Operational source → Data Factory copy/orchestration → ADLS raw zone
+Operational source → Data Factory copy/orchestration → Azure Data Lake Storage Gen2 (ADLS Gen2) raw zone
 ADLS raw → Databricks/Synapse transformation → curated/serving zone
 
 Producers → Event Hubs → Stream Analytics/Databricks streaming
@@ -65,7 +65,7 @@ Producers → Event Hubs → Stream Analytics/Databricks streaming
 - Use triggers for schedule, tumbling-window, or event-driven starts as supported.
 - Store secrets in Key Vault and use managed identity where supported.
 
-Do not use ADF as an operational message broker. Pipeline startup and batch semantics usually do not satisfy low-latency event processing.
+Do not use Azure Data Factory (ADF) as an operational message broker. Pipeline startup and batch semantics usually do not satisfy low-latency event processing.
 
 ### Data Factory versus Synapse pipelines
 
@@ -131,3 +131,11 @@ Data temperature is a business/access property, not only a Blob tier. Archive Bl
 - A readable analytics replica does not automatically solve data transformation or governance.
 
 Official references: [Data Factory introduction](https://learn.microsoft.com/en-us/azure/data-factory/introduction), [Data Factory versus Synapse pipelines](https://learn.microsoft.com/en-us/azure/synapse-analytics/data-integration/concepts-data-factory-differences), [ADLS Gen2 introduction](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction), [Azure Databricks documentation](https://learn.microsoft.com/en-us/azure/databricks/), [Azure Synapse overview](https://learn.microsoft.com/en-us/azure/synapse-analytics/overview-what-is), [Stream Analytics overview](https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction), [Event Hubs overview](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Semi-structured and unstructured data](semi_structured_and_unstructured_data.md) | [Domain home](README.md) | [Business continuity solutions →](../Design_business_continuity/README.md) |

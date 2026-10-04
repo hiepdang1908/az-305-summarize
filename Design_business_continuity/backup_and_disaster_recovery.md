@@ -4,10 +4,10 @@
 
 | Measure | Architecture question |
 |---|---|
-| RTO | How long may the business service be unavailable? |
-| RPO | How much committed data may be lost? |
+| Recovery time objective (RTO) | How long may the business service be unavailable? |
+| Recovery point objective (RPO) | How much committed data may be lost? |
 | Retention | Which historical recovery points must remain, and for how long? |
-| Recovery scope | Item, database, VM, application, zone, region, or site? |
+| Recovery scope | Item, database, virtual machine (VM), application, zone, region, or site? |
 | Consistency | Crash-consistent, file-system-consistent, or application-consistent? |
 | Recovery sequence | Which identity, network, data, and app dependencies start first? |
 | Compliance | Where may recovery data reside, and must it be immutable? |
@@ -18,10 +18,10 @@ Define RTO/RPO per workload tier and for the whole service. A database recoverin
 
 | Failure | Primary controls | Why another control is insufficient |
 |---|---|---|
-| VM host failure | Multiple instances, zones/sets, load balancing | Backup restore is too slow for HA |
+| VM host failure | Multiple instances, zones/sets, load balancing | Backup restore is too slow for high availability (HA) |
 | Availability-zone failure | Zone-redundant service or active instances across zones | Availability set does not span zones |
 | Regional failure | Secondary-region deployment/data copy + failover orchestration | Zones remain inside one region |
-| Accidental deletion | Soft delete, backup, versioning, PITR | Replication may copy deletion |
+| Accidental deletion | Soft delete, backup, versioning, point-in-time restore (PITR) | Replication may copy deletion |
 | Data corruption | Historical backup/version/PITR, isolated validation | Active replica may receive corruption |
 | Ransomware/credential compromise | Immutable/isolated backups, separate authorization, monitoring, recovery account | Online writable replicas can be encrypted/deleted too |
 | Database failure | Service-native HA/replica and database-aware backup | VM replication may not provide required transaction RPO |
@@ -38,7 +38,7 @@ Define RTO/RPO per workload tier and for the whole service. A database recoverin
 | RTO direction | Restore-dependent; usually longer | Lower through pre-replicated state |
 | RPO direction | Backup frequency/snapshot policy | Replication lag and workload behavior |
 | Testing | Restore test | Test failover in isolated network |
-| Does not replace | HA or live DR | Historical backup |
+| Does not replace | HA or live disaster recovery (DR) | Historical backup |
 
 Use both when the workload needs rapid failover and historical recovery.
 
@@ -49,7 +49,7 @@ Azure backup capabilities use vault resources according to workload: Recovery Se
 Design considerations:
 
 - Vault and protected resource region/subscription support
-- Azure RBAC separation between workload administrators and backup operators
+- Azure role-based access control (Azure RBAC) separation between workload administrators and backup operators
 - Soft delete, immutability, multi-user authorization, and resource guard features where supported
 - Vault redundancy and cross-region restore requirements
 - Private endpoint support and network prerequisites
@@ -67,7 +67,7 @@ Do not place backup deletion authority in the same unrestricted operator path as
 | Restore Azure VM after deletion/corruption | Azure VM Backup from vault recovery point |
 | Fast disk snapshot restore | Instant restore/snapshot capabilities where supported |
 | Region/site failover | ASR, workload-native replication, or rebuild from code/data |
-| Stateless tier | Prefer redeployment from immutable image/IaC; back up state, not disposable instances |
+| Stateless tier | Prefer redeployment from immutable image/infrastructure as code (IaC); back up state, not disposable instances |
 | Application-consistent VM recovery | Validate agent/extension and application writer support |
 
 VM backup protects VM state; it does not automatically create a multi-tier application-consistent recovery plan. For databases, use database-aware protection when transaction-level RPO/restore is required.
@@ -77,7 +77,7 @@ VM backup protects VM state; it does not automatically create a multi-tier appli
 | Workload | Direction |
 |---|---|
 | Azure SQL Database/Managed Instance | Automated backups, point-in-time restore, deleted-database restore, long-term retention, geo-restore as supported |
-| SQL Server on Azure VM | Automated Backup/SQL IaaS extension, Azure Backup workload protection, or SQL-native strategy according to control needs |
+| SQL Server on Azure VM | Automated Backup/SQL infrastructure as a service (IaaS) extension, Azure Backup workload protection, or SQL-native strategy according to control needs |
 | PostgreSQL/MySQL flexible server | Service-native automated backups and PITR; geo-redundant backup/replica features as supported |
 | Cosmos DB | Continuous or periodic backup mode according to recovery granularity, cost, and feature compatibility |
 
@@ -89,7 +89,7 @@ Cross-region active replicas support DR/read scale; backup supports historical r
 |---|---|
 | Block blobs | Versioning, soft delete, container soft delete, PITR where supported, immutability, operational/vaulted backup, object replication |
 | Azure Files | Share snapshots, soft delete, Azure Files backup, redundancy |
-| ADLS Gen2 | Blob protection features subject to HNS compatibility; validate every feature combination |
+| Azure Data Lake Storage Gen2 (ADLS Gen2) | Blob protection features subject to hierarchical namespace (HNS) compatibility; validate every feature combination |
 | Managed disks | Snapshots, incremental snapshots, Azure Disk Backup, VM Backup |
 
 Blob operational backup uses continuous capabilities for fast operational recovery, while vaulted backup provides an isolated copy/longer-term protection model where supported. Product support evolves; verify account type, redundancy, region, and HNS compatibility.
@@ -110,7 +110,7 @@ Architectural requirements:
 
 - Supported source/target scenario and region pairing are not assumptions; validate them.
 - Pre-create or map target network, subnets, NSGs, DNS, load balancers, IP behavior, and capacity.
-- Ensure identity, Key Vault, certificates, private DNS, and dependent PaaS data are available.
+- Ensure identity, Key Vault, certificates, private DNS, and dependent platform as a service (PaaS) data are available.
 - Use recovery plans for ordering and automation, but test scripts and permissions.
 - ASR is VM-aware, not necessarily application/transaction-aware. Database-native replication may be required.
 - Test failover regularly in an isolated network. A successful replication status is not proof of recoverability.
@@ -149,3 +149,11 @@ Active-active compute is useless if the database remains single-region or cannot
 - Recovery plans must include DNS, identity, secrets, network, quotas, and operational authority.
 
 Official references: [Azure Backup architecture](https://learn.microsoft.com/en-us/azure/backup/backup-architecture), [Azure Site Recovery overview](https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-overview), [Blob data protection](https://learn.microsoft.com/en-us/azure/storage/blobs/data-protection-overview), [Azure SQL business continuity](https://learn.microsoft.com/en-us/azure/azure-sql/database/business-continuity-high-availability-disaster-recover-hadr-overview), [Reliability design principles](https://learn.microsoft.com/en-us/azure/well-architected/reliability/principles).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Business continuity solutions](README.md) | [Domain home](README.md) | [High availability →](high_availability.md) |

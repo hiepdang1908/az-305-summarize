@@ -26,9 +26,17 @@ Private/public network path
       ↓
 Data tier and consistency
       ↓
-Zone/region availability + backup/DR
+Zone/region availability + backup/disaster recovery (DR)
       ↓
 Identity, governance, monitoring, cost
 ```
 
-Select components only after ranking requirements: mandatory function; security/identity/compliance; availability and RTO/RPO; data; network; performance/scale; compatibility/migration; operations; then cost. Record why rejected candidates fail a mandatory requirement.
+Select components only after ranking requirements: mandatory function; security/identity/compliance; availability and recovery time objective (RTO)/recovery point objective (RPO); data; network; performance/scale; compatibility/migration; operations; then cost. Record why rejected candidates fail a mandatory requirement.
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← High availability](../Design_business_continuity/high_availability.md) | [AZ-305 Home](../README.md) | [Compute →](compute.md) |

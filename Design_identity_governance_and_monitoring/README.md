@@ -28,9 +28,9 @@ Microsoft Entra ID authenticates
         ↓
 Conditional Access evaluates sign-in context
         ↓
-Entra role / Azure RBAC / application or data-plane authorization
+Entra role / Azure role-based access control (Azure RBAC) / application or data-plane authorization
         ↓
-PIM, access reviews, logs, and alerts govern continuing access
+Microsoft Entra Privileged Identity Management (PIM), access reviews, logs, and alerts govern continuing access
 ```
 
 ```text
@@ -46,3 +46,11 @@ Action group or automation
 ```
 
 Related cross-domain guides: [Networking](../Design_infrastructure_solutions/networking.md), [Business continuity](../Design_business_continuity/README.md), and [Master Mental Map](../AZ-305_MASTER_MENTAL_MAP.md).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Objective map](../AZ-305_OBJECTIVE_MAP.md) | [AZ-305 Home](../README.md) | [Logging and monitoring →](logging_and_monitoring.md) |

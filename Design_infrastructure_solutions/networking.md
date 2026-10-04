@@ -2,18 +2,18 @@
 
 ## Start with traffic flows
 
-For every flow identify source, destination, protocol/port, direction, trust boundary, expected throughput/latency, DNS name, encryption, inspection, availability, and ownership.
+For every flow identify source, destination, protocol/port, direction, trust boundary, expected throughput/latency, Domain Name System (DNS) name, encryption, inspection, availability, and ownership.
 
 ```text
 Internet / branch / remote user
         ↓
 Global or regional entry point
         ↓
-WAF / firewall / NSG segmentation
+Web Application Firewall (WAF) / firewall / network security group (NSG) segmentation
         ↓
 Application subnet/service
         ↓
-Private Endpoint + private DNS for PaaS
+Private Endpoint + private DNS for platform as a service (PaaS)
         ↓
 Data service
 ```
@@ -22,14 +22,14 @@ Data service
 
 | Dimension | Azure Front Door | Application Gateway | Azure Load Balancer | Traffic Manager |
 |---|---|---|---|---|
-| Layer | Layer 7 HTTP(S) reverse proxy at edge | Layer 7 HTTP(S) reverse proxy | Layer 4 TCP/UDP | DNS-based routing; not a proxy |
+| Layer | Layer 7 (L7) HTTP(S) reverse proxy at edge | L7 HTTP(S) reverse proxy | Layer 4 (L4) Transmission Control Protocol (TCP)/User Datagram Protocol (UDP) | DNS-based routing; not a proxy |
 | Scope | Global | Regional | Regional; cross-region tier/features exist for specific designs | Global |
 | Frontend | Public edge | Public or private regional frontend | Public or internal | DNS response |
 | Backend scope | Publicly reachable or private-link-supported origins depending on tier/configuration | VNet/reachable regional or cross-network HTTP backends | VNet/regional IP resources | Any supported public endpoint type |
 | WAF | Yes | Yes | No | No |
-| TLS termination | Yes | Yes | No application TLS termination | No |
+| Transport Layer Security (TLS) termination | Yes | Yes | No application TLS termination | No |
 | Path/host routing | Yes | Yes | No | No; DNS policies only |
-| Acceleration/cache | Anycast edge acceleration; CDN capabilities | No global edge acceleration | No | No proxy/cache |
+| Acceleration/cache | Anycast edge acceleration; content delivery network (CDN) capabilities | No global edge acceleration | No | No proxy/cache |
 | Non-HTTP TCP/UDP | No | No | Yes | Can direct DNS clients to endpoints, but does not proxy protocol |
 | Private/internal app ingress | Private Link to supported origin patterns; edge remains global | Strong regional private-frontend option | Internal L4 | Private endpoints are not directly reached by public DNS clients without network path |
 | Best fit | Global web app, edge acceleration, WAF, multi-region HTTP failover | Regional/private L7 routing and WAF | Regional L4 or internal load balancing | DNS-level global routing for varied endpoint/protocol scenarios |
@@ -46,20 +46,22 @@ These services can compose. Example: Front Door for global routing, Application 
 ### Health and routing
 
 - Proxy health probes determine eligible backends; DNS health routing changes future DNS answers and is affected by client/recursive resolver caching.
-- Front Door can fail traffic rapidly at the edge, while Traffic Manager recovery depends partly on DNS TTL/cache behavior.
-- Preserving client IP, TLS end-to-end, hostname/SNI, and probe paths requires explicit configuration.
-- WAF protects HTTP(S) patterns. It does not replace network segmentation, DDoS protection, identity, or secure application code.
+- Front Door can fail traffic rapidly at the edge, while Traffic Manager recovery depends partly on DNS time-to-live (TTL)/cache behavior.
+- Preserving client IP, TLS end-to-end, hostname/server name indication (SNI), and probe paths requires explicit configuration.
+- WAF protects HTTP(S) patterns. It does not replace network segmentation, distributed denial-of-service (DDoS) protection, identity, or secure application code.
 
 ## Hybrid connectivity matrix
 
+A virtual private network (VPN) provides an encrypted tunnel over a shared network.
+
 | Dimension | VPN Gateway | ExpressRoute | Virtual WAN |
 |---|---|---|---|
-| Transport | Encrypted tunnel over public internet | Private provider circuit into Microsoft network | Microsoft-managed hubs combining VPN, ExpressRoute, user VPN, and VNet connectivity |
+| Transport | Encrypted VPN tunnel over public internet | Private provider circuit into Microsoft network | Microsoft-managed hubs combining VPN, ExpressRoute, user VPN, and virtual network (VNet) connectivity |
 | Time/cost | Fast deployment, lower entry cost | Provider lead time and higher fixed cost | Cost for hubs/connections/services; lowers operational complexity at scale |
-| Predictability | Internet-dependent | More predictable private connectivity; bandwidth/SLA by circuit/provider design | Depends on underlying VPN/ER and hub design |
-| Encryption | IPsec/IKE for VPN | Private path is not synonymous with encrypted traffic; add encryption if required | Depends on connection type/features |
-| Best fit | Small/medium sites, encrypted connection, backup path | High-throughput/predictable enterprise hybrid connectivity | Many branches/regions, transitive managed connectivity, SD-WAN integration |
-| HA | Active-active/redundant gateway and on-prem devices | Redundant circuit connections/providers; VPN backup optional | Redundant managed hubs and connections according to design |
+| Predictability | Internet-dependent | More predictable private connectivity; bandwidth/service-level agreement (SLA) by circuit/provider design | Depends on underlying VPN/ExpressRoute and hub design |
+| Encryption | Internet Protocol security (IPsec)/Internet Key Exchange (IKE) for VPN | Private path is not synonymous with encrypted traffic; add encryption if required | Depends on connection type/features |
+| Best fit | Small/medium sites, encrypted connection, backup path | High-throughput/predictable enterprise hybrid connectivity | Many branches/regions, transitive managed connectivity, software-defined wide area network (SD-WAN) integration |
+| High availability (HA) | Active-active/redundant gateway and on-premises devices | Redundant circuit connections/providers; VPN backup optional | Redundant managed hubs and connections according to design |
 
 ### VPN choices
 
@@ -67,12 +69,12 @@ These services can compose. Example: Front Door for global routing, Application 
 - Point-to-site: individual client access.
 - VNet-to-VNet: IPsec between Azure VNets; peering is usually lower-latency/private-backbone for VNet connectivity.
 - Route-based VPN is the normal choice for modern dynamic/routed topologies; validate policy-based interoperability needs.
-- BGP supports dynamic route exchange and failover but requires unique addressing/ASNs and controlled advertisements.
+- Border Gateway Protocol (BGP) supports dynamic route exchange and failover but requires unique addressing/autonomous system numbers (ASNs) and controlled advertisements.
 
 ### ExpressRoute choices
 
 - Private peering accesses Azure VNets and supported private IP resources.
-- Microsoft peering is for supported Microsoft public services with routing/authorization requirements; it does not turn all SaaS into private endpoints.
+- Microsoft peering is for supported Microsoft public services with routing/authorization requirements; it does not turn all software as a service (SaaS) into private endpoints.
 - ExpressRoute Global Reach connects on-premises sites through Microsoft backbone in supported locations.
 - A circuit alone is not end-to-end HA: use redundant connections, diverse provider/peering locations where business requirements justify, and resilient gateways.
 - VPN can provide backup, but route preference and capacity must be tested.
@@ -90,19 +92,19 @@ Choose Virtual WAN when branch, user, VNet, VPN, and ExpressRoute connectivity a
 | Customer-managed hub-spoke | Central firewall/gateways/DNS with explicit control | Customer owns routes, scale, appliances, HA |
 | Virtual WAN hub-spoke | Many branches/regions and managed transit | Different routing model/cost/features; validate requirements |
 
-Plan nonoverlapping IP space before migration. VNet peering and hybrid routing become difficult when address ranges overlap. NAT can mitigate specific overlaps but adds complexity and is not a substitute for address governance.
+Plan nonoverlapping IP space before migration. VNet peering and hybrid routing become difficult when address ranges overlap. Network address translation (NAT) can mitigate specific overlaps but adds complexity and is not a substitute for address governance.
 
 ### Route selection
 
-Azure selects the longest prefix. For equal prefixes, user-defined routes are generally preferred over BGP routes, which are preferred over system routes, subject to documented exceptions. Use effective routes for diagnosis rather than reasoning only from configured tables.
+Azure selects the longest prefix. For equal prefixes, user-defined routes (UDRs) are generally preferred over BGP routes, which are preferred over system routes, subject to documented exceptions. Use effective routes for diagnosis rather than reasoning only from configured tables.
 
-Use UDRs to steer traffic to Azure Firewall/NVA, force tunneling, or override system routes. Prevent asymmetric routing through stateful appliances by designing both directions. Gateway transit allows a spoke to use a hub gateway under peering configuration; it does not make all peering transitive.
+Use UDRs to steer traffic to Azure Firewall/network virtual appliance (NVA), force tunneling, or override system routes. Prevent asymmetric routing through stateful appliances by designing both directions. Gateway transit allows a spoke to use a hub gateway under peering configuration; it does not make all peering transitive.
 
 ## Internet ingress and egress
 
 ### Ingress
 
-- Public IP directly on a VM maximizes exposure and should be exceptional.
+- Public IP directly on a virtual machine (VM) maximizes exposure and should be exceptional.
 - Front Door provides global HTTP(S) edge ingress.
 - Application Gateway provides regional HTTP(S) ingress and private frontend.
 - Public Load Balancer provides regional L4 ingress.
@@ -114,8 +116,8 @@ As of March 31, 2026, new VNets use private subnets by default and no longer rec
 
 | Requirement | Direction |
 |---|---|
-| Scalable SNAT with stable public IPs, no inspection | NAT Gateway |
-| Central filtering/FQDN rules/threat intelligence | Azure Firewall |
+| Scalable source network address translation (SNAT) with stable public IPs, no inspection | NAT Gateway |
+| Central filtering/fully qualified domain name (FQDN) rules/threat intelligence | Azure Firewall |
 | L4 load balancer already fronts instances and outbound rules meet needs | Load Balancer outbound rules, after validating SNAT scale |
 | No internet egress | Private endpoints/service paths, deny default route/NSG/firewall as appropriate |
 
@@ -125,9 +127,9 @@ NAT Gateway attaches to subnets and takes precedence for new outbound flows over
 
 | Dimension | Private Endpoint / Private Link | Service Endpoint |
 |---|---|---|
-| Service address | Private IP NIC in consumer VNet | Service retains public endpoint/IP |
+| Service address | Private IP network interface card (NIC) in consumer VNet | Service retains public endpoint/IP |
 | Traffic path | Private Link over Microsoft network | Optimized route from enabled subnet to public service endpoint |
-| On-prem access | Possible through VPN/ER with correct routing and DNS | Service endpoint identity applies to Azure VNet subnet; not equivalent for on-prem clients |
+| On-prem access | Possible through VPN/ExpressRoute with correct routing and DNS | Service endpoint identity applies to Azure VNet subnet; not equivalent for on-prem clients |
 | DNS | Private DNS design is essential | Usually public service DNS remains |
 | Isolation | Can disable public network access for supported service | Firewall permits selected VNets/subnets but public endpoint still exists |
 | Cross-region/VNet consumer model | Endpoint can be placed where consumer connects, subject to service support | Configured on subnet and service firewall |
@@ -168,14 +170,14 @@ Private Endpoint normally requires the documented `privatelink` zone and VNet li
 
 | Control | Layer/scope | Primary role | Does not replace |
 |---|---|---|---|
-| NSG | Stateful L3/L4 on subnet/NIC | Distributed allow/deny segmentation | Central advanced firewall or WAF |
-| Azure Firewall | Central stateful L3–L7 network security | Egress/intersite filtering, DNAT/SNAT, FQDN/application rules, threat intelligence | Web-specific WAF or identity authorization |
-| WAF | HTTP(S) application layer | OWASP-style attack filtering on Front Door/Application Gateway | General TCP/UDP firewall |
+| NSG | Stateful Layer 3 (L3)/L4 on subnet/NIC | Distributed allow/deny segmentation | Central advanced firewall or WAF |
+| Azure Firewall | Central stateful L3–L7 network security | Egress/intersite filtering, destination/source network address translation (DNAT/SNAT), FQDN/application rules, threat intelligence | Web-specific WAF or identity authorization |
+| WAF | HTTP(S) application layer | Open Worldwide Application Security Project (OWASP)-style attack filtering on Front Door/Application Gateway | General TCP/UDP firewall |
 | DDoS Protection | Network-layer volumetric attack protection for public IP/VNet resources | Enhanced mitigation/telemetry/cost protection by plan | WAF, application scaling, identity |
 | Private Endpoint | Private service exposure | Remove public path for supported PaaS | Authorization/firewall inspection |
 | Service Endpoint | Subnet identity to public PaaS endpoint | Restrict service firewall to selected subnet | Private IP or on-prem private service access |
 
-### Network security group (NSG) versus Azure Firewall
+### NSG versus Azure Firewall
 
 - NSGs are distributed, five-tuple, stateful filters. Use service tags/application security groups to reduce IP rule sprawl.
 - Azure Firewall centralizes policy, logs, FQDN/application filtering, and network/NAT rules. Premium capabilities add advanced inspection features where required.
@@ -197,7 +199,7 @@ Private Endpoint normally requires the documented `privatelink` zone and VNet li
 
 - Zone-redundant gateways/firewalls/load balancers reduce zone-failure risk where supported.
 - A hub is a shared failure domain; deploy and scale critical hub services accordingly.
-- Cross-region hubs/gateways, diverse circuits, and active-active configurations cost more but may be required by RTO.
+- Cross-region hubs/gateways, diverse circuits, and active-active configurations cost more but may be required by the recovery time objective (RTO).
 - Peering, egress, cross-zone, cross-region, firewall processing, NAT, private endpoints, circuits, and gateways all contribute cost.
 - Centralization can lower management cost but increases blast radius if quotas/routing/policy are poorly designed.
 
@@ -211,7 +213,15 @@ Private Endpoint normally requires the documented `privatelink` zone and VNet li
 - NAT Gateway provides outbound translation, not firewall inspection or inbound publishing.
 - Private Endpoint needs DNS and authorization; it is not the same as service endpoint.
 - VNet Integration provides supported managed services an outbound VNet path; it is not private inbound publishing.
-- An availability zone design is not regional DR.
+- An availability zone design is not regional disaster recovery (DR).
 - New VNet egress must be explicit after the 2026 default-outbound change.
 
 Official references: [Azure load-balancing options](https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview), [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways), [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction), [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about), [Private PaaS access](https://learn.microsoft.com/en-us/azure/networking/design-guide/private-platform-as-a-service), [Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview), [App Service VNet Integration](https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration), [NAT Gateway](https://learn.microsoft.com/en-us/azure/nat-gateway/nat-overview), [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/overview), [Azure DNS Private Resolver](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview), [Default outbound access retirement](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access).
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Migrations](migrations.md) | [Domain home](README.md) | [High-yield recall →](../AZ-305_HIGH_YIELD_RECALL.md) |
