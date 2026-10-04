@@ -56,25 +56,6 @@ Key terms: high availability (HA), disaster recovery (DR), infrastructure as a s
 | Infrastructure | Recommend a solution to optimize network security | `Design_infrastructure_solutions/networking.md` | Network security layers; Private Endpoint versus service endpoint |
 | Infrastructure | Recommend a load-balancing and routing solution | `Design_infrastructure_solutions/networking.md` | Application delivery matrix; Topology and routing |
 
-## Coverage audit
-
-| Domain | Covered | Total | Status |
-|---|---:|---:|---|
-| Identity, governance, and monitoring | 11 | 11 | COMPLETE |
-| Data storage | 10 | 10 | COMPLETE |
-| Business continuity | 7 | 7 | COMPLETE |
-| Infrastructure | 21 | 21 | COMPLETE |
-
-```text
-Coverage status:
-Covered objectives: 49
-Total objectives: 49
-Coverage: 49/49
-```
-
-Coverage means each official objective maps to substantive content. It does not freeze product availability, regional support, quotas, licensing, pricing, or preview/generally available (GA) state.
-
-Content-strength audit: **49 STRONG, 0 ADEQUATE, 0 WEAK, 0 MISSING**. See [source validation notes](sources/source-validation-notes.md#improvement-pass-content-strength-audit) for the objective-by-objective rating.
 
 ## Microsoft Learn preparation path coverage
 
@@ -87,13 +68,6 @@ This is a separate curriculum measure, not an exam-weighting model. The prerequi
 | Design data storage solutions | `Design_data_storage_solutions/` | COMPLETE |
 | Design business continuity solutions | `Design_business_continuity/` | COMPLETE |
 | Design infrastructure solutions | `Design_infrastructure_solutions/` | COMPLETE |
-
-```text
-Exam blueprint coverage: 49/49 objectives
-Microsoft Learn path coverage: 5/5 paths
-```
-
----
 
 ## Navigation
 
