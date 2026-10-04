@@ -1,0 +1,256 @@
+# AZ-305 Master Mental Map
+
+## Constraint-first reasoning
+
+Evaluate requirements in this order:
+
+1. Mandatory functional requirement
+2. Security, compliance, and residency
+3. Availability, RTO, and RPO
+4. Scalability and performance
+5. Compatibility and migration constraints
+6. Operational complexity
+7. Cost
+
+A cheaper option is wrong if it misses a mandatory requirement. A highly capable option is also wrong when its added complexity has no requirement.
+
+## Connected workload model
+
+```text
+Business outcomes, users, data classification, RTO/RPO, budget
+                              ↓
+Identity → Governance → Landing zone → Observability
+                              ↓
+Users / devices / partner systems / on-premises
+                              ↓
+             Global or regional network entry point
+                              ↓
+            WAF / firewall / routing / private access
+                              ↓
+                 Application compute platform
+                              ↓
+          API / messages / events / cache / configuration
+                              ↓
+                Operational and analytical data
+                              ↓
+             Zone HA / regional DR / backup history
+                              ↓
+                Monitoring, response, and optimization
+```
+
+Each arrow is a dependency and a possible failure/security boundary.
+
+## 1. Identity
+
+```text
+User or workload
+      ↓ authentication
+Microsoft Entra ID
+      ↓ sign-in policy
+Conditional Access / Identity Protection
+      ↓ authorization
+├── Entra role: directory administration
+├── Azure RBAC: Azure resource actions
+├── Data-plane role: blobs, secrets, messages, data
+└── Application role/claim: application behavior
+```
+
+- Human workforce: Entra ID, MFA/passwordless, Conditional Access.
+- Partner access: External ID B2B collaboration.
+- Customer-facing CIAM: External ID external tenant for new designs.
+- Azure workload: managed identity first; workload federation/service principal when necessary.
+- Legacy domain protocols: AD DS or Microsoft Entra Domain Services according to administrative requirements.
+- Secrets/keys/certificates: Key Vault; non-secret dynamic configuration: App Configuration.
+
+## 2. Governance
+
+```text
+Tenant root
+  → management groups: policy/RBAC inheritance
+    → subscriptions: billing, quota, administrative boundary
+      → resource groups: lifecycle container
+        → resources
+```
+
+- RBAC: who can do what.
+- Policy: which resource state is compliant/allowed.
+- Lock: guard ARM modification/deletion.
+- Tag: business/operational metadata; no automatic inheritance.
+- Landing zone: identity + hierarchy + networking + governance + security + management.
+- PIM: time-bound privileged access; access review: recertification; entitlement management: packaged access lifecycle.
+
+## 3. Observability
+
+```text
+Control-plane events → Activity Log
+Resource operations   → resource logs + diagnostic settings
+Guest OS              → Azure Monitor Agent + DCR
+Application           → Application Insights
+Numeric signals       → metrics
+                            ↓
+Log Analytics / metrics / Storage / Event Hubs
+                            ↓
+Queries + workbooks + alerts → action groups/automation
+```
+
+Choose collection, store, retention, access, alert, and response together. Monitoring that cannot trigger an owned response is incomplete.
+
+## 4. Data
+
+```text
+Relational transactions?
+  ├── SQL Server compatibility
+  │     ├── OS/full control → SQL Server on Azure VM
+  │     ├── instance compatibility + PaaS → SQL Managed Instance
+  │     └── database-scoped cloud PaaS → Azure SQL Database
+  └── PostgreSQL/MySQL engine → Flexible Server
+
+Nonrelational?
+  ├── global operational NoSQL → Cosmos DB
+  ├── simple key/attribute → Table Storage
+  ├── objects → Blob Storage
+  ├── analytics filesystem → ADLS Gen2
+  ├── SMB/NFS share → Azure Files
+  └── VM block storage → managed disks
+```
+
+Then decide partition key, consistency, tier, redundancy, encryption, private access, backup, and region. Compute scaling does not replace data partitioning. Replication does not replace backup.
+
+## 5. Compute
+
+```text
+Custom OS / vendor dependency / rehost → VM
+Homogeneous elastic VM fleet           → VM Scale Sets
+Managed web/API                        → App Service
+Event-triggered code                   → Functions
+Managed container microservices/jobs   → Container Apps
+Kubernetes control/ecosystem           → AKS
+Simple isolated container              → Container Instances
+Mass parallel/HPC jobs                 → Azure Batch
+Connector-based workflow               → Logic Apps
+```
+
+State placement, startup time, scale unit, health, deployment model, zone support, networking, and team skills change the choice.
+
+## 6. Application integration
+
+```text
+Transactional command/enterprise queue/topic → Service Bus
+Discrete event notification/fan-out          → Event Grid
+High-throughput telemetry stream/replay       → Event Hubs
+Simple low-cost work queue                    → Queue Storage
+API facade/policy/developer access            → API Management
+Low-latency distributed cache                 → Azure Managed Redis
+Dynamic non-secret configuration              → App Configuration
+```
+
+Design for duplicates, retries, idempotency, ordering scope, poison data, backpressure, and observability.
+
+## 7. Networking
+
+```text
+Global HTTP(S), WAF, acceleration → Front Door
+Regional/private HTTP(S), WAF     → Application Gateway
+Regional TCP/UDP                  → Load Balancer
+Global DNS-based routing          → Traffic Manager
+
+Encrypted hybrid over internet   → VPN Gateway
+Private provider connectivity     → ExpressRoute
+Managed many-branch transit       → Virtual WAN
+
+Private IP for PaaS              → Private Endpoint + DNS
+Subnet identity to public PaaS    → Service Endpoint
+Stable scalable outbound SNAT     → NAT Gateway
+Central network filtering         → Azure Firewall
+Distributed L3/L4 segmentation    → NSG
+```
+
+New VNets require explicit outbound connectivity. VNet peering is nontransitive. Private connectivity still requires identity authorization.
+
+## 8. Availability, backup, and DR
+
+```text
+HA     → survive instance/host/zone failure with redundant live capacity
+Backup → recover historical state after deletion/corruption/attack
+DR     → recover service after region/site failure
+```
+
+RTO drives standby capacity and automation. RPO drives backup frequency and replication mode. Synchronous local/zone replication favors low RPO but adds latency. Asynchronous cross-region replication accepts possible data loss. Test failover and restore; configuration is not evidence of recovery.
+
+## 9. Migration
+
+```text
+Discover inventory/dependencies
+      ↓
+Assess compatibility, sizing, cost, RTO/RPO
+      ↓
+Choose rehost / replatform / refactor / replace / retain / retire
+      ↓
+Prepare landing zone and wave
+      ↓
+Replicate/copy → test → cut over → validate → decommission
+```
+
+- Servers: Azure Migrate.
+- Databases: current assessment plus DMS/database-specific supported path.
+- Managed online file migration: Storage Mover.
+- Scripted copy: AzCopy.
+- Offline bulk: Data Box.
+
+Choose target architecture first, then tool.
+
+## 10. Cost and operations
+
+| Decision | Cost/operations relationship |
+|---|---|
+| IaaS to PaaS | Usually less platform operation, but compatibility and service constraints increase |
+| Single region to multi-region | Higher compute/data/transfer/testing cost; lower outage risk |
+| LRS to ZRS/GRS/GZRS | Higher durability/availability and cost; not backup |
+| Provisioned to serverless | Better for intermittent use; cold start/feature/latency constraints |
+| Central hub/governance | Consistency and scale; shared failure domain and platform-team dependency |
+| Cache/replica | Higher component cost; lower latency/load if hit/read patterns justify |
+
+Use the Well-Architected pillars as a review, not independent checklists:
+
+- Reliability: failure modes, RTO/RPO, redundancy, recovery testing.
+- Security: identity, least privilege, network isolation, encryption, detection.
+- Cost Optimization: pay only for requirements; right-size and remove waste.
+- Operational Excellence: automation, observability, safe deployment, ownership.
+- Performance Efficiency: scale model, latency, throughput, partitioning, caching.
+
+## Generic cross-domain patterns
+
+### Global web application
+
+```text
+Users → Front Door + WAF
+      → App Service / Container Apps / AKS in two regions
+      → managed identity → Key Vault
+      → Private Endpoint → Azure SQL/Cosmos DB/Storage
+      → geo-replication + backup
+      → Azure Monitor + Application Insights
+```
+
+Front Door supplies global entry/routing, not database DR. Private Endpoint removes public data ingress, not authorization. Geo-replication provides a regional copy, while backup supplies history.
+
+### Hybrid private application
+
+```text
+On-premises → ExpressRoute or VPN
+            → hub firewall/DNS resolver
+            → spoke application
+            → Private Endpoint + private DNS
+            → PaaS data
+```
+
+The design needs nonoverlapping addresses, routing, DNS forwarding, authorization, egress, and a redundant hybrid path.
+
+### Event analytics
+
+```text
+Producers → Event Hubs → Stream Analytics/Databricks
+                         ├── hot result/alert
+                         └── capture to ADLS → batch/lakehouse analytics
+```
+
+Event Hubs retains the stream; processing and durable analytical storage are separate responsibilities.
