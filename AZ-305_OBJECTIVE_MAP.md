@@ -72,6 +72,8 @@ Coverage: 49/49
 
 Coverage means each official objective maps to substantive content. It does not freeze product availability, regional support, quotas, licensing, pricing, or preview/GA state.
 
+Content-strength audit: **49 STRONG, 0 ADEQUATE, 0 WEAK, 0 MISSING**. See [source validation notes](sources/source-validation-notes.md#improvement-pass-content-strength-audit) for the objective-by-objective rating.
+
 ## Microsoft Learn preparation path coverage
 
 This is a separate curriculum measure, not an exam-weighting model. The prerequisite path supports the four scored domain paths.

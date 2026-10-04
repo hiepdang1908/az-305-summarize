@@ -80,13 +80,16 @@ az-305-summarize/
 
 Rank scenario constraints in this order when applicable:
 
-1. Mandatory functional requirement
-2. Security/compliance requirement
+1. Business outcome and mandatory functional requirement
+2. Security, identity, compliance, and prohibited designs
 3. Availability, RTO, and RPO
-4. Scalability and performance
-5. Compatibility
-6. Operational complexity
-7. Cost
+4. Data model, consistency, durability, and residency
+5. Network location, connectivity, and exposure
+6. Scalability, latency, throughput, and performance
+7. Compatibility and migration constraints
+8. Operational responsibility and team capability
+9. Cost constraint
+10. Recommended solution and explicit reasons competing solutions fail
 
 The lowest-cost service is not correct if it misses a mandatory requirement. The most feature-rich service is not correct when its complexity is unjustified.
 

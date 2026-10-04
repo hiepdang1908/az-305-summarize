@@ -71,6 +71,7 @@ The five preparation paths above are not five scored domains. The prerequisite p
 - [Data Collection Rules](https://learn.microsoft.com/en-us/azure/azure-monitor/data-collection/data-collection-rule-overview)
 - [Application Insights overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
 - [Azure Monitor alerts](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview)
+- [Microsoft Sentinel overview](https://learn.microsoft.com/en-us/azure/sentinel/overview)
 
 ## Data platforms and storage
 
@@ -93,6 +94,7 @@ The five preparation paths above are not five scored domains. The prerequisite p
 ## Data integration and analytics
 
 - [Azure Data Factory introduction](https://learn.microsoft.com/en-us/azure/data-factory/introduction)
+- [Data Factory versus Synapse pipelines](https://learn.microsoft.com/en-us/azure/synapse-analytics/data-integration/concepts-data-factory-differences)
 - [Azure Databricks documentation](https://learn.microsoft.com/en-us/azure/databricks/)
 - [Azure Synapse Analytics overview](https://learn.microsoft.com/en-us/azure/synapse-analytics/overview-what-is)
 - [Azure Stream Analytics overview](https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction)
@@ -135,6 +137,8 @@ The five preparation paths above are not five scored domains. The prerequisite p
 - [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction)
 - [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about)
 - [Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview)
+- [Private access to Azure PaaS services](https://learn.microsoft.com/en-us/azure/networking/design-guide/private-platform-as-a-service)
+- [App Service VNet Integration](https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration)
 - [Service endpoints](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview)
 - [NAT Gateway](https://learn.microsoft.com/en-us/azure/nat-gateway/nat-overview)
 - [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/overview)
@@ -144,6 +148,7 @@ The five preparation paths above are not five scored domains. The prerequisite p
 ## Migration
 
 - [Azure Migrate services overview](https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview)
+- [Azure Migrate versus Site Recovery for migration](https://learn.microsoft.com/en-us/azure/site-recovery/migrate-overview)
 - [Cloud Adoption Framework migration](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/migrate/)
 - [Azure Database Migration Service](https://learn.microsoft.com/en-us/azure/dms/dms-overview)
 - [DMS supported scenarios](https://learn.microsoft.com/en-us/azure/dms/resource-scenario-status)

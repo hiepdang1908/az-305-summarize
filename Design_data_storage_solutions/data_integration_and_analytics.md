@@ -26,6 +26,18 @@ Separate ingestion, storage, transformation, serving, and orchestration. One ser
 
 The current AZ-305 Learn module emphasizes Data Factory, Data Lake, Databricks, Synapse, and Stream Analytics. Fabric may be relevant to a current production decision, but validate the current exam blueprint before treating it as an exam replacement for named services.
 
+### Integration, messaging, and analytics boundaries
+
+| Requirement family | Primary direction | Eliminate when |
+|---|---|---|
+| Scheduled/hybrid data copy and workflow orchestration | Data Factory or Synapse pipelines | Subsecond broker delivery or transactional command semantics are mandatory |
+| Enterprise command/message delivery | Service Bus | The workload is data movement, analytical transformation, or telemetry replay |
+| Discrete event notification and fan-out | Event Grid | Consumers need a durable partitioned event log or enterprise command broker |
+| High-throughput event ingestion and replay | Event Hubs | Per-message transactions, sessions, and command completion are mandatory |
+| Windowed streaming transformation | Stream Analytics or another stream engine | The need is durable ingestion only; retain Event Hubs/lake separately |
+
+Do not select an analytics pipeline to act as an operational message broker. Detailed broker semantics are in [Application architecture](../Design_infrastructure_solutions/application_architecture.md#messaging-and-eventing-matrix).
+
 ## Batch versus streaming
 
 | Requirement | Direction |
@@ -54,6 +66,10 @@ Producers → Event Hubs → Stream Analytics/Databricks streaming
 - Store secrets in Key Vault and use managed identity where supported.
 
 Do not use ADF as an operational message broker. Pipeline startup and batch semantics usually do not satisfy low-latency event processing.
+
+### Data Factory versus Synapse pipelines
+
+Both use closely related pipeline and integration-runtime concepts. Choose Data Factory when data integration/orchestration is the primary standalone platform and broad integration features or reusable integration-runtime topology drive the design. Choose Synapse pipelines when orchestration belongs inside an existing Synapse workspace with its SQL/Spark analytics lifecycle. Validate current feature differences rather than assuming artifact parity or frictionless migration between them.
 
 ## Lake and lakehouse design
 
@@ -114,4 +130,4 @@ Data temperature is a business/access property, not only a Blob tier. Archive Bl
 - "Real time" must be quantified; seconds, minutes, and hours lead to different designs.
 - A readable analytics replica does not automatically solve data transformation or governance.
 
-Official references: [Data Factory introduction](https://learn.microsoft.com/en-us/azure/data-factory/introduction), [ADLS Gen2 introduction](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction), [Azure Databricks documentation](https://learn.microsoft.com/en-us/azure/databricks/), [Azure Synapse overview](https://learn.microsoft.com/en-us/azure/synapse-analytics/overview-what-is), [Stream Analytics overview](https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction), [Event Hubs overview](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about).
+Official references: [Data Factory introduction](https://learn.microsoft.com/en-us/azure/data-factory/introduction), [Data Factory versus Synapse pipelines](https://learn.microsoft.com/en-us/azure/synapse-analytics/data-integration/concepts-data-factory-differences), [ADLS Gen2 introduction](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction), [Azure Databricks documentation](https://learn.microsoft.com/en-us/azure/databricks/), [Azure Synapse overview](https://learn.microsoft.com/en-us/azure/synapse-analytics/overview-what-is), [Stream Analytics overview](https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction), [Event Hubs overview](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about).

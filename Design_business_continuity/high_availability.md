@@ -22,6 +22,20 @@
 
 Availability sets and zones are alternative VM placement models; they are not combined for the same VM deployment. Zone numbers are logical per subscription and not a cross-subscription physical mapping guarantee.
 
+## End-to-end dependency availability
+
+```text
+DNS / global or regional entry point
+→ network path and security controls
+→ compute capacity and health routing
+→ application/runtime state
+→ database, storage, cache, and messaging
+→ identity, Key Vault, certificates, and configuration
+→ external dependencies and operational response
+```
+
+Every required dependency must survive the intended failure scope. Two application instances do not make the workload highly available when they share a single-zone database, one NAT path, one secret dependency, an unhealthy DNS design, or an external API with no tolerated failure mode.
+
 ## Compute HA
 
 | Compute | HA design | Key constraints |
@@ -98,6 +112,7 @@ Use synchronous replication for local/zone HA when latency permits. Use asynchro
 - Availability zones do not protect from every regional event.
 - A load balancer cannot fix a single-instance backend or failed database.
 - A higher service SLA does not automatically satisfy the workload SLA.
+- Highly available compute does not make a single-point data, identity, network, or external dependency highly available.
 - Multi-region compute without multi-region data and routing is incomplete.
 - Deployment slots reduce release risk but are not a regional DR mechanism.
 

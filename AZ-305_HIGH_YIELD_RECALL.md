@@ -14,18 +14,7 @@ Mandatory function
 → cost
 ```
 
-## Service responsibility model
-
-| Model | Azure manages | Customer still designs/manages | Use when |
-|---|---|---|---|
-| IaaS | Physical facilities, hardware, and base virtualization | Guest OS, patching, middleware/runtime, application, data, identity, network configuration, resilience | OS control, vendor appliance, legacy compatibility, or rehost is mandatory |
-| PaaS | Infrastructure plus service platform/runtime operations | Application/data, identities, access, configuration, scaling choices, recovery design, and service limits | Managed operations fit the workload and compatibility constraints |
-| Containers | Hosting responsibility varies by service | Image, application, dependencies, supply chain, data, and workload security | Portable packaging or orchestration behavior is required |
-| Serverless | Infrastructure and runtime scaling within service limits | Code/workflow, data, identity, configuration, retries, idempotency, and observability | Event-driven or intermittent execution fits the latency and execution model |
-
-PaaS reduces platform work; it does not transfer responsibility for architecture, data, identity, configuration, or recovery outcomes.
-
-## Identity and governance
+## Identity
 
 | Authentication | Authorization |
 |---|---|
@@ -45,6 +34,8 @@ PaaS reduces platform work; it does not transfer responsibility for architecture
 | Recertify access | Access reviews | Entitlement management packages access |
 | Secrets/certificates/keys | Key Vault | App Configuration is for non-secret settings |
 
+## Governance
+
 | Control | What it answers |
 |---|---|
 | Azure RBAC | Who can perform which Azure action at which scope? |
@@ -52,7 +43,7 @@ PaaS reduces platform work; it does not transfer responsibility for architecture
 | Resource lock | Can ARM modify/delete this resource? |
 | Tag | What business/operational metadata describes it? |
 
-Common traps:
+Identity/governance traps:
 
 - Authentication is not authorization.
 - Contributor does not automatically have permission to create role assignments.
@@ -73,11 +64,14 @@ Common traps:
 | Query/correlate logs | Log Analytics workspace + KQL |
 | Archive | Storage |
 | Stream to SIEM | Event Hubs |
+| Security analytics/incidents/SOAR | Microsoft Sentinel |
 | Reusable response target | Action group |
 
-Azure Monitor is the umbrella; Log Analytics is the log-query/store capability. Workbooks visualize data; they do not collect it.
+Azure Monitor != Log Analytics != Sentinel. Workbooks visualize data; alerts detect; action groups respond. None of them collects every signal automatically.
 
-## Relational data
+## Data
+
+### Relational
 
 ```text
 Maximum SQL Server compatibility / OS control → SQL Server on Azure VM
@@ -104,7 +98,7 @@ Traps:
 - Read replicas can lag.
 - Dynamic data masking is not encryption or a security boundary.
 
-## NoSQL and storage
+### NoSQL and storage
 
 | Need | Direction |
 |---|---|
@@ -138,7 +132,7 @@ Traps:
 - Azure File Sync is not backup.
 - Cosmos DB autoscale does not repair a hot partition.
 
-## Data integration
+### Data integration
 
 | Need | Direction |
 |---|---|
@@ -188,6 +182,15 @@ Traps:
 
 ## Compute
 
+| Model | Azure manages | Customer still owns | Choose when |
+|---|---|---|---|
+| IaaS | Facilities, hardware, virtualization | Guest OS through application/data and recovery | OS control, appliance, legacy compatibility, or rehost is mandatory |
+| PaaS | Infrastructure and service platform/runtime | Application/data, identity, configuration, scale/recovery choices | Platform constraints fit and reduced operations matters |
+| Containers | Hosting varies by service | Image, dependencies, application, supply chain, data | Portable package or orchestration behavior is required |
+| Serverless | Infrastructure/runtime scaling within plan limits | Code/workflow, state, retries, idempotency, observability | Event-driven/intermittent model fits latency and duration |
+
+PaaS != zero responsibility. Containers != Kubernetes. Serverless != unlimited or stateless by default.
+
 | Strong requirement | Direction |
 |---|---|
 | Custom OS/driver/vendor appliance | VM |
@@ -209,7 +212,9 @@ Traps:
 - Deployment slots reduce release risk, not regional failure.
 - Scale-to-zero can conflict with immediate response time.
 
-## Messaging and eventing
+## Application architecture
+
+### Messaging and eventing
 
 | Requirement | Direction |
 |---|---|
@@ -226,7 +231,7 @@ Traps:
 - Service Bus ordering normally uses sessions.
 - Design all consumers for duplicates/idempotency.
 
-## APIs, cache, configuration, deployment
+### APIs, cache, configuration, deployment
 
 | Need | Direction |
 |---|---|
@@ -240,7 +245,9 @@ Traps:
 
 Azure Cache for Redis is retiring; prefer Azure Managed Redis for new decisions and validate migration/feature availability.
 
-## Networking: application delivery
+## Networking
+
+### Application delivery
 
 | Service | Scope/layer | Choose when |
 |---|---|---|
@@ -255,7 +262,7 @@ Traps:
 - Load Balancer cannot route by URL.
 - Front Door's global role and Application Gateway's regional/VNet role often justify using both.
 
-## Networking: hybrid, private access, security
+### Hybrid, private access, and security
 
 | Private Endpoint | Service Endpoint |
 |---|---|
@@ -270,6 +277,8 @@ Traps:
 | Managed multi-branch/global transit | Virtual WAN |
 | Private IP to PaaS | Private Endpoint + private DNS |
 | Restrict public PaaS endpoint to subnet | Service Endpoint |
+| App Service/Functions outbound path into VNet | VNet Integration |
+| Private inbound access to App Service | Private Endpoint |
 | Stable scalable outbound SNAT | NAT Gateway |
 | Central L3–L7 network filtering | Azure Firewall |
 | Distributed subnet/NIC L3/L4 filtering | NSG |
@@ -283,6 +292,7 @@ Traps:
 - NAT Gateway is outbound translation, not firewall inspection.
 - Private Endpoint does not grant data permission and fails without correct DNS.
 - Service Endpoint does not assign a private IP to the service.
+- VNet Integration is outbound from the managed app; it does not create private inbound access.
 - New VNets require explicit outbound design after March 31, 2026.
 
 ## Migration
@@ -292,6 +302,7 @@ Traps:
 | Fastest minimal-change move | Rehost |
 | Limited change to PaaS | Replatform |
 | Redesign for cloud capabilities | Refactor/rearchitect |
+| Replace legacy implementation with a new cloud-native build | Rebuild |
 | Replace with SaaS/product | Repurchase |
 | Server discovery/assessment/migration | Azure Migrate |
 | Supported online/offline database move | DMS/current database-specific path |
@@ -302,6 +313,7 @@ Traps:
 Traps:
 
 - Select target architecture before migration tool.
+- Prefer Azure Migrate for a new server migration; Site Recovery is primarily DR and may remain relevant when replication is already established.
 - Online migration minimizes but does not eliminate cutover downtime.
 - Data Box does not provide delta synchronization.
 - Rehost preserves technical debt.

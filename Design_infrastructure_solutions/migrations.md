@@ -40,6 +40,7 @@ A landing zone should precede production migration. Moving servers into an ungov
 | Rehost | Move largely unchanged to IaaS | Fast | Low initially | Deadline/compatibility dominates; modernization later |
 | Replatform | Limited changes to managed platform | Medium | Medium/high | PaaS compatibility with acceptable remediation |
 | Refactor/rearchitect | Redesign code/data | Slowest | Highest potential | Scale, resilience, agility, or cost require architectural change |
+| Rebuild/cloud-native | Create a new implementation around required capabilities | Slow; new delivery lifecycle | High when legacy constraints are intentionally removed | Existing implementation cannot economically meet target requirements |
 | Repurchase/replace | Adopt SaaS/product | Varies | Transfers operations | Commodity capability and process change are acceptable |
 | Retain | Keep in place | None now | None | Blocked by dependency, compliance, cost, or timing |
 | Retire | Decommission | Fast after validation | Removes cost/risk | Workload no longer provides value |
@@ -67,6 +68,7 @@ Assessment outputs should include target recommendation, sizing, readiness issue
 |---|---|---|
 | Discover/assess servers and dependencies | Azure Migrate discovery and assessment | Appliance/agentless or supported discovery depends on source |
 | Replicate supported VMware/Hyper-V/physical servers to Azure VMs | Azure Migrate: Server Migration | Validate target, test migration, cutover, then stop source replication |
+| Existing servers already protected by Site Recovery | Continue ASR replication only when changing tools adds unjustified risk; still use Azure Migrate assessment where useful | For a new server migration, prefer purpose-built Azure Migrate; ASR's primary role is disaster recovery |
 | SQL discovery/assessment/target recommendation | Azure Migrate and current Azure SQL assessment experiences | Use current DMS/Azure Arc tooling as documented for source/target |
 | Online/offline supported database migration | Azure Database Migration Service or integrated database-specific migration service | Support matrix changes; validate engine, version, online/GA status |
 | Small one-time object/file copy | AzCopy or Storage Explorer | Client-driven; scripting/operations owned by customer |
@@ -173,6 +175,7 @@ For each wave define:
 ## Common Trap
 
 - Azure Migrate assessment is not the same as migration execution.
+- Azure Site Recovery is primarily a DR service; do not select it over Azure Migrate for a new server migration merely because both replicate machines.
 - Online migration minimizes downtime; it does not guarantee zero downtime.
 - Data Box is an offline bulk-transfer tool, not continuous synchronization.
 - AzCopy moves data but does not assess application compatibility or recreate full file-server behavior.
@@ -180,4 +183,4 @@ For each wave define:
 - Target PaaS selection must precede tool selection.
 - Ignore hard-coded IP/DNS, identity, or latency dependencies and the migration wave will fail despite successful copying.
 
-Official references: [Azure Migrate overview](https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview), [Cloud Adoption Framework migration](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/migrate/), [Azure Database Migration Service](https://learn.microsoft.com/en-us/azure/dms/dms-overview), [Storage Mover overview](https://learn.microsoft.com/en-us/azure/storage-mover/service-overview), [Data Box overview](https://learn.microsoft.com/en-us/azure/databox/data-box-overview), [Azure SQL migration guides](https://learn.microsoft.com/en-us/data-migration/).
+Official references: [Azure Migrate overview](https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview), [Azure Migrate versus Site Recovery](https://learn.microsoft.com/en-us/azure/site-recovery/migrate-overview), [Cloud Adoption Framework migration](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/migrate/), [Azure Database Migration Service](https://learn.microsoft.com/en-us/azure/dms/dms-overview), [Storage Mover overview](https://learn.microsoft.com/en-us/azure/storage-mover/service-overview), [Data Box overview](https://learn.microsoft.com/en-us/azure/databox/data-box-overview), [Azure SQL migration guides](https://learn.microsoft.com/en-us/data-migration/).

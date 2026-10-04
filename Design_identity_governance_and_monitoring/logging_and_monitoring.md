@@ -19,6 +19,10 @@ Metric, log-search, activity-log, resource-health, or smart alert
 Action group: notification, webhook, ITSM, function, logic app, automation
 ```
 
+```text
+collect → route → store → query/analyze → visualize → alert → respond
+```
+
 ## Telemetry and destination decisions
 
 | Signal or component | What it represents | Choose it when | Important boundary |
@@ -34,6 +38,7 @@ Action group: notification, webhook, ITSM, function, logic app, automation
 | Workbooks | Interactive, query-driven visualization | Shared operational reports across metrics/logs/resources | A visualization layer, not a telemetry store |
 | Azure Monitor Insights | Curated monitoring experiences | Rapid workload-specific views such as VM, container, network, or application insights | Coverage and prerequisites vary by workload |
 | Azure Data Explorer | High-scale, low-latency analytics over telemetry/time-series data | Custom analytics platform with very large ingestion or retention needs | More engineering/operations than Log Analytics for routine Azure monitoring |
+| Microsoft Sentinel | SIEM/security operations layer on a Log Analytics workspace | Security analytics, incidents, threat detection, investigation, and automated response | Not the general replacement for Azure Monitor workload health monitoring |
 
 ## Logging design
 
@@ -47,6 +52,7 @@ Action group: notification, webhook, ITSM, function, logic app, automation
 | Workload team must access only its logs | Resource-context access and Azure RBAC where supported; separate workspace if hard isolation is required |
 | Long-term, low-cost retention or immutable archive | Route to Storage and configure retention/immutability as required |
 | External SIEM or near-real-time stream processing | Route supported logs to Event Hubs |
+| Microsoft-cloud SIEM/SOAR and security incidents | Microsoft Sentinel with designed data connectors, workspace, retention, analytics rules, and response |
 | Fast operational querying and alerting | Log Analytics workspace |
 
 Avoid one workspace per resource. Also avoid a single global workspace without checking residency, access, ingestion, and regional-dependency requirements. Centralization improves correlation; separation improves isolation and ownership.
@@ -93,6 +99,7 @@ Design alerts around user-impacting symptoms and actionable causes. Define sever
 - Do not choose Storage alone when interactive KQL investigation and Azure Monitor log alerts are required.
 - Do not choose Azure Data Explorer merely to replace a normal Log Analytics deployment; use it when custom scale, control, or analytics justifies the additional platform.
 - Do not use Application Insights as an infrastructure inventory or compliance-policy engine.
+- Do not select Microsoft Sentinel merely to replace operational dashboards and application health monitoring; use it when security analytics and incident response are requirements.
 
 ## Common Trap
 
@@ -111,6 +118,7 @@ Guest OS event/performance → AMA + DCR
 Request/dependency/exception → Application Insights
 KQL correlation → Log Analytics workspace
 Massive custom telemetry analytics → evaluate Azure Data Explorer
+Security-event correlation and incident response → Microsoft Sentinel
 ```
 
-Official references: [Azure Monitor overview](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview), [Azure Monitor data sources](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/data-sources), [Diagnostic settings](https://learn.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings), [Log Analytics workspace architecture](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/workspace-design), [Azure Monitor alerts](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview).
+Official references: [Azure Monitor overview](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview), [Azure Monitor data sources](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/data-sources), [Diagnostic settings](https://learn.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings), [Log Analytics workspace architecture](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/workspace-design), [Azure Monitor alerts](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview), [Microsoft Sentinel overview](https://learn.microsoft.com/en-us/azure/sentinel/overview).

@@ -31,4 +31,4 @@ Zone/region availability + backup/DR
 Identity, governance, monitoring, cost
 ```
 
-Select components only after ranking requirements: mandatory function, security/compliance, RTO/RPO, performance/scale, compatibility, operations, then cost.
+Select components only after ranking requirements: mandatory function; security/identity/compliance; availability and RTO/RPO; data; network; performance/scale; compatibility/migration; operations; then cost. Record why rejected candidates fail a mandatory requirement.

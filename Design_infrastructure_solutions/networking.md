@@ -136,6 +136,23 @@ NAT Gateway attaches to subnets and takes precedence for new outbound flows over
 
 Private Endpoint approval and DNS are separate from data authorization. A successful TCP path does not grant access. Multiple endpoints and split-horizon DNS must be planned for hub-spoke/on-premises resolution.
 
+### Private-connectivity choice
+
+| Mechanism | What receives/connects | Traffic and public-endpoint effect | DNS and cross-network consequence | Typical use |
+|---|---|---|---|---|
+| Public endpoint + firewall | Client reaches the service's public FQDN/IP | Internet/public service endpoint remains; firewall restricts allowed sources | Public DNS; on-premises clients can use allowlisted public/NAT IPs | Publicly reachable service with controlled sources and no private-IP requirement |
+| Service Endpoint | Source subnet identity is extended to a supported PaaS service | Microsoft backbone path, but destination remains the service's public endpoint | Public DNS normally remains; primarily an Azure-subnet-to-service control | Simple subnet restriction when public endpoint semantics are acceptable |
+| Private Endpoint | A private NIC/IP in a consumer VNet maps to one service instance/subresource | Clients use the private IP; supported services can disable public access | Private DNS/split-horizon design is required; reachable from peered/hybrid networks when routing and DNS work | Resource-scoped private PaaS access and exfiltration control |
+| App Service/Functions VNet Integration | The managed app gets an outbound path into/through an integration subnet | Outbound feature only; it does not make inbound access to the app private | App uses VNet routes/DNS for routed traffic and can reach private endpoints, peered networks, or on-premises | Managed app must call VNet-private dependencies or route outbound through a firewall/NAT |
+| VPN Gateway / ExpressRoute | Connects networks, not an individual PaaS resource | Supplies a hybrid path; PaaS is private only when combined with an appropriate private-access feature | Requires routing plus hybrid DNS; VPN is encrypted over internet, ExpressRoute is private provider connectivity | On-premises/branch-to-VNet connectivity, including reaching private endpoints |
+
+```text
+Private inbound access to App Service → Private Endpoint
+App Service outbound access to VNet/private dependency → VNet Integration
+On-premises network path to Azure → VPN Gateway or ExpressRoute
+On-premises private access to PaaS → hybrid path + Private Endpoint + private DNS
+```
+
 ## DNS architecture
 
 | Need | Direction |
@@ -193,7 +210,8 @@ Private Endpoint normally requires the documented `privatelink` zone and VNet li
 - VNet peering is nontransitive.
 - NAT Gateway provides outbound translation, not firewall inspection or inbound publishing.
 - Private Endpoint needs DNS and authorization; it is not the same as service endpoint.
+- VNet Integration provides supported managed services an outbound VNet path; it is not private inbound publishing.
 - An availability zone design is not regional DR.
 - New VNet egress must be explicit after the 2026 default-outbound change.
 
-Official references: [Azure load-balancing options](https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview), [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways), [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction), [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about), [Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview), [NAT Gateway](https://learn.microsoft.com/en-us/azure/nat-gateway/nat-overview), [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/overview), [Azure DNS Private Resolver](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview), [Default outbound access retirement](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access).
+Official references: [Azure load-balancing options](https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview), [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways), [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction), [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about), [Private PaaS access](https://learn.microsoft.com/en-us/azure/networking/design-guide/private-platform-as-a-service), [Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview), [App Service VNet Integration](https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration), [NAT Gateway](https://learn.microsoft.com/en-us/azure/nat-gateway/nat-overview), [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/overview), [Azure DNS Private Resolver](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview), [Default outbound access retirement](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access).

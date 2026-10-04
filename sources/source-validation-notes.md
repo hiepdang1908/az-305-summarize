@@ -158,6 +158,25 @@ After improvement:  STRONG 49 | ADEQUATE 0 | WEAK 0 | MISSING 0
 | Source records | VERIFY + EXPAND | Added prerequisite/framework sources and this second-pass audit |
 | Duplicate content | REMOVE only if found | No material duplicate section found; none removed |
 
+## Decision-quality review pass
+
+The repository was rechecked against the April 17, 2026 study guide and the decision standard: requirement, recommendation, rejected alternative, dependency, and trap. The blueprint remains unchanged at 49 objectives.
+
+| Reviewed area | Finding | Targeted action |
+|---|---|---|
+| Identity/governance | Existing identity, role, workload-identity, Key Vault, governance, and hierarchy comparisons were already strong | KEEP |
+| Monitoring | Operational pipeline was strong; Sentinel's security-operations boundary was implicit | Added Sentinel versus Azure Monitor/Log Analytics decision guidance |
+| Relational/semi-structured data | Existing service, tier, protection, Cosmos DB, blob type, tier, and redundancy reasoning was strong | KEEP |
+| Data integration | Messaging and analytics were separated, but Synapse pipelines versus Data Factory was implicit | Added boundary and selection guidance |
+| Business continuity | Failure scopes and controls were strong; end-to-end dependency chain could be more visible | Added explicit workload dependency model and single-point warning |
+| Compute/application architecture | Existing compute and broker matrices already answer choose/avoid/constraint questions | KEEP |
+| Migration | Tool selection was strong; rebuild and ASR's migration boundary needed explicit treatment | Added both without expanding into procedures |
+| Networking | Existing service matrices were strong; VNet Integration was not in the private-connectivity comparison | Added public/service/private endpoint/VNet Integration/hybrid-path matrix |
+| High-yield recall | Content was correct but headings combined several requested recall domains | Reorganized under nine recall domains without duplicating detailed guides |
+| Master mental map | Cross-domain patterns existed; final elimination checklist was shorter than requested | Added dependency table, why-not examples, and 19-question scenario model |
+
+No objective changed from STRONG, and no objective was marked complete merely because a service name appeared. No implementation tutorial, lab, exam question, or volatile quota was added.
+
 ## Remaining production-time verification
 
 These are intentional conditional checks, not missing exam content:

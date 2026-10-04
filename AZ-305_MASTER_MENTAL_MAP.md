@@ -4,13 +4,16 @@
 
 Evaluate requirements in this order:
 
-1. Mandatory functional requirement
-2. Security, compliance, and residency
+1. Business outcome and mandatory functional requirement
+2. Security, identity, compliance, and prohibited designs
 3. Availability, RTO, and RPO
-4. Scalability and performance
-5. Compatibility and migration constraints
-6. Operational complexity
-7. Cost
+4. Data model, consistency, durability, and residency
+5. Network location, connectivity, and exposure
+6. Scalability, latency, throughput, and performance
+7. Compatibility and migration constraints
+8. Operational responsibility and team capability
+9. Cost constraint
+10. Recommended solution and explicit reasons competing solutions fail
 
 A cheaper option is wrong if it misses a mandatory requirement. A highly capable option is also wrong when its added complexity has no requirement.
 
@@ -265,3 +268,45 @@ Producers → Event Hubs → Stream Analytics/Databricks
 ```
 
 Event Hubs retains the stream; processing and durable analytical storage are separate responsibilities.
+
+## Cross-domain dependency checks
+
+| Selected component | Dependencies that can change or invalidate the choice |
+|---|---|
+| [Application Gateway](Design_infrastructure_solutions/networking.md#application-delivery-matrix) | Regional placement, public/private frontend, certificates, WAF policy, backend reachability, probes, zone design, and backend capacity |
+| [SQL Managed Instance](Design_data_storage_solutions/relational_data.md#relational-service-decision-matrix) | Subnet/DNS/routing, identity, SQL instance compatibility, migration path, service tier, HA/DR topology, backup, and cost |
+| [Private Endpoint](Design_infrastructure_solutions/networking.md#private-endpoint-versus-service-endpoint) | Consumer network path, private DNS, endpoint approval, service firewall/public-access state, data authorization, and regional recovery |
+| [AKS](Design_infrastructure_solutions/compute.md#aks) | Network model/IP capacity, workload identity, ingress, node pools/zones, persistent data, upgrades, observability, policy, and operator capability |
+
+Do not accept a component-level recommendation until its cross-domain dependencies also satisfy the scenario.
+
+## Candidate-elimination examples
+
+| Mandatory requirement | Choose/evaluate | Why close alternatives fail |
+|---|---|---|
+| Global HTTP(S) edge routing and WAF | Front Door | Traffic Manager is DNS-only; Application Gateway is regional; Load Balancer is Layer 4 |
+| Managed SQL with instance-scoped compatibility | SQL Managed Instance | SQL Database can miss instance dependencies; SQL VM adds OS/SQL operations without a control requirement |
+| Private-IP access to a PaaS resource from connected VNets/on-premises | Private Endpoint + private DNS | Service Endpoint keeps the public service endpoint and is subnet-oriented; public IP allowlists do not provide private addressing |
+| Transactional commands requiring sessions, topics, and dead-lettering | Service Bus | Event Grid distributes notifications; Event Hubs is a stream; Queue Storage lacks the required broker features |
+
+## Universal scenario-solving model
+
+1. What is mandatory?
+2. What is prohibited?
+3. Where are users and resources located?
+4. Is access public, private, or both?
+5. What is the authentication model?
+6. What is the authorization model?
+7. What is the data model and required consistency/durability?
+8. What is the compute model?
+9. What is the integration model: request, command, event, stream, or batch?
+10. Which failure scopes must remain available?
+11. What is the RTO?
+12. What is the RPO?
+13. What are the scaling, latency, and throughput requirements?
+14. Which compatibility constraints are mandatory?
+15. What must migrate, with how much downtime and rollback capability?
+16. Which layers may Azure manage, and which must the team control?
+17. What is the cost constraint after mandatory requirements are met?
+18. Which candidates remain?
+19. Why are the other candidates wrong?
