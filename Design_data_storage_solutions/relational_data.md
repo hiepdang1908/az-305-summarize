@@ -88,6 +88,12 @@ Recovery     → automated backups, PITR/long-term retention (LTR), restore test
 Detection    → auditing, Defender capabilities, Monitor logs/alerts
 ```
 
+| Control | Protects | Does not protect against | Main trade-off |
+|---|---|---|---|
+| Transparent Data Encryption (TDE) | Database files, logs, and backups at rest | An authorized database query returning plaintext | Customer-managed keys add control plus key availability/rotation responsibility |
+| Transport Layer Security (TLS) | Data in transit between supported endpoints | Data at rest or an authorized endpoint | Certificate validation and supported protocol configuration still matter |
+| Always Encrypted | Selected column values from the database engine/operator under the supported client-driver model | All columns, metadata, access patterns, or compromised authorized clients | Query/driver/key-management constraints; secure enclaves can expand supported operations where available |
+
 Transparent Data Encryption protects database files/backups at rest, not against an authorized query. Dynamic data masking reduces accidental exposure but is not encryption or a privilege boundary. Always Encrypted protects selected values from database operators under its supported query/driver model but adds application/key constraints.
 
 ## Cosmos DB and Table Storage

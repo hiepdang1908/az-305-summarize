@@ -13,6 +13,7 @@ Use this page for quick recall. Each study file still expands important abbrevia
 | AMA | Azure Monitor Agent | Guest operating-system telemetry collector |
 | API | Application programming interface | Programmatic service contract or endpoint |
 | APIM | Azure API Management | API gateway, policy, and developer-management platform |
+| AVD | Azure Virtual Desktop | Cloud-hosted desktops and remote applications |
 | ARM | Azure Resource Manager | Azure control-plane deployment and management service |
 | ASR | Azure Site Recovery | Workload replication, failover, and disaster recovery service |
 | BGP | Border Gateway Protocol | Dynamic route exchange used by hybrid connectivity |
@@ -63,11 +64,14 @@ Use this page for quick recall. Each study file still expands important abbrevia
 | TLS | Transport Layer Security | Encryption and authentication for data in transit |
 | VM | Virtual machine | Software-defined computer with customer-managed guest OS |
 | VMSS | Virtual Machine Scale Sets | Model-managed fleet of similar Azure VMs |
+| VDI | Virtual desktop infrastructure | Centrally hosted desktop and application delivery model |
 | VNet | Azure Virtual Network | Private Azure network and addressing boundary |
 | VPN | Virtual private network | Encrypted network tunnel over a shared network |
 | WAF | Web Application Firewall | Layer 7 HTTP(S) attack filtering |
 | WORM | Write once, read many | Immutable retention model |
 | ZRS | Zone-redundant storage | Synchronous copies across availability zones in one region |
+
+In this guide, **WAF** means Web Application Firewall only. The Azure Well-Architected Framework is written out to avoid abbreviation ambiguity.
 
 ---
 

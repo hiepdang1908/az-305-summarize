@@ -33,6 +33,16 @@ Key Vault           → protect secrets, keys, and certificates
 
 Microsoft Entra External ID covers external collaboration and customer identity scenarios. The business-to-consumer (B2C) product Azure AD B2C is no longer available for purchase by new customers as of May 1, 2025; existing customers remain supported under Microsoft's published lifecycle. Use External ID for new CIAM designs. Older Learn/practice material may still say Azure AD B2C.
 
+### Authentication control comparison
+
+| Choice | What it does | Choose when | Does not replace |
+|---|---|---|---|
+| Multifactor authentication (MFA) | Requires more than one authentication factor | A stronger sign-in proof is required; prefer phishing-resistant methods for high-risk access | Context-aware policy, authorization, or least privilege |
+| Conditional Access | Evaluates identity, app, device, location, risk, and authentication context/strength to make an access decision | Requirements vary by sign-in context or risk | The authentication method itself or resource permission |
+| Identity Protection | Detects and reports risky users/sign-ins and supplies risk signals | Risk-based investigation and policy response are required | Conditional Access enforcement or security operations |
+
+Conditional Access can require MFA, but the two are not synonyms: MFA is an authentication control; Conditional Access is the policy engine that can require, block, or constrain access from evaluated signals.
+
 ## Hybrid identity trade-offs
 
 | Option | Authentication location | Dependency during sign-in | Choose when |

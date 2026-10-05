@@ -21,6 +21,8 @@ Data shape alone does not select a service. Also evaluate query pattern, transac
 
 ## Azure Storage family
 
+An Azure Storage account is a management, security, endpoint, and redundancy boundary for supported storage services. Account kind, region, performance tier, namespace features, and redundancy selection constrain which capabilities can be combined; verify the required feature set before choosing the account configuration.
+
 | Service | Key architectural distinction |
 |---|---|
 | Blob Storage | Massive object storage with access tiers, lifecycle, versioning, immutability, and redundancy choices |

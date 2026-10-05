@@ -35,6 +35,26 @@ Massively parallel scheduled computation?
   └─ Azure Batch
 ```
 
+### Workload-dimension comparison
+
+| Dimension | VM | App Service | Functions | Container Instances | AKS |
+|---|---|---|---|---|---|
+| Control | Guest OS and software | Managed web platform/runtime | Function runtime and plan | Container group | Kubernetes API, workloads, and node pools |
+| Deployment unit | Image/VM configuration | App/package/web container | Function app/code package | Container image/group | Kubernetes objects and container images |
+| Scale/startup | Customer/fleet autoscale; VM boot time | Plan instances/autoscale; normally warm capacity | Trigger/plan scale; cold start varies by plan | Fast direct container start; limited orchestration | Pod and node scaling; node provisioning is slower than pod scheduling |
+| State | Can be stateful, but HA becomes customer-owned | Externalize durable/shared state | Externalize state; design idempotently | Ephemeral/local state should not be authoritative | Persistent volumes/external services need an explicit HA design |
+| Workload duration | Long-running/general purpose | Long-running HTTP/API/background patterns supported by plan | Event units subject to hosting/runtime behavior | Short or simple isolated task/service | Long-running services, jobs, and complex microservices |
+| Integration/operations | Maximum compatibility; highest operations | Built-in web/deployment integration; low operations | Rich triggers/bindings; low operations | Basic networking/container lifecycle | Broad ecosystem/control; highest platform skill among managed choices |
+
+### Focused compute comparisons
+
+| Compare | Choose first | Choose second |
+|---|---|---|
+| Functions vs Logic Apps | Functions for custom event-driven code, libraries, tests, and code-centric control | Logic Apps for connector-rich, declarative workflow/integration and visible orchestration |
+| Container Instances vs AKS | Container Instances for a simple isolated container/group or burst task without a platform | AKS when Kubernetes APIs, controllers, scheduling, service discovery, policy, or ecosystem are mandatory |
+| App Service vs AKS | App Service for supported HTTP apps/APIs with managed web operations | AKS for multi-service Kubernetes requirements that justify cluster/network/upgrade operations |
+| Batch vs VM Scale Sets | Batch when jobs/tasks, pools, scheduling, retries, and batch lifecycle are the requirement | VMSS when the application needs a homogeneous elastic VM fleet and owns its own scheduler/work distribution |
+
 ## Virtual machines
 
 Choose VMs when compatibility or control is mandatory:

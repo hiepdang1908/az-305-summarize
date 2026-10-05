@@ -42,6 +42,15 @@ collect → route → store → query/analyze → visualize → alert → respon
 
 ## Logging design
 
+### High-value comparisons
+
+| Compare | First choice signal | Second choice signal | Architecture boundary |
+|---|---|---|---|
+| Metrics vs logs | Metrics for numeric time series, low-latency charts, and threshold/dynamic alerts | Logs for detailed records, correlation, audit, and Kusto Query Language (KQL) analysis | A metric usually cannot answer record-level forensic questions; logs cost more to ingest/query |
+| Activity Log vs resource logs | Activity Log for subscription control-plane and service-health events | Resource logs for service-specific operations emitted by a resource | Creating/deleting the resource and using the resource are different signal planes |
+| Application Insights vs Log Analytics | Application Insights for application performance management, distributed tracing, requests, dependencies, and exceptions | Log Analytics workspace for the broader log store and cross-resource KQL analysis | Workspace-based Application Insights stores telemetry in a workspace; the experiences are complementary, not competing databases |
+| Log Analytics vs Azure Data Explorer | Log Analytics for integrated Azure operations, alerts, workbooks, and managed retention | Azure Data Explorer for a custom high-scale telemetry/time-series analytics platform | Data Explorer offers more platform control/engineering; it is not the default Azure Monitor log store |
+
 ### Workspace topology
 
 | Requirement | Recommended direction |

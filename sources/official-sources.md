@@ -1,6 +1,6 @@
 # Official Microsoft sources
 
-Validated October 4, 2026. Product capabilities remain region-, SKU-, edition-, and workload-dependent.
+Exam blueprint, prerequisite path, and CAF lifecycle checked October 5, 2026. Product capabilities remain region-, SKU-, edition-, and workload-dependent; recheck the linked service documentation for workload-specific decisions.
 
 ## Exam blueprint and required learning paths
 

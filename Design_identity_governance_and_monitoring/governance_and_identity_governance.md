@@ -25,6 +25,16 @@ Azure Policy and Azure role-based access control (Azure RBAC) assignments normal
 
 Keep management-group hierarchies relatively flat and aligned to governance needs, not a frequently changing org chart. Common landing-zone archetypes include platform/connectivity/identity/management subscriptions and workload landing zones for production, nonproduction, sandbox, or regulated workloads.
 
+Choose the dominant boundary from the requirement rather than applying one hierarchy everywhere:
+
+| Organization driver | Usual design direction | Trade-off to test |
+|---|---|---|
+| Environment | Separate production from nonproduction when access, policy, cost, or blast radius differs | More subscriptions and connectivity paths to operate |
+| Workload/product | Give a product team an application landing zone with clear ownership | Shared services still need a deliberate platform boundary |
+| Business unit | Use a management group or subscription only when governance/delegation genuinely differs | Mirroring a changing org chart creates churn |
+| Geography/data residency | Separate placement and policy where legal or latency requirements differ | Global services, backup, logs, and support paths also need residency review |
+| Compliance boundary | Isolate subscriptions/management groups and apply a controlled initiative | Separation alone does not prove compliance |
+
 ### Subscription decision factors
 
 - Environment isolation and blast radius
@@ -65,6 +75,19 @@ Subscriptions are useful management boundaries, but they are associated with one
 - Policy compliance is not proof of full regulatory compliance. It is one technical control and evidence source.
 - `Deny` prevents a noncompliant request; `audit` reports it. `modify` and `deployIfNotExists` commonly require a managed identity and remediation for existing resources.
 - Exemptions and exclusions reduce coverage; govern, justify, expire, and review them.
+
+### Policy design choices
+
+| Choice | Use when | Trade-off |
+|---|---|---|
+| Individual policy definition | One control has an independent lifecycle and assignment | Many separate assignments become difficult to govern |
+| Policy initiative | A named baseline or regulatory standard needs grouped definitions, parameters, assignment, and reporting | Initiative versions and exceptions need change control |
+| Built-in policy | Microsoft's maintained definition meets the required outcome | Test behavior and parameters; built-in does not mean risk-free |
+| Custom policy | No built-in definition expresses the required condition/effect | The organization owns testing, versioning, compatibility, and maintenance |
+| `deny` | Prevent a noncompliant create/update request | Can block deployments; stage with audit where prudent |
+| `audit` | Measure state without blocking it | Detects but does not correct the resource |
+| `modify` | Add/change supported properties or tags during evaluation | Identity, role assignment, remediation, aliases, and effect limits must be validated |
+| `deployIfNotExists` | Deploy a related resource or configuration after evaluating existence | Remediation is not instantaneous and requires the correct managed identity/permissions |
 
 ## Tagging strategy
 

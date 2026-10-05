@@ -31,6 +31,13 @@ Simple inexpensive work queue → Queue Storage
 
 ### Selection constraints
 
+| Service Bus queue | Service Bus topic and subscriptions |
+|---|---|
+| One logical queue; competing receivers share work and each message is normally settled by one receiver | Publisher sends once; each matching subscription receives an independent copy for its consumer group |
+| Choose for point-to-point command/work distribution | Choose for durable brokered fan-out with per-subscription filters and independent backlog |
+
+This is brokered messaging, not the same as Event Grid event notification or Event Hubs consumer-group replay.
+
 - Service Bus sessions require sender/receiver agreement on session IDs. Duplicate detection and transactions have tier/configuration constraints.
 - Event Hubs order exists only within a partition. Choose partition key to keep related events together; more partitions improve parallelism but add design constraints.
 - Event Grid retries delivery but consumers must remain idempotent. Dead-letter storage must be configured and accessible.

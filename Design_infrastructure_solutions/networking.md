@@ -112,7 +112,7 @@ Use UDRs to steer traffic to Azure Firewall/network virtual appliance (NVA), for
 
 ### Egress
 
-As of March 31, 2026, new VNets use private subnets by default and no longer receive implicit default outbound internet access. Explicitly design egress.
+For the Azure network API behavior released after March 31, 2026, subnets in new virtual networks default to private (`defaultOutboundAccess=false`); the Azure portal also defaults new subnets to private. Earlier API versions and existing virtual networks are not changed automatically. Explicitly design egress instead of relying on implicit default outbound access.
 
 | Requirement | Direction |
 |---|---|
@@ -214,7 +214,7 @@ Private Endpoint normally requires the documented `privatelink` zone and VNet li
 - Private Endpoint needs DNS and authorization; it is not the same as service endpoint.
 - VNet Integration provides supported managed services an outbound VNet path; it is not private inbound publishing.
 - An availability zone design is not regional disaster recovery (DR).
-- New VNet egress must be explicit after the 2026 default-outbound change.
+- For private subnets—including the post–March 31, 2026 API default for new VNets—VM internet egress needs an explicit outbound method. Existing VNets and deployments using earlier API behavior are not changed automatically.
 
 Official references: [Azure load-balancing options](https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview), [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways), [ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction), [Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about), [Private PaaS access](https://learn.microsoft.com/en-us/azure/networking/design-guide/private-platform-as-a-service), [Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview), [App Service VNet Integration](https://learn.microsoft.com/en-us/azure/app-service/overview-vnet-integration), [NAT Gateway](https://learn.microsoft.com/en-us/azure/nat-gateway/nat-overview), [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/overview), [Azure DNS Private Resolver](https://learn.microsoft.com/en-us/azure/dns/dns-private-resolver-overview), [Default outbound access retirement](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access).
 

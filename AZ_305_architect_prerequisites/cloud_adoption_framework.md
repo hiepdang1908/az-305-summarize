@@ -6,15 +6,23 @@ The Microsoft Cloud Adoption Framework (CAF) is decision guidance for establishi
 
 | Phase | Architecture question | Relevant outputs |
 |---|---|---|
-| Strategy | What should Azure adoption achieve? | Motivations, business outcomes, constraints, principles |
-| Plan | How will the organization prepare? | Digital estate, rationalization, skills, ownership, adoption backlog |
-| Ready | How will the Azure foundation be built? | Landing zone, management hierarchy, identity, connectivity, governance, automation |
-| Adopt | How will workloads migrate, modernize, or be built cloud-native? | Workload target architecture, waves, delivery, validation |
-| Govern | How will the Azure environment remain controlled? | Policies, cost governance, compliance, resource consistency |
-| Secure | How will the platform and workloads be protected? | Security baseline, Zero Trust controls, posture and response |
-| Manage | How will Azure be operated and optimized? | Operations baseline, monitoring, reliability, support, continuous optimization |
+| Strategy | What business outcomes justify adoption, and what constraints shape it? | Motivations, measurable outcomes, financial/technical constraints, and guiding principles |
+| Plan | What estate, skills, dependencies, and sequencing are needed to reach those outcomes? | Inventory and rationalization, skills plan, ownership, dependencies, and an adoption backlog |
+| Ready | What governed Azure foundation must exist before workloads are placed? | Landing zone, management hierarchy, identity, connectivity, governance, security, and automation |
+| Adopt | Which workload approach delivers the intended outcome: migrate, modernize, or build cloud-native? | A workload-specific target, delivery path, validation, and business outcome |
+| Govern | How will the organization control cost, compliance, and resource consistency over time? | Policy guardrails, cost management, compliance evidence, and governance review |
+| Secure | How will risks to identities, platform, workloads, and data be reduced and detected? | Security baseline, Zero Trust controls, threat protection, posture management, and response |
+| Manage | How will services meet operational commitments and improve after deployment? | Monitoring, reliability operations, support, incident response, and continuous optimization |
 
-The phases are connected and iterative. Ready is not a one-time platform project, and Govern/Secure/Manage are not post-migration cleanup.
+Adopt is the lifecycle phase; **Migrate**, **Modernize**, and **Cloud-native** are distinct workload paths within it, not additional top-level CAF phases. Microsoft's prerequisite module separates these paths because they address different architectural constraints:
+
+| Adopt path | Architectural problem it addresses | Typical choice signal | Main trade-off |
+|---|---|---|---|
+| Migrate | Move an existing workload to Azure while preserving more of its current behavior | Time, compatibility, or low-change tolerance favors rehost/replatform before redesign | Faster transition can retain technical debt and IaaS operations |
+| Modernize | Change application, data, or hosting architecture to gain managed capabilities or improve scale/resilience | Existing workload has value, but its current design misses cloud goals | Requires compatibility remediation, redesign effort, and migration risk |
+| Cloud-native | Build a new workload around cloud services and practices | No legacy implementation needs to be preserved, or a new capability is required | Greater design freedom brings new platform, skills, and operational choices |
+
+The paths can be combined across an estate or revisited per workload. Govern, Secure, and Manage apply throughout adoption; they are not post-migration cleanup. The lifecycle phases are connected and iterative, not a one-way checklist.
 
 ## Landing zones
 
@@ -56,7 +64,7 @@ Use policy-driven governance and subscription democratization: platform teams pr
 
 ### Subscription vending and placement
 
-Subscription vending automates approved subscription creation and baseline configuration. A request can capture workload owner, environment, cost metadata, management-group placement, network model, budgets, policy, role-based access control (RBAC), Defender configuration, and monitoring.
+Subscription vending automates approved subscription creation and baseline configuration. A request can capture workload owner, environment, cost metadata, management-group placement, network model, budgets, policy, Azure role-based access control (Azure RBAC), Defender configuration, and monitoring.
 
 ```text
 Workload requirements

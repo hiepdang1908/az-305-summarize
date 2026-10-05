@@ -293,7 +293,7 @@ Traps:
 - Private Endpoint does not grant data permission and fails without correct DNS.
 - Service Endpoint does not assign a private IP to the service.
 - VNet Integration is outbound from the managed app; it does not create private inbound access.
-- New VNets require explicit outbound design after March 31, 2026.
+- Private subnets require explicit outbound connectivity for VMs. The post–March 31, 2026 network API behavior and the portal default new subnets to private; earlier API versions and existing VNets are not changed automatically.
 
 ## Migration
 

@@ -42,6 +42,16 @@ Define RTO/RPO per workload tier and for the whole service. A database recoverin
 
 Use both when the workload needs rapid failover and historical recovery.
 
+### Recovery mechanism comparisons
+
+| Compare | First mechanism | Second mechanism | Decision rule |
+|---|---|---|---|
+| Snapshot vs backup | A snapshot is a point-in-time copy normally tied closely to the source service/account and useful for fast rollback/restore | A managed backup adds policy, retention, vault/isolation, monitoring, and recovery workflows according to workload support | Use snapshots for a supported fast recovery layer; use backup when independent lifecycle, history, and governed recovery are required |
+| Geo-redundancy vs backup | Geo-redundancy maintains infrastructure copies, often asynchronously | Backup preserves recoverable historical points according to policy | Geo copies address failure scope/durability; they can reproduce deletion or corruption and do not replace history |
+| Replication vs backup | Replication keeps a current/warm copy for continuity and lower RTO | Backup keeps older recovery points for rollback and retention | Use replication for failover and backup for deletion, corruption, attack, and historical recovery |
+
+The exact independence of a snapshot or backup is service-specific. Validate account/vault isolation, immutability, authorization, and whether deletion of the source can affect recovery points.
+
 ## Vault and protection design
 
 Azure backup capabilities use vault resources according to workload: Recovery Services vault and Backup vault. Support differs by data source. Select the vault type from the protected workload rather than assuming they are interchangeable.

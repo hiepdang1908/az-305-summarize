@@ -20,6 +20,13 @@ Recovery time objective (RTO)  = maximum acceptable recovery time
 Recovery point objective (RPO) = maximum acceptable data-loss window
 ```
 
+| Term | Architectural meaning | Typical design evidence |
+|---|---|---|
+| Fault tolerance | Continue correctly despite a defined component fault, often without user-visible interruption | Redundant live components, failure detection, isolation, and automatic continuation |
+| Resilience | Absorb, adapt to, recover from, and learn from failures across the workload lifecycle | HA, graceful degradation, retries, DR, backup, observability, runbooks, and testing |
+
+Fault tolerance is one technique inside resilience. A resilient workload may temporarily degrade or recover within its objectives; it does not imply that every failure is invisible.
+
 Availability is an end-to-end workload property. The weakest dependency—identity, DNS, network entry point, compute, data, secret store, or operations—can determine the achieved RTO.
 
 Related guides: [Relational data](../Design_data_storage_solutions/relational_data.md), [Storage](../Design_data_storage_solutions/semi_structured_and_unstructured_data.md), and [Networking](../Design_infrastructure_solutions/networking.md).

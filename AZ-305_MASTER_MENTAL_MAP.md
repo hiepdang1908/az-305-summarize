@@ -179,7 +179,7 @@ Central network filtering         → Azure Firewall
 Distributed Layer 3/Layer 4 segmentation → network security group (NSG)
 ```
 
-New Azure Virtual Networks (VNets) require explicit outbound connectivity. VNet peering is nontransitive. Private connectivity still requires identity authorization.
+Private subnets require explicit outbound connectivity for virtual machines. New VNets created with the post–March 31, 2026 API behavior default their subnets to private; earlier API versions and existing VNets are not changed automatically. VNet peering is nontransitive. Private connectivity still requires identity authorization.
 
 ## 8. Availability, backup, and DR
 

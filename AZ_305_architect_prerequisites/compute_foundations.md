@@ -25,6 +25,15 @@ PaaS and serverless trade infrastructure control for service constraints. Contai
 | Azure Kubernetes Service (AKS) | Managed Kubernetes | Kubernetes-orchestrated applications | Kubernetes API, ecosystem, scheduling, or extensibility is mandatory |
 | Azure Container Instances (ACI) | Direct container groups | Simple isolated or short-lived containers | Fast container execution without a full application platform |
 | Azure Batch | Managed batch scheduler | Parallel, high-performance computing (HPC), rendering, or scheduled jobs on pools | Job/task scheduling over elastic compute pools |
+| Azure Virtual Desktop (AVD) | Managed virtual desktop infrastructure (VDI) | Cloud-hosted Windows desktops and remote applications | Centralized desktop/app delivery for user sessions; not a general-purpose web application host |
+
+### VM availability choices
+
+| Choice | What it provides | Choose when | Boundary |
+|---|---|---|---|
+| Availability set | Distributes VMs across fault and update domains within a datacenter-scale deployment | Existing design or region without availability zones | Does not span zones or protect against regional failure |
+| Availability zones | Places instances in physically separate datacenter locations within one region | Zonal failure protection is required and the service/SKU supports it | Does not by itself provide regional disaster recovery |
+| Virtual Machine Scale Sets (VMSS) | Manages a fleet of VM instances, with scaling and lifecycle capabilities | A repeatable, elastic VM fleet is needed | A scale set is not itself a failure-isolation level; configure instance count and zone/placement policy |
 
 ## Mental decision model
 
@@ -34,6 +43,9 @@ Requires arbitrary OS, agent, driver, or vendor image?
 
 Requires many identical, elastic VMs?
 → Virtual Machine Scale Sets
+
+Deliver Windows desktops or remote applications to users?
+→ Azure Virtual Desktop
 
 Managed HTTP application on supported platform?
 → App Service
@@ -60,6 +72,12 @@ These are starting directions. Network isolation, startup latency, execution dur
 - Stateless instances are easier to replace and distribute. Put durable state in an appropriate data service.
 - Platform-managed does not remove application retry, health, deployment, data protection, and regional-recovery design.
 - A service supporting zones does not mean every tier, region, or existing deployment is zone redundant.
+
+## Adjacent AI and edge workloads
+
+- Azure AI services provide ready-made AI capabilities; Azure Machine Learning supports the lifecycle for building, training, deploying, and managing custom models. Select from model/customization needs, data boundaries, latency, and operations rather than treating either as a generic compute host.
+- Internet of Things (IoT) and edge designs place device connectivity and, when required, local processing near devices. Choose edge execution when latency, intermittent connectivity, data-volume, or local-processing requirements make cloud-only execution unsuitable; account for device lifecycle and synchronization with cloud services.
+- These categories change the workload architecture and data path; they do not replace the VM, application-platform, container, or serverless responsibility-model decisions above.
 
 ## Workload questions
 

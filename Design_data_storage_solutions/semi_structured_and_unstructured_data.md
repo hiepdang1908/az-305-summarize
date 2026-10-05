@@ -115,6 +115,14 @@ Object replication copies block blobs asynchronously between accounts and can su
 
 ## Storage security
 
+| Azure role-based access control (Azure RBAC) | Shared access signature (SAS) |
+|---|---|
+| Identity-based authorization with centrally governed role assignments and revocation | Delegated, bearer-style access constrained by resource, permission, expiry, protocol, and optionally network |
+| Best for users/workloads that can authenticate through Microsoft Entra ID | Best for bounded delegation to a client that cannot use direct identity authorization |
+| Prefer narrow data-plane roles; the identity still needs network reachability | Prefer a user-delegation SAS for Blob Storage where supported; possession can be sufficient to use it until expiry/revocation conditions take effect |
+
+Do not treat a SAS as an identity or put it in long-lived source/configuration. Short expiry, least privilege, HTTPS, secure distribution, and a revocation strategy are part of the design.
+
 Preference order where supported:
 
 1. Microsoft Entra identity with least-privilege data-plane RBAC.

@@ -40,6 +40,17 @@ Do not select an analytics pipeline to act as an operational message broker. Det
 
 ## Batch versus streaming
 
+### ETL, ELT, orchestration, and transformation
+
+| Concept | Flow/responsibility | Choose when |
+|---|---|---|
+| Extract, transform, load (ETL) | Transform before loading the serving target | Target requires curated shape on arrival, transformation must occur outside it, or sensitive fields must be removed before load |
+| Extract, load, transform (ELT) | Land source data, then transform with lake/warehouse/lakehouse compute | Scalable target compute and retained raw data enable replay, multiple models, or iterative analytics |
+| Orchestration | Schedules, coordinates, retries, and observes activities/dependencies | The problem is workflow/control flow across copy and compute steps |
+| Transformation | Changes schema, quality, aggregation, or business meaning of data | The problem is computation over the data itself |
+
+Azure Data Factory and Synapse pipelines primarily orchestrate and move data; Mapping Data Flows or invoked Databricks/Synapse/database compute perform transformations. A pipeline calling compute does not make orchestration and transformation the same responsibility.
+
 | Requirement | Direction |
 |---|---|
 | Minutes/hours acceptable, bounded dataset, scheduled processing | Batch |

@@ -26,8 +26,6 @@ It intentionally avoids:
 
 Current Microsoft Learn and Azure documentation are the technical source of truth. The maintained source index is [sources/official-sources.md](sources/official-sources.md).
 
-Files under `example/` were used only to find recurring topics, confused services, and knowledge gaps. No practice question or answer was copied or reconstructed. When practice material conflicts with Microsoft documentation, Microsoft documentation wins. See [source validation notes](sources/source-validation-notes.md).
-
 ## Repository learning path
 
 1. [Azure architect design prerequisites](AZ_305_architect_prerequisites/README.md)
@@ -54,12 +52,12 @@ Skills measured as of April 17, 2026:
 | Design business continuity solutions | 15–20% | `Design_business_continuity/` |
 | Design infrastructure solutions | 30–35% | `Design_infrastructure_solutions/` |
 
-The [Objective Map](AZ-305_OBJECTIVE_MAP.md) maps all 49 published objective bullets to substantive sections.
+The [Objective Map](AZ-305_OBJECTIVE_MAP.md) maps all 49 published objective bullets to substantive sections; this is a traceability count, not a claim that every objective is mastered.
 
 Repository coverage uses two independent measures:
 
-- Exam blueprint objectives: **49/49**
-- Microsoft Learn preparation paths: **5/5**
+- Exam blueprint objectives mapped: **49/49**
+- Microsoft Learn preparation paths represented: **5/5**
 
 ## Repository structure
 
@@ -76,7 +74,6 @@ az-305-summarize/
 ├── Design_business_continuity/
 ├── Design_infrastructure_solutions/
 ├── sources/
-└── example/
 ```
 
 ## Core decision discipline

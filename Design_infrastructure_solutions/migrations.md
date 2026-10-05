@@ -33,6 +33,12 @@ Do not select a tool before selecting the target architecture and migration stra
 
 A landing zone should precede production migration. Moving servers into an ungoverned subscription creates future rework and risk.
 
+### Migration framework and program terminology
+
+The current AZ-305 Learn module still uses **Azure Migration and Modernization Program (Azure Migration Framework)** for the coordinated migration journey: assess and build a business case, prepare the landing zone, migrate in controlled waves, then govern and optimize. Treat that as a framework/program context, not as a migration tool.
+
+Microsoft's current customer-engagement offering is **Azure Accelerate**, which brings together Azure Migrate and Modernize, Azure Innovate, partner expertise, and Cloud Accelerate Factory assistance. Program branding does not change tool selection: Azure Migrate discovers/assesses and migrates supported servers, Database Migration Service handles supported database paths, and Data Box addresses offline bulk transfer.
+
 ## Migration strategies
 
 | Strategy | Change | Speed | Cloud benefit | Choose when |
