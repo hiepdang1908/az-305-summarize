@@ -17,6 +17,8 @@ It is **not a fifth scored exam domain** and has no separate exam weighting.
 
 All six current prerequisite modules are represented above. These pages establish mental models; the four scored domain folders contain the detailed service comparisons, constraints, and exam decision rules.
 
+Detailed file-by-file findings and before/after coverage: [Prerequisite audit report](AUDIT_REPORT.md).
+
 ## Relationship to scored domains
 
 | Prerequisite topic | Why an architect needs it | Primary AZ-305 domains affected |

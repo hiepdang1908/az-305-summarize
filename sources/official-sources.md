@@ -15,6 +15,21 @@ The spelling `infranstructure` is retained in Microsoft's current learning-path 
 
 The five preparation paths above are not five scored domains. The prerequisite path contains six foundation modules; the remaining four paths align to the four scored blueprint domains.
 
+### Twelve core modules used for the knowledge audit
+
+- [Design governance](https://learn.microsoft.com/en-us/training/modules/design-governance/)
+- [Design authentication and authorization solutions](https://learn.microsoft.com/en-us/training/modules/design-authentication-authorization-solutions/)
+- [Design a solution to log and monitor Azure resources](https://learn.microsoft.com/en-us/training/modules/design-solution-to-log-monitor-azure-resources/)
+- [Describe high availability and disaster recovery strategies](https://learn.microsoft.com/en-us/training/modules/describe-high-availability-disaster-recovery-strategies/)
+- [Design a solution for backup and disaster recovery](https://learn.microsoft.com/en-us/training/modules/design-solution-for-backup-disaster-recovery/)
+- [Design a data storage solution for non-relational data](https://learn.microsoft.com/en-us/training/modules/design-data-storage-solution-for-non-relational-data/)
+- [Design a data storage solution for relational data](https://learn.microsoft.com/en-us/training/modules/design-data-storage-solution-for-relational-data/)
+- [Design data integration](https://learn.microsoft.com/en-us/training/modules/design-data-integration/)
+- [Design an Azure compute solution](https://learn.microsoft.com/en-us/training/modules/design-compute-solution/)
+- [Design an application architecture](https://learn.microsoft.com/en-us/training/modules/design-application-architecture/)
+- [Design network solutions](https://learn.microsoft.com/en-us/training/modules/design-network-solutions/)
+- [Design migrations](https://learn.microsoft.com/en-us/training/modules/design-migrations/)
+
 ### Prerequisite reference set
 
 - [Describe the core architectural components of Azure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/)
@@ -105,6 +120,8 @@ The five preparation paths above are not five scored domains. The prerequisite p
 - [Azure availability zones](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview)
 - [Azure VM availability options](https://learn.microsoft.com/en-us/azure/virtual-machines/availability)
 - [Azure Backup architecture](https://learn.microsoft.com/en-us/azure/backup/backup-architecture)
+- [Recovery Services vault overview](https://learn.microsoft.com/en-us/azure/backup/backup-azure-recovery-services-vault-overview)
+- [Backup vault overview](https://learn.microsoft.com/en-us/azure/backup/backup-vault-overview)
 - [Azure Site Recovery overview](https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-overview)
 - [Azure SQL availability](https://learn.microsoft.com/en-us/azure/azure-sql/database/high-availability-sla-local-zone-redundancy)
 - [Reliability design principles](https://learn.microsoft.com/en-us/azure/well-architected/reliability/principles)
@@ -150,9 +167,18 @@ The five preparation paths above are not five scored domains. The prerequisite p
 - [Azure Migrate services overview](https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview)
 - [Azure Migrate versus Site Recovery for migration](https://learn.microsoft.com/en-us/azure/site-recovery/migrate-overview)
 - [Cloud Adoption Framework migration](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/migrate/)
+- [Azure Accelerate](https://azure.microsoft.com/en-us/solutions/migration/migrate-modernize-innovate)
 - [Azure Database Migration Service](https://learn.microsoft.com/en-us/azure/dms/dms-overview)
 - [DMS supported scenarios](https://learn.microsoft.com/en-us/azure/dms/resource-scenario-status)
 - [Azure Storage migration tool selection](https://learn.microsoft.com/en-us/azure/storage/common/storage-migration-tools)
 - [Azure Storage Mover](https://learn.microsoft.com/en-us/azure/storage-mover/service-overview)
 - [Azure Data Box overview](https://learn.microsoft.com/en-us/azure/databox/data-box-overview)
 - [Azure SQL migration guides](https://learn.microsoft.com/en-us/data-migration/)
+
+---
+
+## Navigation
+
+| Previous | Home | Next |
+|---|---|---|
+| [← Audit report](../AZ-305_AUDIT_REPORT.md) | [AZ-305 Home](../README.md) | — |

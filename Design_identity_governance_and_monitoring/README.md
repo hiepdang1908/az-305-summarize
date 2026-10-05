@@ -53,4 +53,4 @@ Related cross-domain guides: [Networking](../Design_infrastructure_solutions/net
 
 | Previous | Home | Next |
 |---|---|---|
-| [← Objective map](../AZ-305_OBJECTIVE_MAP.md) | [AZ-305 Home](../README.md) | [Logging and monitoring →](logging_and_monitoring.md) |
+| [← Microsoft Learn module map](../AZ-305_MICROSOFT_LEARN_MODULE_MAP.md) | [AZ-305 Home](../README.md) | [Logging and monitoring →](logging_and_monitoring.md) |

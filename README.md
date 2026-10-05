@@ -31,13 +31,14 @@ Current Microsoft Learn and Azure documentation are the technical source of trut
 1. [Azure architect design prerequisites](AZ_305_architect_prerequisites/README.md)
 2. [Master Mental Map](AZ-305_MASTER_MENTAL_MAP.md)
 3. [Objective Map](AZ-305_OBJECTIVE_MAP.md)
-4. [Identity, governance, and monitoring](Design_identity_governance_and_monitoring/README.md)
-5. [Data storage](Design_data_storage_solutions/README.md)
-6. [Business continuity](Design_business_continuity/README.md)
-7. [Infrastructure](Design_infrastructure_solutions/README.md)
-8. [High-Yield Recall](AZ-305_HIGH_YIELD_RECALL.md)
+4. [Microsoft Learn Module Map](AZ-305_MICROSOFT_LEARN_MODULE_MAP.md)
+5. [Identity, governance, and monitoring](Design_identity_governance_and_monitoring/README.md)
+6. [Data storage](Design_data_storage_solutions/README.md)
+7. [Business continuity](Design_business_continuity/README.md)
+8. [Infrastructure](Design_infrastructure_solutions/README.md)
+9. [High-Yield Recall](AZ-305_HIGH_YIELD_RECALL.md)
 
-Quick reference: [AZ-305 abbreviation glossary](AZ-305_GLOSSARY.md).
+Quick references: [AZ-305 abbreviation glossary](AZ-305_GLOSSARY.md) and [knowledge audit report](AZ-305_AUDIT_REPORT.md).
 
 Microsoft Learn organizes preparation into **five learning paths**: one architect-prerequisite path and four domain paths. The exam blueprint scores only the **four domains** below. The prerequisite path builds shared architecture vocabulary; it is not a fifth scored domain and has no exam weighting.
 
@@ -66,8 +67,10 @@ az-305-summarize/
 ├── README.md
 ├── AZ-305_MASTER_MENTAL_MAP.md
 ├── AZ-305_OBJECTIVE_MAP.md
+├── AZ-305_MICROSOFT_LEARN_MODULE_MAP.md
 ├── AZ-305_HIGH_YIELD_RECALL.md
 ├── AZ-305_GLOSSARY.md
+├── AZ-305_AUDIT_REPORT.md
 ├── AZ_305_architect_prerequisites/
 ├── Design_identity_governance_and_monitoring/
 ├── Design_data_storage_solutions/

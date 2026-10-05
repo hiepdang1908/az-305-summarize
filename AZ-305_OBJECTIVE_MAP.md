@@ -77,4 +77,4 @@ Path representation and objective mapping measure navigation/traceability. They 
 
 | Previous | Home | Next |
 |---|---|---|
-| [← Master mental map](AZ-305_MASTER_MENTAL_MAP.md) | [AZ-305 Home](README.md) | [Identity, governance, and monitoring →](Design_identity_governance_and_monitoring/README.md) |
+| [← Master mental map](AZ-305_MASTER_MENTAL_MAP.md) | [AZ-305 Home](README.md) | [Microsoft Learn module map →](AZ-305_MICROSOFT_LEARN_MODULE_MAP.md) |

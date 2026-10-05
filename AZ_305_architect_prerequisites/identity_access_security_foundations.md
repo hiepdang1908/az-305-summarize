@@ -42,7 +42,7 @@ An identity receives no useful access merely by existing. Grant only the require
 |---|---|---|
 | Microsoft Entra roles | Directory administration | Manage users, applications, or Conditional Access according to role |
 | Azure role-based access control (Azure RBAC) roles | Azure resource management and supported data actions | Read a subscription, manage a VM, read blobs through a data role |
-| Application roles/claims | Behavior inside an application/API | Approver, report reader, application administrator |
+| Application roles/claims | Behavior inside an application or application programming interface (API) | Approver, report reader, application administrator |
 | Service-native/database permissions | Resource data operations | SQL database role, New Technology File System (NTFS) access control list (ACL), Key Vault data role |
 
 ```text
@@ -58,12 +58,13 @@ RBAC inheritance simplifies consistent access but increases blast radius at high
 
 ## Authentication controls
 
+- **Single sign-on (SSO):** lets a user authenticate with an identity provider and access multiple trusted applications without separately signing in to each; it does not grant authorization inside those applications.
 - **Multifactor authentication (MFA):** requires additional evidence beyond a password. Prefer phishing-resistant methods for high-risk access where supported.
 - **Conditional Access:** evaluates signals such as user, risk, device, application, location, and authentication strength to enforce sign-in policy.
 - **Passwordless authentication:** reduces password exposure through supported strong credentials.
 - **Hybrid identity:** synchronizes or federates identity between Active Directory Domain Services (AD DS) and Entra ID; the sign-in method changes dependency and outage behavior.
 
-Conditional Access controls whether a sign-in is allowed under current conditions. It does not replace Azure RBAC or application authorization.
+MFA is an authentication control requiring another factor; Conditional Access is a policy engine that evaluates context and can require MFA or another control. Conditional Access controls whether a sign-in is allowed under current conditions; it does not replace Azure RBAC or application authorization.
 
 ### Directory and external identity boundaries
 
@@ -88,13 +89,22 @@ Defense in depth places complementary controls across physical infrastructure, i
 
 Microsoft Defender for Cloud evaluates security posture and exposes recommendations, secure-score signals, regulatory-compliance views, and workload-protection capabilities according to enabled plans. It informs and monitors risk; it does not replace Policy guardrails, identity controls, network design, patching, or application security.
 
+### Azure RBAC, Azure Policy, and encryption
+
+| Mechanism | Main question | Architectural role |
+|---|---|---|
+| Azure role-based access control (Azure RBAC) | Who can perform which action at which Azure scope? | Authorizes principals; assignments can inherit through management scopes |
+| Azure Policy | Is the resource configuration allowed or compliant? | Audits, denies, or remediates resource state; it does not grant a principal permission |
+
+Encryption protects data confidentiality at different points: encryption at rest protects stored data, Transport Layer Security (TLS) protects data in transit, and supported confidential-computing/encryption-in-use features address selected processing threats. Azure services encrypt many stored data types by default; customer-managed keys can add key-control requirements but also add key availability, rotation, and recovery responsibilities. Encryption complements identity and authorization; it does not replace them.
+
 ## Key Vault role
 
 Azure Key Vault protects secrets, keys, and certificates. It separates sensitive material from application code and configuration.
 
 - Use managed identity for workload access where supported.
 - Separate vaults when region, ownership, environment, compliance, or blast radius requires.
-- Design soft delete, purge protection, rotation, private access/DNS, logging, and regional recovery.
+- Design soft delete, purge protection, rotation, private access/Domain Name System (DNS), logging, and regional recovery.
 - Storing a secret centrally does not rotate every consumer automatically.
 - Non-secret settings and feature flags normally belong in App Configuration, not Key Vault.
 
